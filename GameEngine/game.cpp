@@ -7,6 +7,8 @@
 #include <xstring>
 
 #include "../ext/SDL2-2.26.4/lib/x64/ExampleClass.h"
+#include "StateMachine/PlayerTurnState.h"
+#include "StateMachine/game_state.h"
 
 
 //Screen dimension constants. These should be wrapped inside a good way to globally access them. Game Instance should probably recieve them or something
@@ -40,6 +42,8 @@ bool pikachuMoveRight = false;
 SDL_Color textColor = { 0xff, 0xff, 0xff };
 SDL_Event e;
 
+game_state *CurrentGameState;
+
 bool quit = false;
 
 bool Init();
@@ -72,10 +76,15 @@ int main(int argc, char* args[])
 	{
 		SDL_GetTicks(); // can be used, to see, how much time in ms has passed since app start
 		// loop through all pending events from Windows (OS)
+
 		while (SDL_PollEvent(&e))
 		{
 			ProcessEvent(e);
 		}
+		CurrentGameState->Begin();
+		CurrentGameState->ProcessInput();
+		CurrentGameState->DoState();
+		CurrentGameState = CurrentGameState->Finish();
 		ProcessInput();
 		ProcessGameLogic();
 		//DOT, tween animations, or whatever
@@ -241,6 +250,7 @@ void ClearScreen()
 
 bool Init()
 {
+	CurrentGameState = new player_turn_state();
 	int imgFlags = IMG_INIT_PNG;
 	if (!(IMG_Init(imgFlags) & imgFlags))
 	{

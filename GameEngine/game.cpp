@@ -13,17 +13,8 @@
 #include "SubSystems/InputSystem.h"
 #include "SubSystems/SubsystemCollection.h"
 
-
-//Screen dimension constants. These should be wrapped inside a good way to globally access them. Game Instance should probably recieve them or something
-const int SCREEN_WIDTH = 1024;
-const int SCREEN_HEIGHT = 768;
-
 const char* pikachuImagePath{ "img/pikachu.png" };
-
-
-//These class references should probably be moved to the UI Manager
-SDL_Window* window{};
-SDL_Renderer* renderer;
+const char* mouseImagePath{ "img/mouse_icon.png" };
 
 //These variables store details about where the text object will be rendered.
 //They should be moved to a struct that can be represented in an visual element object rather than stored as floating values in this class
@@ -32,22 +23,22 @@ int width;
 int height;
 int textWidth, textHeight;
 
+//DEBUG MOUSE
+SDL_Rect mouseRect {0, 0, 8, 8};
+
 //These parameters describe the SDL_Rect properties for the pikachu image.
 //They should be moved into a struct as part of a visual element bundle
 //Currently they are being set in the load image method
-int pik_x = 0, pik_y = 0;
-int pik_w = 200, pik_h = 200;
+SDL_Rect pikachuRect {0, 0, 16, 16};
 
 SDL_Surface* textSurface;
 
-int pikachuMove = 0;
+int pikachuMoveX = 0;
+int pikachuMoveY = 0;
 SDL_Color textColor = { 0xff, 0xff, 0xff };
-SDL_Event e;
 
 InputSystem* inputSystem;
 game_state *CurrentGameState;
-
-bool quit = false;
 
 bool Init();
 bool InitGlobals();
@@ -55,15 +46,14 @@ void ProcessInput();
 void ProcessGameLogic();
 SDL_Texture* LoadText(const char* textToLoad);
 SDL_Texture* LoadSprite(const char* imagePath);
-void RenderSprite(SDL_Texture* sprite);
+void RenderSprite(SDL_Texture* sprite, SDL_Rect targetRectangle);
 void RenderText(SDL_Texture* textToRender);
 void ClearScreen();
 
 int main(int argc, char* args[])
 {
 	//Flag setting
-	Init();
-	
+	Init();	
 	InitGlobals();
 
 	//Example class use and creation
@@ -75,12 +65,15 @@ int main(int argc, char* args[])
 	SDL_Texture* TextTexture = LoadText(textToRender);
 	SDL_Texture* Example_Sprite = LoadSprite(pikachuImagePath);
 
+	//Debug mouse
+	SDL_Texture* debugMouse_Sprite = LoadSprite(mouseImagePath);
+
+	bool quit = false;
 
 	//Update Loop
 	while (quit == false)
 	{
 		SDL_GetTicks(); // can be used, to see, how much time in ms has passed since app start
-		// loop through all pending events from Windows (OS)
 
 		quit = inputSystem->UpdateInputs();
 		
@@ -94,12 +87,14 @@ int main(int argc, char* args[])
 		ClearScreen();
 		//These should belong to 'master' methods, that render all stored renderables on screen. These methods
 		//should probably be located in object classes who are responsible for them
-		RenderSprite(Example_Sprite);
+		RenderSprite(Example_Sprite, pikachuRect);
+		RenderSprite(debugMouse_Sprite, mouseRect);
 		RenderText(TextTexture);
 		// present screen (switch buffers)
-		SDL_RenderPresent(renderer);
+		SDL_RenderPresent(gRenderer);
 
-		SDL_Delay(0); // can be used to wait for a certain amount of ms
+		//todo lazy fps cap fix later plz
+		SDL_Delay(1000/SCREEN_FPS); // can be used to wait for a certain amount of ms
 	}
 
 	return 0;
@@ -116,7 +111,7 @@ SDL_Texture* LoadSprite(const char* imagePath)
 	else
 	{
 		//Convert surface to screen format
-		SDL_Texture* sprite_to_load = SDL_CreateTextureFromSurface(renderer, loadedSurface);
+		SDL_Texture* sprite_to_load = SDL_CreateTextureFromSurface(gRenderer, loadedSurface);
 		if (sprite_to_load == NULL)
 		{
 			printf("Unable to create texture from %s! SDL Error: %s\n", pikachuImagePath, SDL_GetError());
@@ -131,7 +126,7 @@ SDL_Texture* LoadSprite(const char* imagePath)
 SDL_Texture* LoadText(const char* text_to_render)
 {
 	// load font
-	auto font = TTF_OpenFont("font/lazy.ttf", 100);
+	auto font = TTF_OpenFont("font/lazy.ttf", 16);
 	if (font == NULL)
 	{
 		printf("Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError());
@@ -147,7 +142,7 @@ SDL_Texture* LoadText(const char* text_to_render)
 	else
 	{
 		// Create texture GPU-stored texture from surface pixels
-		SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+		SDL_Texture* textTexture = SDL_CreateTextureFromSurface(gRenderer, textSurface);
 		if (textTexture == NULL)
 		{
 			printf("Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError());
@@ -163,61 +158,50 @@ SDL_Texture* LoadText(const char* text_to_render)
 		SDL_FreeSurface(textSurface);
 		
 		return textTexture;
-	}
-	
+	}	
 }
 
-void RenderSprite(SDL_Texture* spriteToRender)
+void RenderSprite(SDL_Texture* spriteToRender, SDL_Rect targetRectangle)
 {
-	SDL_Rect targetRectangle{
-		pik_x,
-		pik_y,
-		pik_w,
-		pik_h
-	};
-	SDL_RenderCopy(renderer, spriteToRender, NULL, &targetRectangle);
+	SDL_RenderCopy(gRenderer, spriteToRender, NULL, &targetRectangle);
 }
 
 void RenderText(SDL_Texture* textTexture)
 {
 	SDL_Rect targetRectangle = SDL_Rect{
-		500,
-		500,
+		INTERNAL_SCREEN_WIDTH/2 - textWidth/2,
+		INTERNAL_SCREEN_HEIGHT/2 - textHeight/2,
 		textWidth,
 		textHeight
 	};
-	SDL_RenderCopy(renderer, textTexture, NULL, &targetRectangle);
+	SDL_RenderCopy(gRenderer, textTexture, NULL, &targetRectangle);
 }
 
 void RenderText(SDL_Rect* targetRectangle, SDL_Texture* textTexture)
 {
-	SDL_RenderCopy(renderer, textTexture, NULL, targetRectangle);
+	SDL_RenderCopy(gRenderer, textTexture, NULL, targetRectangle);
 }
 
 void ProcessInput()
 {
-	pikachuMove = inputSystem->input_data->move_x;
+	pikachuMoveX = inputSystem->input_data->move_x;
+	pikachuMoveY = inputSystem->input_data->move_y;
+
+	mouseRect.x = inputSystem->input_data->mouse_x;
+	mouseRect.y = inputSystem->input_data->mouse_y;
 }
 
 void ProcessGameLogic()
 {
-	if (pikachuMove > 0) {
-		pik_x++;
-	}
-	else if(pikachuMove < 0) {
-		pik_x--;
-	}
+	pikachuRect.x += pikachuMoveX;
+	pikachuRect.y -= pikachuMoveY;
 }
 
 void ClearScreen()
 {
-	SDL_SetRenderDrawColor(renderer, 120, 60, 255, 255);
-	SDL_RenderClear(renderer);
+	SDL_SetRenderDrawColor(gRenderer, 120, 60, 255, 255);
+	SDL_RenderClear(gRenderer);
 }
-
-
-
-
 
 bool Init()
 {
@@ -243,35 +227,31 @@ bool Init()
 	}
 
 	// Create Window and Renderer
-	SDL_CreateWindowAndRenderer(SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE, &window, &renderer);
-	if (!window)
+	SDL_CreateWindowAndRenderer(SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_MAXIMIZED, &gWindow, &gRenderer);
+	if (!gWindow)
 	{
 		printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
 		return -1;
 	}
-
-
-	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");  // make the scaled rendering look smoother.
-	SDL_RenderSetLogicalSize(renderer, 1024, 768);
-
-
-
-	quit = false;
+	
+	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");  // no smoothing pixel art.
+	SDL_RenderSetLogicalSize(gRenderer, INTERNAL_SCREEN_WIDTH, INTERNAL_SCREEN_HEIGHT);
+	
 	printf("Initialising called\n");
 	return true;
 }
 
 bool InitGlobals()
 {
-	subsystemCollection = new SubsystemCollection();
+	gSubsystemCollection = new SubsystemCollection();
 
-	if (!subsystemCollection)
+	if (!gSubsystemCollection)
 	{
 		printf("No SubsystemCollection");
 		return false;
 	}
 	
-	inputSystem = subsystemCollection->GetSubSystem<InputSystem>();
+	inputSystem = gSubsystemCollection->GetSubSystem<InputSystem>();
 
 	if (!inputSystem)
 	{

@@ -7,8 +7,11 @@
 #include <xstring>
 
 #include "ExampleClass.h"
+#include "Global.h"
 #include "StateMachine/PlayerTurnState.h"
 #include "StateMachine/game_state.h"
+#include "SubSystems/InputSystem.h"
+#include "SubSystems/SubsystemCollection.h"
 
 
 //Screen dimension constants. These should be wrapped inside a good way to globally access them. Game Instance should probably recieve them or something
@@ -37,17 +40,17 @@ int pik_w = 200, pik_h = 200;
 
 SDL_Surface* textSurface;
 
-
-bool pikachuMoveRight = false;
+int pikachuMove = 0;
 SDL_Color textColor = { 0xff, 0xff, 0xff };
 SDL_Event e;
 
+InputSystem* inputSystem;
 game_state *CurrentGameState;
 
 bool quit = false;
 
 bool Init();
-void ProcessEvent(SDL_Event e);
+bool InitGlobals();
 void ProcessInput();
 void ProcessGameLogic();
 SDL_Texture* LoadText(const char* textToLoad);
@@ -60,6 +63,8 @@ int main(int argc, char* args[])
 {
 	//Flag setting
 	Init();
+	
+	InitGlobals();
 
 	//Example class use and creation
 	ExampleClass* example = new ExampleClass();
@@ -77,10 +82,8 @@ int main(int argc, char* args[])
 		SDL_GetTicks(); // can be used, to see, how much time in ms has passed since app start
 		// loop through all pending events from Windows (OS)
 
-		while (SDL_PollEvent(&e))
-		{
-			ProcessEvent(e);
-		}
+		quit = inputSystem->UpdateInputs();
+		
 		CurrentGameState->Begin();
 		CurrentGameState->ProcessInput();
 		CurrentGameState->DoState();
@@ -190,51 +193,19 @@ void RenderText(SDL_Rect* targetRectangle, SDL_Texture* textTexture)
 {
 	SDL_RenderCopy(renderer, textTexture, NULL, targetRectangle);
 }
-void ProcessEvent(SDL_Event e)
-{
-	// check, if it's an event we want to react to:
-	switch (e.type) {
-	case SDL_QUIT: {
-			quit = true;
-	} break;
-
-		// This is an example on how to use input events:
-		case SDL_KEYDOWN: {
-				// input example: if left, then make pikachu move left
-				if (e.key.keysym.sym == SDLK_LEFT) {
-					pikachuMoveRight = false;
-				}
-				// if right, then make pikachu move right
-				if (e.key.keysym.sym == SDLK_RIGHT) {
-					pikachuMoveRight = true;
-				}
-		} break;
-	}
-
-}
 
 void ProcessInput()
 {
-	const Uint8* keystate = SDL_GetKeyboardState(NULL);
-	if (keystate[SDL_SCANCODE_UP])
-	{
-		pik_y--;
-	}
-	if (keystate[SDL_SCANCODE_DOWN])
-	{
-		pik_y++;
-	}
+	pikachuMove = inputSystem->input_data->move_x;
 }
 
 void ProcessGameLogic()
 {
-	if (pikachuMoveRight) {
+	if (pikachuMove > 0) {
 		pik_x++;
-		if (pik_x > 599) pikachuMoveRight = false;
 	}
-	else {
+	else if(pikachuMove < 0) {
 		pik_x--;
-		if (pik_x < 1) pikachuMoveRight = true;
 	}
 }
 
@@ -290,4 +261,23 @@ bool Init()
 	return true;
 }
 
+bool InitGlobals()
+{
+	subsystemCollection = new SubsystemCollection();
 
+	if (!subsystemCollection)
+	{
+		printf("No SubsystemCollection");
+		return false;
+	}
+	
+	inputSystem = subsystemCollection->GetSubSystem<InputSystem>();
+
+	if (!inputSystem)
+	{
+		printf("No InputSystem");
+		return false;
+	}	
+
+	return true;
+}

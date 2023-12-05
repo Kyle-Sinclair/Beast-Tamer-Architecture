@@ -116,6 +116,7 @@
   <ItemGroup>
     <ClInclude Include="CombatHelpers.h" />
     <ClInclude Include="ExampleClass.h" />
+    <ClInclude Include="Global.h" />
     <ClInclude Include="MoveData.h" />
     <ClInclude Include="RawPokemonData.h" />
     <ClInclude Include="StateMachine\enemy_turn_state.h" />

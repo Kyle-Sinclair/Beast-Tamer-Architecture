@@ -9,7 +9,7 @@ typedef struct Input_Data
     bool action, back;
 } Input_Data;
 
-class InputSystem : SubSystem
+class InputSystem : public SubSystem
 {
 public:
     //Initializes variables

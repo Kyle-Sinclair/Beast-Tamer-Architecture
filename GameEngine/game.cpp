@@ -6,7 +6,7 @@
 #include <SDL_ttf.h>
 #include <xstring>
 
-#include "../ext/SDL2-2.26.4/lib/x64/ExampleClass.h"
+#include "ExampleClass.h"
 #include "StateMachine/PlayerTurnState.h"
 #include "StateMachine/game_state.h"
 

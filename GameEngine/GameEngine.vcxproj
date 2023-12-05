@@ -28,11 +28,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CombatHelpers.cpp" />
-    <ClCompile Include="game.cpp" />
-    <ClCompile Include="MoveData.cpp" />
-    <ClCompile Include="RawPokemonData.cpp" />
-    <ClCompile Include="StateMachine\enemy_turn_state.cpp" />
-    <ClCompile Include="StateMachine\ExampleClass.cpp">
+    <ClCompile Include="ExampleClass.cpp">
       <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <Optimization>Disabled</Optimization>
@@ -97,22 +93,26 @@
       <XMLDocumentationFileName>x64\Debug\</XMLDocumentationFileName>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <IntelJCCErratum>false</IntelJCCErratum>
+      <BuildStlModules>true</BuildStlModules>
       <TreatAngleIncludeAsExternal>false</TreatAngleIncludeAsExternal>
       <ExternalWarningLevel>InheritWarningLevel</ExternalWarningLevel>
       <TreatExternalTemplatesAsInternal>true</TreatExternalTemplatesAsInternal>
       <DisableAnalyzeExternal>false</DisableAnalyzeExternal>
-      <BuildStlModules>true</BuildStlModules>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;_UNICODE;UNICODE;</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <LinkCompiled>true</LinkCompiled>
     </ClCompile>
+    <ClCompile Include="game.cpp" />
+    <ClCompile Include="MoveData.cpp" />
+    <ClCompile Include="RawPokemonData.cpp" />
+    <ClCompile Include="StateMachine\enemy_turn_state.cpp" />
     <ClCompile Include="StateMachine\PlayerTurnState.cpp" />
     <ClCompile Include="StateMachine\game_state.cpp" />
     <ClCompile Include="ViewElements\VisualElement.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\ext\SDL2-2.26.4\lib\x64\ExampleClass.h" />
     <ClInclude Include="CombatHelpers.h" />
+    <ClInclude Include="ExampleClass.h" />
     <ClInclude Include="MoveData.h" />
     <ClInclude Include="RawPokemonData.h" />
     <ClInclude Include="StateMachine\enemy_turn_state.h" />

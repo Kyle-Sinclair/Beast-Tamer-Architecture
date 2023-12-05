@@ -108,6 +108,9 @@
     </ClCompile>
     <ClCompile Include="StateMachine\PlayerTurnState.cpp" />
     <ClCompile Include="StateMachine\game_state.cpp" />
+    <ClCompile Include="SubSystems\InputSystem.cpp" />
+    <ClCompile Include="SubSystems\SubSystem.cpp" />
+    <ClCompile Include="SubSystems\SubsystemCollection.cpp" />
     <ClCompile Include="ViewElements\VisualElement.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -118,6 +121,10 @@
     <ClInclude Include="StateMachine\enemy_turn_state.h" />
     <ClInclude Include="StateMachine\PlayerTurnState.h" />
     <ClInclude Include="StateMachine\game_state.h" />
+    <ClInclude Include="SubSystems\InputSystem.h" />
+    <ClInclude Include="SubSystems\SubSystem.h" />
+    <ClInclude Include="SubSystems\SubsystemCollection.h" />
+    <ClInclude Include="SubSystems\SubsystemHelpers.h" />
     <ClInclude Include="ViewElements\VisualElement.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>

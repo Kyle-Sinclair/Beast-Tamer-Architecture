@@ -15,10 +15,9 @@ public:
     //Initializes variables
     InputSystem();
     //Deallocates memory
-    ~InputSystem();
+    ~InputSystem() override;
 
-    /** Returns Quit */
-    bool UpdateInputs();
+    void EarlyUpdate() override;
 
     Input_Data* input_data;
 };

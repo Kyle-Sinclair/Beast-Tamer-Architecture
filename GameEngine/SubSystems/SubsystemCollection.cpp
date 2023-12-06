@@ -1,7 +1,6 @@
 ﻿#include "SubsystemCollection.h"
 
 #include "SubSystem.h"
-#include "SubsystemHelpers.h"
 
 SubsystemCollection::SubsystemCollection()
 {
@@ -9,3 +8,19 @@ SubsystemCollection::SubsystemCollection()
 }
 
 SubsystemCollection::~SubsystemCollection() = default;
+
+void SubsystemCollection::IterateEarlyUpdate()
+{
+    for (auto it=subsystems.begin(); it!=subsystems.end(); ++it)
+    {
+        (it->second)->EarlyUpdate();
+    }
+}
+
+void SubsystemCollection::IterateLateUpdate()
+{
+    for (auto it=subsystems.begin(); it!=subsystems.end(); ++it)
+    {
+        (it->second)->LateUpdate();
+    }
+}

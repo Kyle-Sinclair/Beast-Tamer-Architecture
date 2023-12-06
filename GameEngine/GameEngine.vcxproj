@@ -105,6 +105,7 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="MoveData.cpp" />
     <ClCompile Include="RawPokemonData.cpp" />
+    <ClCompile Include="Global.cpp" />
     <ClCompile Include="StateMachine\enemy_turn_state.cpp" />
     <ClCompile Include="StateMachine\PlayerTurnState.cpp" />
     <ClCompile Include="StateMachine\game_state.cpp" />

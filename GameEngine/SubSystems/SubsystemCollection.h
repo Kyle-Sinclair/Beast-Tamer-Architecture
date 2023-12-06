@@ -14,16 +14,19 @@ public:
     template<class T>
     T* GetSubSystem()
     {
-        int hashCode = SubsystemHelpers::GetType<T>();
+        const int hashCode = SubsystemHelpers::GetType<T>();
     
         if(!subsystems.contains(hashCode))
         {
-            auto newSubSystem = static_cast<SubSystem*>(new T());
+            auto newSubSystem = dynamic_cast<SubSystem*>(new T());
             subsystems.insert_or_assign(hashCode, newSubSystem);
         }
     
-        return static_cast<T*>(subsystems[SubsystemHelpers::GetType<T>()]);
+        return dynamic_cast<T*>(subsystems[SubsystemHelpers::GetType<T>()]);
     }
+
+    void IterateEarlyUpdate();
+    void IterateLateUpdate();
 
 private:
     std::map<int, SubSystem*> subsystems;

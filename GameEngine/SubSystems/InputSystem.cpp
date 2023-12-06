@@ -3,6 +3,8 @@
 #include <cstddef>
 #include <SDL_events.h>
 
+#include "../Global.h"
+
 InputSystem::InputSystem()
 {
     input_data = new Input_Data();
@@ -13,10 +15,11 @@ InputSystem::~InputSystem()
     input_data = NULL;
 }
 
-bool InputSystem::UpdateInputs()
+void InputSystem::EarlyUpdate()
 {
+    SubSystem::EarlyUpdate();
+
     SDL_Event e;
-    bool quit = false;
 
     input_data->action = false;
     input_data->back = false;
@@ -29,7 +32,7 @@ bool InputSystem::UpdateInputs()
         {
         case SDL_QUIT:
             {
-                quit = true;
+                gQuit = true;
             } break;
         case SDL_KEYDOWN: {
                 if (sdl_keycode == SDLK_LEFT) {
@@ -67,6 +70,4 @@ bool InputSystem::UpdateInputs()
             } break;
         }
     }
-
-    return quit;
 }

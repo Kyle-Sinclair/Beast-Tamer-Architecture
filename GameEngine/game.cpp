@@ -6,7 +6,10 @@
 #include <SDL_ttf.h>
 #include <xstring>
 
-#include "ExampleClass.h"
+#include "../ext/SDL2-2.26.4/lib/x64/ExampleClass.h"
+
+#include "StateMachine/enemy_turn_state.h"
+=======
 #include "Global.h"
 #include "StateMachine/PlayerTurnState.h"
 #include "StateMachine/game_state.h"
@@ -57,8 +60,6 @@ int main(int argc, char* args[])
 	InitGlobals();
 
 	//Example class use and creation
-	ExampleClass* example = new ExampleClass();
-	example->ExamplePublicVoidMethod();
 
 	//Resource loading
 	const char* textToRender = "text_to_render";
@@ -78,6 +79,12 @@ int main(int argc, char* args[])
 		CurrentGameState->Begin();
 		CurrentGameState->ProcessInput();
 		CurrentGameState->DoState();
+		game_state* NewGameState = CurrentGameState->Finish(CurrentGameState);
+		if(NewGameState != nullptr)
+		{
+			CurrentGameState = NewGameState;
+		}
+		
 		CurrentGameState = CurrentGameState->Finish();
 		//Late. Might move order
 		gSubsystemCollection->IterateLateUpdate();
@@ -205,7 +212,21 @@ void ClearScreen()
 
 bool Init()
 {
-	CurrentGameState = new player_turn_state();
+	CurrentGameState = new game_state();
+	CurrentGameState->set_enemy_state(new enemy_turn_state());
+	CurrentGameState->set_player_state(new player_turn_state());
+	game_state* NewGameState = 	CurrentGameState->Finish(CurrentGameState);
+	if(NewGameState != nullptr)
+	{
+		printf("updating state");
+		CurrentGameState = NewGameState;
+	}
+	else
+	{
+		printf("null state");
+
+	}
+
 	int imgFlags = IMG_INIT_PNG;
 	if (!(IMG_Init(imgFlags) & imgFlags))
 	{

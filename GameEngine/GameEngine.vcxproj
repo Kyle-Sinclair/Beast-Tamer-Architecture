@@ -28,6 +28,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CombatHelpers.cpp" />
+    <ClCompile Include="game.cpp" />
+    <ClCompile Include="MoveData.cpp" />
+    <ClCompile Include="RawPokemonData.cpp" />
     <ClCompile Include="ExampleClass.cpp">
       <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>

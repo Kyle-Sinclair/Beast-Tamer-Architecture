@@ -4,9 +4,11 @@
 
 #include "enemy_turn_state.h"
 
+
 player_turn_state::player_turn_state()
 {
-    printf("Now Player turn state");
+    printf("new player turn state");
+
 }
 
 void player_turn_state::DoState()
@@ -16,15 +18,29 @@ void player_turn_state::DoState()
 
 void player_turn_state::Begin()
 {
-    game_state::Begin();
+
 }
 
-game_state* player_turn_state::Finish()
+game_state* player_turn_state::Finish(game_state* currentState)
 {
-    return new enemy_turn_state();
+    printf("Doing player turn");
+    return get_enemy_state();
 }
 
 void player_turn_state::ProcessInput()
 {
     game_state::ProcessInput();
+}
+
+
+
+player_turn_state* player_turn_state::get_player_state()
+{
+    return game_state::get_player_state();
+}
+
+enemy_turn_state* player_turn_state::get_enemy_state()
+{
+
+    return game_state::get_enemy_state();
 }

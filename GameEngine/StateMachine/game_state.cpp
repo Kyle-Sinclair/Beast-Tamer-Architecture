@@ -42,12 +42,18 @@ enemy_turn_state* game_state::get_enemy_state()
 bool game_state::set_player_state(player_turn_state* newplayer_state)
 {
     player_game_state = newplayer_state;
+    player_game_state->SetMasterState(this);
     return true;
 }
 
 bool game_state::set_enemy_state(enemy_turn_state* newenemy_state)
 {
     enemy_game_state = newenemy_state;
+    enemy_game_state->SetMasterState(this);
     return true;
 
+}
+
+void game_state::SetMasterState(game_state* master_game_state)
+{
 }

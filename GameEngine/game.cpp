@@ -6,13 +6,9 @@
 #include <SDL_ttf.h>
 #include <xstring>
 
-<<<<<<< Updated upstream
 #include "../ext/SDL2-2.26.4/lib/x64/ExampleClass.h"
-=======
-#include "ExampleClass.h"
-#include "Global.h"
+
 #include "StateMachine/enemy_turn_state.h"
->>>>>>> Stashed changes
 #include "StateMachine/PlayerTurnState.h"
 #include "StateMachine/game_state.h"
 
@@ -44,16 +40,11 @@ int pik_w = 200, pik_h = 200;
 SDL_Surface* textSurface;
 
 
-<<<<<<< Updated upstream
 bool pikachuMoveRight = false;
 SDL_Color textColor = { 0xff, 0xff, 0xff };
 SDL_Event e;
 
 game_state *CurrentGameState;
-=======
-InputSystem* inputSystem;
-game_state* CurrentGameState;
->>>>>>> Stashed changes
 
 bool quit = false;
 
@@ -73,8 +64,6 @@ int main(int argc, char* args[])
 	Init();
 
 	//Example class use and creation
-	ExampleClass* example = new ExampleClass();
-	example->ExamplePublicVoidMethod();
 
 	//Resource loading
 	const char* textToRender = "text_to_render";
@@ -98,16 +87,9 @@ int main(int argc, char* args[])
 		game_state* NewGameState = CurrentGameState->Finish(CurrentGameState);
 		if(NewGameState != nullptr)
 		{
-			printf("updating state");
-
-			free(CurrentGameState);
 			CurrentGameState = NewGameState;
 		}
-		else
-		{
-			printf("null state");
-
-		}
+		
 		ProcessInput();
 		ProcessGameLogic();
 		//DOT, tween animations, or whatever
@@ -276,13 +258,10 @@ bool Init()
 	CurrentGameState = new game_state();
 	CurrentGameState->set_enemy_state(new enemy_turn_state());
 	CurrentGameState->set_player_state(new player_turn_state());
-	CurrentGameState->Finish(CurrentGameState);
 	game_state* NewGameState = 	CurrentGameState->Finish(CurrentGameState);
 	if(NewGameState != nullptr)
 	{
 		printf("updating state");
-
-		free(CurrentGameState);
 		CurrentGameState = NewGameState;
 	}
 	else
@@ -290,6 +269,7 @@ bool Init()
 		printf("null state");
 
 	}
+
 	int imgFlags = IMG_INIT_PNG;
 	if (!(IMG_Init(imgFlags) & imgFlags))
 	{

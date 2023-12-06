@@ -68,19 +68,19 @@ int main(int argc, char* args[])
 	//Debug mouse
 	SDL_Texture* debugMouse_Sprite = LoadSprite(mouseImagePath);
 
-	bool quit = false;
-
 	//Update Loop
-	while (quit == false)
+	while (gQuit == false)
 	{
 		SDL_GetTicks(); // can be used, to see, how much time in ms has passed since app start
 
-		quit = inputSystem->UpdateInputs();
-		
+		//Early
+		gSubsystemCollection->IterateEarlyUpdate();
 		CurrentGameState->Begin();
 		CurrentGameState->ProcessInput();
 		CurrentGameState->DoState();
 		CurrentGameState = CurrentGameState->Finish();
+		//Late. Might move order
+		gSubsystemCollection->IterateLateUpdate();
 		ProcessInput();
 		ProcessGameLogic();
 		//DOT, tween animations, or whatever

@@ -12,8 +12,10 @@ const int SCREEN_FPS = 60;
 const int INTERNAL_SCREEN_WIDTH = 240;
 const int INTERNAL_SCREEN_HEIGHT = 160;
 
-class SubsystemCollection* gSubsystemCollection;
+extern class SubsystemCollection* gSubsystemCollection;
 
-class SDL_Window* gWindow{};
+extern struct SDL_Window* gWindow;
 
-class SDL_Renderer* gRenderer;
+extern struct SDL_Renderer* gRenderer;
+
+extern bool gQuit;

@@ -12,7 +12,7 @@
 //Screen dimension constants. These should be wrapped inside a good way to globally access them. Game Instance should probably recieve them or something
 const int SCREEN_WIDTH = 1024;
 const int SCREEN_HEIGHT = 768;
-
+const int testConstant = 768;
 const char* pikachuImagePath{ "img/pikachu.png" };
 
 

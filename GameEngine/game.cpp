@@ -6,22 +6,12 @@
 #include <SDL_ttf.h>
 #include <xstring>
 
-
-#include "../ext/SDL2-2.26.4/lib/x64/ExampleClass.h"
-
-
-//Screen dimension constants. These should be wrapped inside a good way to globally access them. Game Instance should probably recieve them or something
-const int SCREEN_WIDTH = 1024;
-const int SCREEN_HEIGHT = 768;
-const int testConstant = 768;
-
 #include "StateMachine/enemy_turn_state.h"
 #include "Global.h"
 #include "StateMachine/PlayerTurnState.h"
 #include "StateMachine/game_state.h"
 #include "SubSystems/InputSystem.h"
 #include "SubSystems/SubsystemCollection.h"
-
 
 const char* pikachuImagePath{ "img/pikachu.png" };
 const char* mouseImagePath{ "img/mouse_icon.png" };

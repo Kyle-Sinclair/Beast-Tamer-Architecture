@@ -11,6 +11,7 @@
 #include "SpriteLoader/VisualElementFactory.h"
 #include "StateMachine/PlayerTurnState.h"
 #include "StateMachine/game_state.h"
+#include "SubSystems/EventSystem.h"
 #include "SubSystems/InputSystem.h"
 #include "SubSystems/SubsystemCollection.h"
 
@@ -39,6 +40,7 @@ int pikachuMoveY = 0;
 SDL_Color textColor = { 0xff, 0xff, 0xff };
 
 InputSystem* inputSystem;
+EventSystem* eventSystem;
 game_state *CurrentGameState;
 VisualElementFactory* visual_element_factory;
 VisualElement* VisualElements[2];
@@ -56,11 +58,13 @@ void RenderText(SDL_Texture* textToRender);
 void ClearScreen();
 void Close();
 
+bool IsPlayerTurn;
+
 int main(int argc, char* args[])
 {
 	//Flag setting
+
 	Init();	
-	InitGlobals();
 
 	//Example class use and creation
 
@@ -79,17 +83,20 @@ int main(int argc, char* args[])
 
 		//Early
 		gSubsystemCollection->IterateEarlyUpdate();
-		CurrentGameState->Begin();
+		
+		//CurrentGameState->Begin();
 		CurrentGameState->ProcessInput();
 		CurrentGameState->DoState();
 		game_state* NewGameState = CurrentGameState->Finish(CurrentGameState);
 		if(NewGameState != nullptr)
 		{
 			CurrentGameState = NewGameState;
+			IsPlayerTurn = CurrentGameState->Enter();
 		}
+		
 		//Late. Might move order
 		gSubsystemCollection->IterateLateUpdate();
-		ProcessInput();
+		//ProcessInput();
 
 		// Tick
 		const Uint32 msCurrent = SDL_GetTicks();
@@ -221,12 +228,22 @@ void Update(float deltaTime)
 
 void ClearScreen()
 {
-	SDL_SetRenderDrawColor(gRenderer, 120, 60, 255, 255);
+	if(IsPlayerTurn)
+	{
+		SDL_SetRenderDrawColor(gRenderer, 255, 20, 20, 255);
+
+	}
+	else
+	{
+		SDL_SetRenderDrawColor(gRenderer, 20, 0, 255, 255);
+
+	}
 	SDL_RenderClear(gRenderer);
 }
 
 bool Init()
 {
+	InitGlobals();
 
 	CurrentGameState = new game_state();
 	CurrentGameState->set_enemy_state(new enemy_turn_state());
@@ -292,12 +309,17 @@ bool InitGlobals()
 	}
 	
 	inputSystem = gSubsystemCollection->GetSubSystem<InputSystem>();
-
 	if (!inputSystem)
 	{
 		printf("No InputSystem");
 		return false;
-	}	
+	}
+	eventSystem = gSubsystemCollection->GetSubSystem<EventSystem>();
+	if (!eventSystem)
+	{
+		printf("No EventSystem");
+		return false;
+	}
 
 	return true;
 }

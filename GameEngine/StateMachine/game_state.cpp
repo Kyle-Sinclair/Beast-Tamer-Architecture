@@ -57,3 +57,8 @@ bool game_state::set_enemy_state(enemy_turn_state* newenemy_state)
 void game_state::SetMasterState(game_state* master_game_state)
 {
 }
+
+bool game_state::Enter()
+{
+    return true;
+}

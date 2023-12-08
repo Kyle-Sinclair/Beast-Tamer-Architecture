@@ -48,8 +48,13 @@ void InputSystem::EarlyUpdate()
                 else if(sdl_keycode == SDLK_DOWN) {
                     input_data->move_y = -1;
                 }
+                else if(sdl_keycode == SDLK_t)
+                {
+                    input_data->action = true;
+                }
 				
         } break;
+     
         case SDL_KEYUP: {
                 if ((sdl_keycode == SDLK_LEFT && input_data->move_x < 0) || (sdl_keycode == SDLK_RIGHT && input_data->move_x > 0)) {
                     input_data->move_x = 0;
@@ -66,7 +71,7 @@ void InputSystem::EarlyUpdate()
         } break;
         case SDL_MOUSEBUTTONDOWN:
             {
-                input_data->action = e.button.button & SDL_BUTTON_LMASK;
+               //input_data->action = e.button.button & SDL_BUTTON_LMASK;
             } break;
         }
     }

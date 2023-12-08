@@ -8,6 +8,7 @@
 enemy_turn_state::enemy_turn_state()
 {
     printf("new enemy turn state");
+    input_system = gSubsystemCollection->GetSubSystem<InputSystem>();
 
 }
 
@@ -16,7 +17,10 @@ enemy_turn_state::~enemy_turn_state()
 
 void enemy_turn_state::DoState()
 {
-
+    if(input_system->input_data->action)
+    {
+        PrepareToExit = true;
+    }
 }
 
 
@@ -29,7 +33,15 @@ game_state* enemy_turn_state::Finish(game_state* currentState)
 {
 
     printf("Doing enemy turn");
-     return master_state->get_player_state();
+    if(PrepareToExit)
+    {
+        PrepareToExit = false;
+        return master_state->get_player_state();
+    }
+    else
+    {
+        return nullptr;
+    }
 }
 
 void enemy_turn_state::ProcessInput()
@@ -42,6 +54,11 @@ void enemy_turn_state::SetMasterState(game_state* master_game_state)
     printf("setting master state for enemy state");
 
     master_state = master_game_state;
+}
+
+bool enemy_turn_state::Enter()
+{
+    return false;
 }
 
 

@@ -109,13 +109,17 @@
     <ClCompile Include="MoveData.cpp" />
     <ClCompile Include="RawPokemonData.cpp" />
     <ClCompile Include="Global.cpp" />
+    <ClCompile Include="SpriteLoader\RectTransform.cpp" />
+    <ClCompile Include="SpriteLoader\TextureLoader.cpp" />
+    <ClCompile Include="SpriteLoader\Vector.cpp" />
+    <ClCompile Include="SpriteLoader\VisualElement.cpp" />
+    <ClCompile Include="SpriteLoader\VisualElementFactory.cpp" />
     <ClCompile Include="StateMachine\enemy_turn_state.cpp" />
     <ClCompile Include="StateMachine\PlayerTurnState.cpp" />
     <ClCompile Include="StateMachine\game_state.cpp" />
     <ClCompile Include="SubSystems\InputSystem.cpp" />
     <ClCompile Include="SubSystems\SubSystem.cpp" />
     <ClCompile Include="SubSystems\SubsystemCollection.cpp" />
-    <ClCompile Include="ViewElements\VisualElement.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CombatHelpers.h" />
@@ -123,6 +127,11 @@
     <ClInclude Include="Global.h" />
     <ClInclude Include="MoveData.h" />
     <ClInclude Include="RawPokemonData.h" />
+    <ClInclude Include="SpriteLoader\RectTransform.h" />
+    <ClInclude Include="SpriteLoader\TextureLoader.h" />
+    <ClInclude Include="SpriteLoader\Vector.h" />
+    <ClInclude Include="SpriteLoader\VisualElement.h" />
+    <ClInclude Include="SpriteLoader\VisualElementFactory.h" />
     <ClInclude Include="StateMachine\enemy_turn_state.h" />
     <ClInclude Include="StateMachine\PlayerTurnState.h" />
     <ClInclude Include="StateMachine\game_state.h" />
@@ -130,7 +139,6 @@
     <ClInclude Include="SubSystems\SubSystem.h" />
     <ClInclude Include="SubSystems\SubsystemCollection.h" />
     <ClInclude Include="SubSystems\SubsystemHelpers.h" />
-    <ClInclude Include="ViewElements\VisualElement.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>

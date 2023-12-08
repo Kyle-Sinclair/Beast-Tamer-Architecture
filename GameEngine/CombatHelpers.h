@@ -5,5 +5,5 @@
 class CombatHelpers
 {
 public:
-    static unsigned int CalculateAbilityDamage(RawPokemonData Attacker, RawPokemonData Defender,MoveData MoveData);
+    static unsigned int CalculateAbilityDamage(RawPokemonData Attacker, RawPokemonData Defender,MoveData Data);
 };

@@ -1,6 +1,6 @@
 #pragma once
 
-#define MOVETYPE_PHYSICAL =  0x01 //0b00000001;
+#define MOVETYPE_PHYSICAL =  0x01; //0b00000001;
 #define MOVETYPE_SPECIAL =  0x02 //0b00000010;
 #define MOVETYPE_STATUS =  0x03 //0b00000011;
 
@@ -27,9 +27,9 @@ struct MoveData
 {
 public:
     MoveData();
-    MoveData(unsigned int MoveType,unsigned int SpecialType_1,unsigned int SpecialType_2,unsigned int Damage);
+    MoveData(unsigned int MoveType,unsigned int SpecialType_1,unsigned int SpecialType_2,unsigned int Power);
     unsigned int MoveType : 2;
     unsigned int SpecialType_1:5;
     unsigned int SpecialType_2:5;
-    unsigned int Damage: 7;
+    unsigned int Power: 7;
 };

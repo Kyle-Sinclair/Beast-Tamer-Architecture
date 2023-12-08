@@ -6,8 +6,6 @@
 #include <SDL_ttf.h>
 #include <xstring>
 
-#include "../ext/SDL2-2.26.4/lib/x64/ExampleClass.h"
-
 #include "StateMachine/enemy_turn_state.h"
 #include "Global.h"
 #include "StateMachine/PlayerTurnState.h"
@@ -51,6 +49,7 @@ SDL_Texture* LoadSprite(const char* imagePath);
 void RenderSprite(SDL_Texture* sprite, SDL_Rect targetRectangle);
 void RenderText(SDL_Texture* textToRender);
 void ClearScreen();
+void Close();
 
 int main(int argc, char* args[])
 {
@@ -83,8 +82,6 @@ int main(int argc, char* args[])
 		{
 			CurrentGameState = NewGameState;
 		}
-		
-		CurrentGameState = CurrentGameState->Finish();
 		//Late. Might move order
 		gSubsystemCollection->IterateLateUpdate();
 		ProcessInput();
@@ -103,6 +100,12 @@ int main(int argc, char* args[])
 		SDL_Delay(1000/SCREEN_FPS); // can be used to wait for a certain amount of ms
 	}
 
+	// Destroying textures should be moved into texture management function.
+	SDL_DestroyTexture(Example_Sprite); Example_Sprite = nullptr;
+	SDL_DestroyTexture(debugMouse_Sprite); debugMouse_Sprite = nullptr;
+	SDL_DestroyTexture(TextTexture); TextTexture = nullptr;
+	Close();
+	
 	return 0;
 }
 
@@ -280,4 +283,13 @@ bool InitGlobals()
 	}	
 
 	return true;
+}
+
+void Close()
+{
+	SDL_DestroyRenderer(gRenderer); gRenderer = nullptr;
+	SDL_DestroyWindow(gWindow); gWindow = nullptr;
+	
+	IMG_Quit();
+	SDL_Quit();
 }

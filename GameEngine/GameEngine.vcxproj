@@ -115,7 +115,6 @@
     <ClCompile Include="SubSystems\InputSystem.cpp" />
     <ClCompile Include="SubSystems\SubSystem.cpp" />
     <ClCompile Include="SubSystems\SubsystemCollection.cpp" />
-    <ClCompile Include="ViewElements\VisualElement.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CombatHelpers.h" />
@@ -130,7 +129,6 @@
     <ClInclude Include="SubSystems\SubSystem.h" />
     <ClInclude Include="SubSystems\SubsystemCollection.h" />
     <ClInclude Include="SubSystems\SubsystemHelpers.h" />
-    <ClInclude Include="ViewElements\VisualElement.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>

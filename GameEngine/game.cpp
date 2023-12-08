@@ -43,10 +43,12 @@ game_state *CurrentGameState;
 VisualElementFactory* visual_element_factory;
 VisualElement* VisualElements[2];
 
+Uint32 msLast;
+
 bool Init();
 bool InitGlobals();
 void ProcessInput();
-void ProcessGameLogic();
+void Update(float deltaTime);
 SDL_Texture* LoadText(const char* textToLoad);
 SDL_Texture* LoadSprite(const char* imagePath);
 void RenderSprite(SDL_Texture* sprite, SDL_Rect targetRectangle);
@@ -88,7 +90,13 @@ int main(int argc, char* args[])
 		//Late. Might move order
 		gSubsystemCollection->IterateLateUpdate();
 		ProcessInput();
-		ProcessGameLogic();
+
+		// Tick
+		const Uint32 msCurrent = SDL_GetTicks();
+		const Uint32 msDelta = msCurrent - msLast;
+		msLast = msCurrent;
+		Update(static_cast<float>(msDelta) * 0.001f);
+
 		//DOT, tween animations, or whatever
 		ClearScreen();
 		//These should belong to 'master' methods, that render all stored renderables on screen. These methods
@@ -161,8 +169,7 @@ SDL_Texture* LoadText(const char* text_to_render)
 		if (textTexture == NULL)
 		{
 			printf("Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError());
-			return nullptr
-			;
+			return nullptr;
 		}
 		// Get image dimensions
 		width = textSurface->w;
@@ -206,7 +213,7 @@ void ProcessInput()
 	mouseRect.y = inputSystem->input_data->mouse_y;
 }
 
-void ProcessGameLogic()
+void Update(float deltaTime)
 {
 	pikachuRect.x += pikachuMoveX;
 	pikachuRect.y -= pikachuMoveY;

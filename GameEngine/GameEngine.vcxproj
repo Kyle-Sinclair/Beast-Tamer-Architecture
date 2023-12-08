@@ -28,10 +28,26 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\ext\SDL2-2.26.4\lib\x64\ExampleClass.cpp" />
+    <ClCompile Include="CombatHelpers.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="MoveData.cpp" />
+    <ClCompile Include="RawPokemonData.cpp" />
+    <ClCompile Include="SpriteLoader\RectTransform.cpp" />
+    <ClCompile Include="SpriteLoader\VisualElement.cpp" />
+    <ClCompile Include="SpriteLoader\TextureLoader.cpp" />
+    <ClCompile Include="SpriteLoader\Vector.cpp" />
+    <ClCompile Include="SpriteLoader\VisualElementFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ext\SDL2-2.26.4\lib\x64\ExampleClass.h" />
+    <ClInclude Include="CombatHelpers.h" />
+    <ClInclude Include="MoveData.h" />
+    <ClInclude Include="RawPokemonData.h" />
+    <ClInclude Include="SpriteLoader\RectTransform.h" />
+    <ClInclude Include="SpriteLoader\VisualElement.h" />
+    <ClInclude Include="SpriteLoader\TextureLoader.h" />
+    <ClInclude Include="SpriteLoader\Vector.h" />
+    <ClInclude Include="SpriteLoader\VisualElementFactory.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>

@@ -151,6 +151,13 @@
       <FileType>Document</FileType>
     </CopyFileToFolders>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\PokemonSprites\Maps.png" />
+    <Content Include="Resources\PokemonSprites\Minun.png" />
+    <Content Include="Resources\PokemonSprites\Palmortis.png" />
+    <Content Include="Resources\PokemonSprites\Slumbra.png" />
+    <Content Include="Resources\PokemonSprites\Stellynx.png" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>

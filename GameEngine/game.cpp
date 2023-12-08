@@ -8,6 +8,7 @@
 
 #include "StateMachine/enemy_turn_state.h"
 #include "Global.h"
+#include "SpriteLoader/VisualElementFactory.h"
 #include "StateMachine/PlayerTurnState.h"
 #include "StateMachine/game_state.h"
 #include "SubSystems/InputSystem.h"
@@ -39,6 +40,8 @@ SDL_Color textColor = { 0xff, 0xff, 0xff };
 
 InputSystem* inputSystem;
 game_state *CurrentGameState;
+VisualElementFactory* visual_element_factory;
+VisualElement* VisualElements[2];
 
 bool Init();
 bool InitGlobals();
@@ -90,11 +93,14 @@ int main(int argc, char* args[])
 		ClearScreen();
 		//These should belong to 'master' methods, that render all stored renderables on screen. These methods
 		//should probably be located in object classes who are responsible for them
-		RenderSprite(Example_Sprite, pikachuRect);
+		//RenderSprite(Example_Sprite, pikachuRect);
+		VisualElements[1]->Render();
+
 		RenderSprite(debugMouse_Sprite, mouseRect);
 		RenderText(TextTexture);
 		// present screen (switch buffers)
 		SDL_RenderPresent(gRenderer);
+		VisualElements[1]->Render();
 
 		//todo lazy fps cap fix later plz
 		SDL_Delay(1000/SCREEN_FPS); // can be used to wait for a certain amount of ms
@@ -214,6 +220,7 @@ void ClearScreen()
 
 bool Init()
 {
+
 	CurrentGameState = new game_state();
 	CurrentGameState->set_enemy_state(new enemy_turn_state());
 	CurrentGameState->set_player_state(new player_turn_state());
@@ -256,7 +263,10 @@ bool Init()
 		printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
 		return -1;
 	}
-	
+	visual_element_factory = new VisualElementFactory(gRenderer);
+	VisualElements[0] = visual_element_factory->CreateVisualElement(pikachuImagePath);
+	VisualElements[1] = visual_element_factory->CreateVisualElement("Resources/PokemonSprites/Minun.png",0,0,1,1,1,3,1);
+
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");  // no smoothing pixel art.
 	SDL_RenderSetLogicalSize(gRenderer, INTERNAL_SCREEN_WIDTH, INTERNAL_SCREEN_HEIGHT);
 	

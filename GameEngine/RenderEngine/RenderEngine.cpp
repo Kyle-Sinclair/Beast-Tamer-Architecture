@@ -165,6 +165,10 @@ void RenderEngine::Render()
     glUseProgram(NULL);
 }
 
+void RenderEngine::Quit()
+{
+}
+
 void RenderEngine::PrintProgramLog(GLuint program)
 {
     if (!glIsProgram(program))

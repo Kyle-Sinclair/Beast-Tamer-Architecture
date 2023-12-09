@@ -9,6 +9,8 @@ public:
     
     static void Render();
 
+    static void Quit();
+
     inline static GLuint ProgramID = 0;
     inline static GLint VertexPos2DLocation = -1;
     inline static GLuint VBO = 0;

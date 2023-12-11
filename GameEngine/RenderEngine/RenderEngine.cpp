@@ -28,6 +28,11 @@ bool RenderEngine::Init()
     GPU_EnableCamera(Screen, true);
 
     ErrorShader = new Shader("Background", "Resources/Shaders/Error.vert", "Resources/Shaders/Error.frag");
+    if (!ErrorShader->DidCompile())
+    {
+        return false;
+    }
+    
     BackgroundShader = new Shader("Background", "Resources/Shaders/Background.vert", "Resources/Shaders/Background.frag");
     SpriteShader = new Shader("Sprite", "Resources/Shaders/Sprite.vert", "Resources/Shaders/Sprite.frag");
     PostProcessShader = new Shader("PostProcessing", "Resources/Shaders/PostProcessing.vert", "Resources/Shaders/PostProcessing.frag");

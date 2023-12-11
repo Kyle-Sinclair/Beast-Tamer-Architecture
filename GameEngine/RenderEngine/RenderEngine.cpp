@@ -70,15 +70,20 @@ void RenderEngine::Render()
         GPU_SetWindowResolution(Width, Height);
 
         //Recalculate aspect ratio locked screen area. TODO: wrong somewhere crops at certain sizes
-        const float size = fmin(Width, Height);
+        const float ratioX = Width / InternalWidth;
+        const float ratioY = Height / InternalHeight;
+        const float ratio = ratioX < ratioY ? ratioX : ratioY;
 
-        const float WidthAdjusted = ceilf(fmax(InternalWidth/InternalHeight, 1.f)*size);
-        const float HeightAdjusted = ceilf(fmax(InternalHeight/InternalWidth, 1.f)*size);
+        const float newWidth = ratio * InternalWidth;
+        const float newHeight = ratio * InternalHeight;
+
+        const float padX = (Width - newWidth) * 0.5f;
+        const float padY = (Height - newHeight) * 0.5f;
         
-        ScreenRect->x = (Width - WidthAdjusted)/2.f;
-        ScreenRect->y = (Height - HeightAdjusted)/2.f;
-        ScreenRect->w = WidthAdjusted;
-        ScreenRect->h = HeightAdjusted;        
+        ScreenRect->x = padX;
+        ScreenRect->y = padY;
+        ScreenRect->w = newWidth;
+        ScreenRect->h = newHeight;
     }
 
     GPU_Clear(BackScreen);

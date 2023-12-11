@@ -69,7 +69,6 @@ void RenderEngine::Render()
         SDL_GetWindowSize(gWindow, &Width, &Height);       
         GPU_SetWindowResolution(Width, Height);
 
-        //Recalculate aspect ratio locked screen area. TODO: wrong somewhere crops at certain sizes
         const float ratioX = Width / InternalWidth;
         const float ratioY = Height / InternalHeight;
         const float ratio = ratioX < ratioY ? ratioX : ratioY;
@@ -99,7 +98,7 @@ void RenderEngine::Render()
         shader->SetFloat("Time", time);
         shader->SetVec2("Resolution", InternalWidth, InternalHeight);
         shader->SetVec2("TexResolution", BackgroundImage->w, BackgroundImage->h);
-        GPU_BlitRect(BackgroundImage, nullptr, BackScreen, nullptr);
+        BlitScreen(BackgroundImage, BackScreen);
     }
 
     // Sprites
@@ -110,7 +109,8 @@ void RenderEngine::Render()
         GPU_ActivateShaderProgram(shader->GetProgram(), &spriteBlock);
         shader->SetFloat("Time", time);
         shader->SetVec2("Resolution", InternalWidth, InternalHeight);
-        GPU_BlitRect(DebugImage, nullptr, BackScreen, new GPU_Rect(InternalWidth/2, InternalHeight/2, 64, 64));
+        GPU_Rect* spriteRect = new GPU_Rect(InternalWidth/2, InternalHeight/2, 64, 64);
+        GPU_BlitRect(DebugImage, nullptr, BackScreen, spriteRect);
     }
 
     // UI
@@ -119,6 +119,7 @@ void RenderEngine::Render()
         const auto shader = UserInterfaceShader->DidCompile() ? UserInterfaceShader : ErrorShader;
         auto uiBlock = shader->GetBlock();
         GPU_ActivateShaderProgram(shader->GetProgram(), &uiBlock);
+        //BlitScreen(, BackScreen);
     }
 
     // Post processing: https://github.com/grimfang4/sdl-gpu/issues/240
@@ -152,4 +153,9 @@ void RenderEngine::Quit()
     GPU_FreeShader(UserInterfaceShader->GetProgram());
     GPU_FreeShader(PostProcessShader->GetProgram());
     GPU_FreeImage(DebugImage);
+}
+
+void RenderEngine::BlitScreen(GPU_Image* image, GPU_Target* target)
+{
+    GPU_BlitRect(image, nullptr, target, nullptr);
 }

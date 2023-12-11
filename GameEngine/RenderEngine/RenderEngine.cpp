@@ -18,6 +18,7 @@ bool RenderEngine::Init()
         return false;
     }
     gWindow = SDL_GetWindowFromID(Screen->context->windowID);
+    SDL_SetWindowMinimumSize(gWindow, INTERNAL_SCREEN_WIDTH, INTERNAL_SCREEN_HEIGHT);
     
     // Init back buffer
     GPU_Image* backImage = GPU_CreateImage(INTERNAL_SCREEN_WIDTH, INTERNAL_SCREEN_HEIGHT, GPU_FORMAT_RGBA);

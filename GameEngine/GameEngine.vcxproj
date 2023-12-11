@@ -155,6 +155,7 @@
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="..\ext\glew-2.1.0\bin\Release\x64\glew32.dll" />
+    <CopyFileToFolders Include="..\ext\SDL2_gpu-0.12.0-msvc\SDL2_gpu\release\x64\SDL2_gpu.dll" />
     <Content Include="Resources\PokemonSprites\Maps.png" />
     <Content Include="Resources\PokemonSprites\Minun.png" />
     <Content Include="Resources\PokemonSprites\Palmortis.png" />
@@ -250,8 +251,8 @@
     <LibraryPath>$(SolutionDir)ext\SDL2-2.26.4\lib\x86\;$(SolutionDir)ext\SDL2_image-2.6.3\lib\x86;$(SolutionDir)ext\SDL2_ttf-2.20.2\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)ext\SDL2-2.26.4\include;$(SolutionDir)ext\SDL2_image-2.6.3\include;$(SolutionDir)\ext\SDL2_ttf-2.20.2\include;$(SolutionDir)ext\glew-2.1.0\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)ext\SDL2-2.26.4\lib\x64\;$(SolutionDir)ext\SDL2_image-2.6.3\lib\x64;$(SolutionDir)ext\SDL2_ttf-2.20.2\lib\x64;$(SolutionDir)ext\glew-2.1.0\lib\Release\x64\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)ext\SDL2-2.26.4\include;$(SolutionDir)ext\SDL2_image-2.6.3\include;$(SolutionDir)\ext\SDL2_ttf-2.20.2\include;$(SolutionDir)ext\glew-2.1.0\include;$(SolutionDir)ext\SDL2_gpu-0.12.0-msvc\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)ext\SDL2-2.26.4\lib\x64\;$(SolutionDir)ext\SDL2_image-2.6.3\lib\x64;$(SolutionDir)ext\SDL2_ttf-2.20.2\lib\x64;$(SolutionDir)ext\glew-2.1.0\lib\Release\x64\;$(SolutionDir)ext\SDL2_gpu-0.12.0-msvc\SDL2_gpu\release\x64\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(SolutionDir)ext\SDL2-2.26.4\include;$(SolutionDir)ext\SDL2_image-2.6.3\include;$(SolutionDir)\ext\SDL2_ttf-2.20.2\include;$(IncludePath)</IncludePath>
@@ -308,7 +309,7 @@ copy /Y "$(SolutionDir)ext\SDL2_image-2.6.3\lib\x86\SDL2_image.dll" "$(TargetDir
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;opengl32.lib;glu32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;opengl32.lib;glu32.lib;glew32.lib;SDL2_gpu.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy /Y "$(SolutionDir)ext\SDL2_image-2.6.3\lib\x64\SDL2_image.dll" "$(TargetDir)SDL2_image.dll"</Command>

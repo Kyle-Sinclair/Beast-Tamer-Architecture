@@ -21,3 +21,4 @@ extern struct SDL_Renderer* gRenderer;
 inline SDL_GLContext gContext;
 
 extern bool gQuit;
+extern bool gWindowDirty;

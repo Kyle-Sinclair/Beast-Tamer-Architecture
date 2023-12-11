@@ -1,5 +1,6 @@
 #include "RenderEngine.h"
 
+#include <algorithm>
 #include <cstdio>
 #include <SDL.h>
 
@@ -10,6 +11,7 @@ bool RenderEngine::Init()
 {
     // Init main buffer
     Screen = GPU_Init(SCREEN_WIDTH, SCREEN_HEIGHT, GPU_DEFAULT_INIT_FLAGS | SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+    ScreenRect = new GPU_Rect();
     if (!Screen)
     {
         printf("SDL_GPU: Window could not be created!\n");
@@ -18,7 +20,8 @@ bool RenderEngine::Init()
     gWindow = SDL_GetWindowFromID(Screen->context->windowID);
     
     // Init back buffer
-    GPU_Image* backImage = GPU_CreateImage(SCREEN_WIDTH, SCREEN_HEIGHT, GPU_FORMAT_RGBA);
+    GPU_Image* backImage = GPU_CreateImage(INTERNAL_SCREEN_WIDTH, INTERNAL_SCREEN_HEIGHT, GPU_FORMAT_RGBA);
+    GPU_SetImageFilter(backImage, GPU_FILTER_NEAREST);
     BackScreen = GPU_LoadTarget(backImage);
     
     GPU_EnableCamera(Screen, true);
@@ -28,7 +31,7 @@ bool RenderEngine::Init()
     SpriteShader = new Shader("Sprite", "Resources/Shaders/Sprite.vert", "Resources/Shaders/Sprite.frag");
     PostProcessShader = new Shader("PostProcessing", "Resources/Shaders/PostProcessing.vert", "Resources/Shaders/PostProcessing.frag");
 
-    BackgroundImage = GPU_LoadImage("Resources/PokemonSprites/Maps1.png");
+    BackgroundImage = GPU_LoadImage("Resources/PokemonSprites/BackgroundTest.png");
     if (BackgroundImage)
     {
         GPU_GenerateMipmaps(BackgroundImage);
@@ -41,31 +44,38 @@ bool RenderEngine::Init()
         GPU_GenerateMipmaps(DebugImage);
     }
 
+    gWindowDirty = true;
+
     return true;
 }
 
 void RenderEngine::Render()
 {
+    const float InternalWidth = INTERNAL_SCREEN_WIDTH;
+    const float InternalHeight = INTERNAL_SCREEN_HEIGHT;
+    
     // Reference: https://github.com/grimfang4/sdl-gpu/blob/master/demos/simple-shader/main.c
     const float time = static_cast<float>(SDL_GetTicks()) * 0.001f;
 
-    // Temporary loop to get window resize event
-    SDL_Event e;
-    while (SDL_PollEvent(&e))
+    // Gets dirtied by input system for now
+    if(gWindowDirty)
     {
-        if (e.type == SDL_QUIT) gQuit = true;
-        else if (e.type == SDL_WINDOWEVENT && e.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
-        {
-            SDL_GetWindowSize(gWindow, &Width, &Height);
-            GPU_SetWindowResolution(Width, Height);
+        SDL_GetWindowSize(gWindow, &Width, &Height);       
+        GPU_SetWindowResolution(Width, Height);
 
-            // Allocate new back buffer
-            GPU_FreeTarget(BackScreen);
-            GPU_Image* backImage = GPU_CreateImage(Width, Height, GPU_FORMAT_RGBA);
-            BackScreen = GPU_LoadTarget(backImage);
-        }
+        //Recalculate aspect ratio locked screen area. TODO: wrong somewhere crops at certain sizes
+        const float size = fmin(Width, Height);
+
+        const float WidthAdjusted = ceilf(fmax(InternalWidth/InternalHeight, 1.f)*size);
+        const float HeightAdjusted = ceilf(fmax(InternalHeight/InternalWidth, 1.f)*size);
+        
+        ScreenRect->x = (Width - WidthAdjusted)/2.f;
+        ScreenRect->y = (Height - HeightAdjusted)/2.f;
+        ScreenRect->w = WidthAdjusted;
+        ScreenRect->h = HeightAdjusted;        
     }
 
+    GPU_Clear(BackScreen);
     GPU_Clear(Screen);
 
     // Background
@@ -76,7 +86,7 @@ void RenderEngine::Render()
         GPU_ActivateShaderProgram(shader->GetProgram(), &backBlock);
         //GPU_ActivateShaderProgram(0, nullptr);
         shader->SetFloat("Time", time);
-        shader->SetVec2("Resolution", Width, Height);
+        shader->SetVec2("Resolution", InternalWidth, InternalHeight);
         shader->SetVec2("TexResolution", BackgroundImage->w, BackgroundImage->h);
         GPU_BlitRect(BackgroundImage, nullptr, BackScreen, nullptr);
     }
@@ -88,8 +98,8 @@ void RenderEngine::Render()
         auto spriteBlock = shader->GetBlock();
         GPU_ActivateShaderProgram(shader->GetProgram(), &spriteBlock);
         shader->SetFloat("Time", time);
-        shader->SetVec2("Resolution", Width, Height);
-        GPU_Blit(DebugImage, nullptr, BackScreen, BackScreen->w/2, BackScreen->h/2);
+        shader->SetVec2("Resolution", InternalWidth, InternalHeight);
+        GPU_BlitRect(DebugImage, nullptr, BackScreen, new GPU_Rect(InternalWidth/2, InternalHeight/2, 64, 64));
     }
 
     // UI
@@ -116,7 +126,7 @@ void RenderEngine::Render()
             shader->SetFloat("Time", time);
             shader->SetVec2("Resolution", Width, Height);
         }
-        GPU_BlitRect(BackScreen->image, nullptr, Screen, nullptr);
+        GPU_BlitRect(BackScreen->image, nullptr, Screen, ScreenRect);
     }
     
     GPU_Flip(Screen);

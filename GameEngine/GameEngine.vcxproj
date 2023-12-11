@@ -109,7 +109,9 @@
     <ClCompile Include="MoveData.cpp" />
     <ClCompile Include="RawPokemonData.cpp" />
     <ClCompile Include="Global.cpp" />
+    <ClCompile Include="RenderEngine\FColor.cpp" />
     <ClCompile Include="RenderEngine\RenderEngine.cpp" />
+    <ClCompile Include="RenderEngine\Shader.cpp" />
     <ClCompile Include="SpriteLoader\RectTransform.cpp" />
     <ClCompile Include="SpriteLoader\TextureLoader.cpp" />
     <ClCompile Include="SpriteLoader\Vector.cpp" />
@@ -128,7 +130,9 @@
     <ClInclude Include="Global.h" />
     <ClInclude Include="MoveData.h" />
     <ClInclude Include="RawPokemonData.h" />
+    <ClInclude Include="RenderEngine\FColor.h" />
     <ClInclude Include="RenderEngine\RenderEngine.h" />
+    <ClInclude Include="RenderEngine\Shader.h" />
     <ClInclude Include="SpriteLoader\RectTransform.h" />
     <ClInclude Include="SpriteLoader\TextureLoader.h" />
     <ClInclude Include="SpriteLoader\Vector.h" />
@@ -154,6 +158,14 @@
     </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\Shaders\Background.frag" />
+    <Content Include="Resources\Shaders\Background.vert" />
+    <Content Include="Resources\Shaders\error.frag" />
+    <Content Include="Resources\Shaders\error.vert" />
+    <Content Include="Resources\Shaders\postProcessing.frag" />
+    <Content Include="Resources\Shaders\PostProcessing.vert" />
+    <Content Include="Resources\Shaders\sprite.frag" />
+    <Content Include="Resources\Shaders\sprite.vert" />
     <CopyFileToFolders Include="..\ext\glew-2.1.0\bin\Release\x64\glew32.dll" />
     <CopyFileToFolders Include="..\ext\SDL2_gpu-0.12.0-msvc\SDL2_gpu\release\x64\SDL2_gpu.dll" />
     <Content Include="Resources\PokemonSprites\Maps.png" />

@@ -1,6 +1,8 @@
 #pragma once
 
-#include <GL/glew.h>
+#include <SDL_gpu.h>
+
+#include "Shader.h"
 
 class RenderEngine
 {
@@ -11,14 +13,18 @@ public:
 
     static void Quit();
 
-    inline static GLuint ProgramID = 0;
-    inline static GLint VertexPos2DLocation = -1;
-    inline static GLuint VBO = 0;
-    inline static GLuint IBO = 0;
+    inline static int Width, Height;
 
-private:
-    static bool InitGL();
+    inline static GPU_Target* Screen;
+    inline static GPU_Target* BackScreen;
 
-    static void PrintProgramLog(GLuint program);
-    static void PrintShaderLog(GLuint shader);
+    inline static Shader* ErrorShader;
+    inline static Shader* BackgroundShader;
+    inline static Shader* SpriteShader;
+    inline static Shader* UserInterfaceShader;
+    inline static Shader* PostProcessShader;
+    
+    inline static GPU_Image* BackImage;
+    inline static GPU_Image* DebugImage;
+    inline static GPU_Image* BackgroundImage;
 };

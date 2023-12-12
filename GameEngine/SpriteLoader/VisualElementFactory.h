@@ -8,9 +8,8 @@
 class VisualElementFactory
 {
     public:
-    VisualElementFactory(SDL_Renderer* renderer);
+    VisualElementFactory();
     TextureLoader* textureLoader;
-    SDL_Renderer* renderer;
-    VisualElement* CreateVisualElement(const char* path, int x = 0,int y = 0,int w= 1,int h= 1,int spriteIndex = 0,int columns = 0, int rows = 0);
+    VisualElement* CreateVisualElement(const char* path,RectTransform rectTransform = RectTransform(),int spriteIndex = 0,int columns = 0, int rows = 0);
     std::set<VisualElement*> VisualElementSet;
 };

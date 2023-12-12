@@ -10,6 +10,6 @@ public:
     UIGroup();
     ~UIGroup();
 
-    std::list<VisualElement> VisualElements;
-    std::list<UIInteractable> InteractableElements;
+    std::list<VisualElement> VisualElements{};
+    std::list<UIInteractable> InteractableElements{};
 };

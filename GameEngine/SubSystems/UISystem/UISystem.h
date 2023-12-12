@@ -16,7 +16,9 @@ public:
     void LateUpdate() override;
 
     void SwitchMenu(const char* menuName);
+    
+    void Free() override;
 
-    std::map<char*, UIGroup*> UIGroups;
-    UIGroup* CurrentActiveGroup;
+    std::map<char*, UIGroup*> UIGroups{};
+    UIGroup* CurrentActiveGroup{};
 };

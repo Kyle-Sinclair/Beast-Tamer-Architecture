@@ -8,11 +8,11 @@ class UIInteractable
 {
 public:
     UIInteractable(SDL_Rect* initBounds, VisualElement* initLinkedVisualElement, UICommand* initCommand, char* initCommandArgument);
-    SDL_Rect* InteractBounds;
-    VisualElement* LinkedVisualElement;
+    SDL_Rect* InteractBounds{};
+    VisualElement* LinkedVisualElement{};
 
-    UICommand* InteractCommand;
-    char* InteractArgument;
+    UICommand* InteractCommand{};
+    char* InteractArgument{};
 
-    bool CheckInteracted(const SDL_Point* pointer, bool pressed);
+    bool CheckInteracted(SDL_Point pointer, bool pressed);
 };

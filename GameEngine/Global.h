@@ -14,6 +14,7 @@ const int INTERNAL_SCREEN_WIDTH = 240;
 const int INTERNAL_SCREEN_HEIGHT = 160;
 
 extern class SubsystemCollection* gSubsystemCollection;
+extern class InputSystem* gInputSystem;
 
 extern struct SDL_Window* gWindow;
 
@@ -22,3 +23,5 @@ inline SDL_GLContext gContext;
 
 extern bool gQuit;
 extern bool gWindowDirty;
+
+bool InitGlobals();

@@ -1,10 +1,9 @@
 ﻿#include "UIGroup.h"
 
-UIGroup::UIGroup()
-{
-    VisualElements = std::list<VisualElement>();
-    InteractableElements = std::list<UIInteractable>();
-}
+#include "UIInteractable.h"
+#include "../../SpriteLoader/VisualElement.h"
+
+UIGroup::UIGroup() = default;
 
 UIGroup::~UIGroup()
 {

@@ -9,4 +9,5 @@ public:
 
     virtual void LateUpdate();
 
+    virtual void Free();
 };

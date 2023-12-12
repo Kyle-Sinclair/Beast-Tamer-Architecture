@@ -1,6 +1,7 @@
 ﻿#include "UIInteractable.h"
 
 #include "UICommand.h"
+#include "../../SpriteLoader/VisualElement.h"
 
 UIInteractable::UIInteractable(SDL_Rect* initBounds, VisualElement* initLinkedVisualElement, UICommand* initCommand, char* initCommandArgument)
 {
@@ -10,9 +11,9 @@ UIInteractable::UIInteractable(SDL_Rect* initBounds, VisualElement* initLinkedVi
     InteractArgument = initCommandArgument;
 }
 
-bool UIInteractable::CheckInteracted(const SDL_Point* pointer, bool pressed)
+bool UIInteractable::CheckInteracted(const SDL_Point pointer, const bool pressed)
 {
-    bool inside = SDL_PointInRect(pointer, InteractBounds);
+    const bool inside = SDL_PointInRect(&pointer, InteractBounds);
 
     if(pressed && InteractCommand != nullptr)
     {

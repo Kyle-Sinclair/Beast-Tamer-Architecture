@@ -1,20 +1,29 @@
 ﻿#include "UISystem.h"
 
-UISystem::UISystem()
-{
-    UIGroups = std::map<char*, UIGroup*>();
-    CurrentActiveGroup = nullptr;
-}
+#include "UIGroup.h"
+#include "UIInteractable.h"
+#include "../InputSystem.h"
+#include "../SubsystemCollection.h"
+#include "../../Global.h"
 
-UISystem::~UISystem()
-{
-}
+UISystem::UISystem() = default;
+
+UISystem::~UISystem() = default;
 
 void UISystem::LateUpdate()
 {
-    SubSystem::LateUpdate();
+    const auto inputData = gSubsystemCollection->gInputSystem->input_data;
 
-    
+    auto mousePointer = SDL_Point(inputData.mouse_x, inputData.mouse_y);
+
+    if(CurrentActiveGroup != nullptr)
+    {
+        for (auto interactable : CurrentActiveGroup->InteractableElements)
+        {
+            interactable.CheckInteracted(mousePointer, inputData.action);
+        }
+        
+    }
 }
 
 void UISystem::SwitchMenu(const char* menuName)
@@ -26,4 +35,10 @@ void UISystem::SwitchMenu(const char* menuName)
             CurrentActiveGroup = it->second;
         }
     }
+}
+
+void UISystem::Free()
+{
+    CurrentActiveGroup = nullptr;
+    UIGroups.clear();
 }

@@ -18,7 +18,7 @@ public:
     
         if(!subsystems.contains(hashCode))
         {
-            auto newSubSystem = dynamic_cast<SubSystem*>(new T());
+            SubSystem* newSubSystem = dynamic_cast<SubSystem*>(new T());
             subsystems.insert_or_assign(hashCode, newSubSystem);
         }
     
@@ -27,7 +27,11 @@ public:
 
     void IterateEarlyUpdate();
     void IterateLateUpdate();
+    void IterateFree();
+
+    //Important and common so have fixed pointer
+    class InputSystem* gInputSystem{};
 
 private:
-    std::map<int, SubSystem*> subsystems;
+    std::map<int, SubSystem*> subsystems{};
 };

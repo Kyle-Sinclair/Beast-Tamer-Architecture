@@ -39,7 +39,6 @@ int pikachuMoveX = 0;
 int pikachuMoveY = 0;
 SDL_Color textColor = { 0xff, 0xff, 0xff };
 
-InputSystem* inputSystem;
 game_state *CurrentGameState;
 VisualElementFactory* visual_element_factory;
 VisualElement* VisualElements[2];
@@ -47,7 +46,6 @@ VisualElement* VisualElements[2];
 Uint32 msLast;
 
 bool Init();
-bool InitGlobals();
 void ProcessInput();
 void Update(float deltaTime);
 SDL_Texture* LoadText(const char* textToLoad);
@@ -210,11 +208,11 @@ void RenderText(SDL_Rect* targetRectangle, SDL_Texture* textTexture)
 
 void ProcessInput()
 {
-	pikachuMoveX = inputSystem->input_data->move_x;
-	pikachuMoveY = inputSystem->input_data->move_y;
+	pikachuMoveX = gSubsystemCollection->gInputSystem->input_data.move_x;
+	pikachuMoveY = gSubsystemCollection->gInputSystem->input_data.move_y;
 
-	mouseRect.x = inputSystem->input_data->mouse_x;
-	mouseRect.y = inputSystem->input_data->mouse_y;
+	mouseRect.x = gSubsystemCollection->gInputSystem->input_data.mouse_x;
+	mouseRect.y = gSubsystemCollection->gInputSystem->input_data.mouse_y;
 }
 
 void Update(float deltaTime)
@@ -281,32 +279,12 @@ bool Init()
 	return true;
 }
 
-bool InitGlobals()
-{
-	gSubsystemCollection = new SubsystemCollection();
-
-	if (!gSubsystemCollection)
-	{
-		printf("No SubsystemCollection");
-		return false;
-	}
-	
-	inputSystem = gSubsystemCollection->GetSubSystem<InputSystem>();
-
-	if (!inputSystem)
-	{
-		printf("No InputSystem");
-		return false;
-	}	
-
-	return true;
-}
-
 void Close()
 {
 	SDL_DestroyRenderer(gRenderer); gRenderer = nullptr;
 	SDL_DestroyWindow(gWindow); gWindow = nullptr;
-	
+
+	gSubsystemCollection->IterateFree();
 	RenderEngine::Quit();
 	GPU_Quit();
 	IMG_Quit();

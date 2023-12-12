@@ -158,16 +158,36 @@
     </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\Shaders\Background.frag" />
-    <Content Include="Resources\Shaders\Background.vert" />
-    <Content Include="Resources\Shaders\error.frag" />
-    <Content Include="Resources\Shaders\error.vert" />
-    <Content Include="Resources\Shaders\postProcessing.frag" />
-    <Content Include="Resources\Shaders\PostProcessing.vert" />
-    <Content Include="Resources\Shaders\sprite.frag" />
-    <Content Include="Resources\Shaders\sprite.vert" />
-    <Content Include="Resources\Shaders\Sprite9Slice.frag" />
-    <Content Include="Resources\Shaders\Sprite9Slice.vert" />
+    <Content Include="Resources\Shaders\Background.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Shaders\Background.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Shaders\error.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Shaders\error.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Shaders\postProcessing.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Shaders\PostProcessing.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Shaders\sprite.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Shaders\sprite.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Shaders\Sprite9Slice.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Shaders\Sprite9Slice.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\UISprites\MenuBack.png" />
     <CopyFileToFolders Include="..\ext\glew-2.1.0\bin\Release\x64\glew32.dll" />
     <CopyFileToFolders Include="..\ext\SDL2_gpu-0.12.0-msvc\SDL2_gpu\release\x64\SDL2_gpu.dll" />

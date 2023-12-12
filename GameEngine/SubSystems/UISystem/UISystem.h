@@ -19,6 +19,6 @@ public:
     
     void Free() override;
 
-    std::map<char*, UIGroup*> UIGroups{};
+    std::map<const char*, UIGroup*> UIGroups{};
     UIGroup* CurrentActiveGroup{};
 };

@@ -20,9 +20,8 @@ void UISystem::LateUpdate()
     {
         for (auto interactable : CurrentActiveGroup->InteractableElements)
         {
-            interactable.CheckInteracted(mousePointer, inputData.action);
-        }
-        
+            interactable->CheckInteracted(mousePointer, inputData.action);
+        }        
     }
 }
 

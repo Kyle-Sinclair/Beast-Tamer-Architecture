@@ -56,10 +56,20 @@ const GPU_ShaderBlock& Shader::GetBlock()
     return block;
 }
 
-int Shader::GetVariable(const char* id)
+int Shader::GetVariable(const char* id) const
 {
+    if (uniformMap.contains(id))
+    {
+        return uniformMap[id];
+    }
+    
     // Location returns -1 if it is not part of the final shader, so it can be optimized out.
-    return GPU_GetUniformLocation(p, id);
+    const int location = GPU_GetUniformLocation(p, id);
+    if (location >= 0)
+    {
+        uniformMap[id] = location;
+    }
+    return location;
 }
 
 #define ID_GUARD(id, out) const int out = GetVariable(id); if ((out) < 0) return;

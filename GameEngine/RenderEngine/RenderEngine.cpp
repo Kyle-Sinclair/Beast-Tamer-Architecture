@@ -18,11 +18,11 @@ bool RenderEngine::Init()
         return false;
     }
     gWindow = SDL_GetWindowFromID(Screen->context->windowID);
+    //SDL_RenderSetLogicalSize(SDL_GetRenderer(gWindow), INTERNAL_SCREEN_WIDTH, INTERNAL_SCREEN_HEIGHT); TODO: Figure out why this doesn't work.
     SDL_SetWindowMinimumSize(gWindow, INTERNAL_SCREEN_WIDTH, INTERNAL_SCREEN_HEIGHT);
     
     // Init back buffer
     GPU_Image* backImage = GPU_CreateImage(INTERNAL_SCREEN_WIDTH, INTERNAL_SCREEN_HEIGHT, GPU_FORMAT_RGBA);
-    GPU_SetImageFilter(backImage, GPU_FILTER_NEAREST);
     BackScreen = GPU_LoadTarget(backImage);
     
     GPU_EnableCamera(Screen, true);
@@ -38,6 +38,7 @@ bool RenderEngine::Init()
     PostProcessShader = new Shader("PostProcessing", "Resources/Shaders/PostProcessing.vert", "Resources/Shaders/PostProcessing.frag");
 
     BackgroundImage = GPU_LoadImage("Resources/PokemonSprites/BackgroundTest.png");
+    GPU_SetImageFilter(BackgroundImage, GPU_FILTER_NEAREST);
     if (BackgroundImage)
     {
         GPU_GenerateMipmaps(BackgroundImage);
@@ -66,7 +67,7 @@ void RenderEngine::Render()
     // Gets dirtied by input system for now
     if(gWindowDirty)
     {
-        SDL_GetWindowSize(gWindow, &Width, &Height);       
+        SDL_GetWindowSize(gWindow, &Width, &Height);
         GPU_SetWindowResolution(Width, Height);
 
         const float ratioX = Width / InternalWidth;
@@ -123,7 +124,7 @@ void RenderEngine::Render()
     }
 
     // Post processing: https://github.com/grimfang4/sdl-gpu/issues/240
-    const bool postProcessingEnabled = false;
+    const bool postProcessingEnabled = true;
     if (PostProcessShader)
     {
         const auto shader = PostProcessShader->DidCompile() ? PostProcessShader : ErrorShader;
@@ -137,6 +138,7 @@ void RenderEngine::Render()
             GPU_ActivateShaderProgram(shader->GetProgram(), &postBlock);
             shader->SetFloat("Time", time);
             shader->SetVec2("Resolution", Width, Height);
+            shader->SetVec2("TexResolution", InternalWidth, InternalHeight);
         }
         GPU_BlitRect(BackScreen->image, nullptr, Screen, ScreenRect);
     }

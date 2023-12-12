@@ -27,8 +27,8 @@ VisualElement::VisualElement(Texture* texture,int spriteIndex,int columns, int r
     SetSpriteIndex(spriteIndex);
     const int clippedWidth = texture->GetImage()->w / columns;
     const int clippedHeight = texture->GetImage()->h / rows;
-    rect.h = clippedRect.h = static_cast<float>(clippedWidth);
-    rect.w = clippedRect.w = static_cast<float>(clippedHeight);
+    rect.w = clippedRect.w = static_cast<float>(clippedWidth);
+    rect.h = clippedRect.h = static_cast<float>(clippedHeight);
 
     this->rectTransform = rectTransform;
 }
@@ -114,11 +114,11 @@ int VisualElement::GetSpriteSheetLength()
     return spriteSheetLength;
 }
 
-GPU_Rect VisualElement::GetRenderRect()
+GPU_Rect* VisualElement::GetRenderRect()
 {
     Vector originRenderPoint = GetOriginRenderPoint();
     
-    GPU_Rect transformedRect
+    GPU_Rect* transformedRect = new GPU_Rect
     {
         originRenderPoint.x,
         originRenderPoint.y,
@@ -128,7 +128,12 @@ GPU_Rect VisualElement::GetRenderRect()
     return transformedRect;
 }
 
-GPU_Rect VisualElement::GetSrcRect()
+GPU_Rect* VisualElement::GetSrcRect()
 {
-    return clippedRect;
+    return (isClipped)? &clippedRect:nullptr;
+}
+
+Texture* VisualElement::GetTexture()
+{
+    return texture;
 }

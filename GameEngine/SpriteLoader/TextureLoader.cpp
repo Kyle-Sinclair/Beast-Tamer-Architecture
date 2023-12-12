@@ -3,36 +3,41 @@
 #include <filesystem>
 #include <SDL_image.h>
 
-Texture::Texture(SDL_Texture* texture, int width, int height)
-{
-    this->texture = texture;
-    this->width = width;
-    this->height = height;
-}
+Texture::Texture(GPU_Image* texture):image(texture){}
 
-SDL_Texture* Texture::GetTexture()
+GPU_Image* Texture::GetImage()
 {
-    return texture;
-}
-
-int Texture::GetHeight()
-{
-    return height;
+    return image;
 }
 
 int Texture::GetWidth()
 {
-    return width;
+    return image->w;
 }
 
-TextureLoader::TextureLoader(SDL_Renderer* renderer)
+int Texture::GetHeight()
 {
-    this->renderer = renderer;
+    return image->h;
+}
+
+float Texture::GetWidth_f()
+{
+    return static_cast<float>(GetWidth());
+}
+
+float Texture::GetHeight_f()
+{
+    return static_cast<float>(GetHeight());
+}
+
+
+TextureLoader::TextureLoader()
+{
+
 }
 
 TextureLoader::~TextureLoader()
 {
-    renderer = nullptr;
     for (auto element: TextureMap)
     {
         delete element.second;
@@ -41,6 +46,26 @@ TextureLoader::~TextureLoader()
     TextureMap.clear();
 }
 
+Texture* TextureLoader::LoadTexture(const char* path)
+{
+
+    if(TextureMap.contains(path))
+    {
+        return TextureMap[path];
+    }
+    Texture* newTexture;
+    auto loadedImage = GPU_LoadImage(path);
+    if (loadedImage == nullptr)
+    {
+        printf("Unable to load image %s! GPU_LoadImage Error.\n",path);
+        return nullptr;
+    }
+
+    newTexture = new Texture(loadedImage);
+    TextureMap.insert({path,newTexture});
+    return newTexture;
+}
+/*
 SDL_Surface* TextureLoader::LoadSurface(const char* path)
 {
     SDL_Surface* loadedSurface = IMG_Load(path);
@@ -76,3 +101,4 @@ Texture* TextureLoader::LoadTexture(const char* path)
     SDL_FreeSurface(loadedSurface);
     return sprite;
 }
+*/

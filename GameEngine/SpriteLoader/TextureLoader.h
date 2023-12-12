@@ -2,30 +2,31 @@
 #include <SDL_render.h>
 #include <vector>
 #include <map>
+#include <SDL_gpu.h>
 
 
 struct Texture
 {
 private:
-    SDL_Texture* texture;
-    int width;
-    int height;
+    GPU_Image* image;
 public:
-    Texture(SDL_Texture* texture, int width,int height);
-    SDL_Texture* GetTexture();
-    int GetHeight();
+    Texture(GPU_Image* texture);
+    GPU_Image* GetImage();
     int GetWidth();
+    int GetHeight();
+    float GetWidth_f();
+    float GetHeight_f();
 };
 
 class TextureLoader
 {
     private:
     std::map<const char*, Texture*> TextureMap;
-    SDL_Renderer* renderer;
     
     public:
-    TextureLoader(SDL_Renderer* renderer);
+    TextureLoader();
     ~TextureLoader();
-    SDL_Surface* LoadSurface(const char* path);
-    Texture* LoadTexture(const char* path);
+    Texture* LoadTexture(const char* path); 
+    //SDL_Surface* LoadSurface(const char* path);
+    //Texture* LoadTexture(const char* path);
 };

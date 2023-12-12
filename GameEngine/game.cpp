@@ -269,7 +269,8 @@ bool Init()
 
 	RenderEngine::Init();
 	
-	visual_element_factory = new VisualElementFactory(gRenderer);
+	visual_element_factory = new VisualElementFactory();
+	
 	//VisualElements[0] = visual_element_factory->CreateVisualElement(pikachuImagePath);
 	//VisualElements[1] = visual_element_factory->CreateVisualElement("Resources/PokemonSprites/Minun.png",0,0,1,1,1,3,1);
 

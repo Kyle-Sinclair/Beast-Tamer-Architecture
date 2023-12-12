@@ -45,8 +45,9 @@ public:
     int GetRows();
     int GetSpriteSheetLength();
 
-    GPU_Rect GetRenderRect();
-    GPU_Rect GetSrcRect();
+    GPU_Rect* GetRenderRect();
+    GPU_Rect* GetSrcRect();
+    Texture* GetTexture();
     DrawMode drawMode = Simple;
     DrawModeData drawModeData; 
 };

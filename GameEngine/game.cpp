@@ -13,6 +13,7 @@
 #include "StateMachine/game_state.h"
 #include "SubSystems/InputSystem.h"
 #include "SubSystems/SubsystemCollection.h"
+#include "RenderEngine/RenderEngine.h"
 
 const char* pikachuImagePath{ "img/pikachu.png" };
 const char* mouseImagePath{ "img/mouse_icon.png" };
@@ -97,18 +98,21 @@ int main(int argc, char* args[])
 		msLast = msCurrent;
 		Update(static_cast<float>(msDelta) * 0.001f);
 
+		// Draw and present
+		RenderEngine::Render();
+		//SDL_GL_SwapWindow(gWindow);
+
 		//DOT, tween animations, or whatever
-		ClearScreen();
 		//These should belong to 'master' methods, that render all stored renderables on screen. These methods
 		//should probably be located in object classes who are responsible for them
 		//RenderSprite(Example_Sprite, pikachuRect);
-		VisualElements[1]->Render();
+		//VisualElements[1]->Render();
 
 		RenderSprite(debugMouse_Sprite, mouseRect);
 		RenderText(TextTexture);
 		// present screen (switch buffers)
-		SDL_RenderPresent(gRenderer);
-		VisualElements[1]->Render();
+		//SDL_RenderPresent(gRenderer);
+		//VisualElements[1]->Render();
 
 		//todo lazy fps cap fix later plz
 		SDL_Delay(1000/SCREEN_FPS); // can be used to wait for a certain amount of ms
@@ -234,7 +238,7 @@ bool Init()
 	game_state* NewGameState = 	CurrentGameState->Finish(CurrentGameState);
 	if(NewGameState != nullptr)
 	{
-		printf("updating state");
+		//printf("updating state");
 		CurrentGameState = NewGameState;
 	}
 	else
@@ -263,16 +267,11 @@ bool Init()
 		return -1;
 	}
 
-	// Create Window and Renderer
-	SDL_CreateWindowAndRenderer(SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_MAXIMIZED, &gWindow, &gRenderer);
-	if (!gWindow)
-	{
-		printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
-		return -1;
-	}
+	RenderEngine::Init();
+	
 	visual_element_factory = new VisualElementFactory(gRenderer);
-	VisualElements[0] = visual_element_factory->CreateVisualElement(pikachuImagePath);
-	VisualElements[1] = visual_element_factory->CreateVisualElement("Resources/PokemonSprites/Minun.png",0,0,1,1,1,3,1);
+	//VisualElements[0] = visual_element_factory->CreateVisualElement(pikachuImagePath);
+	//VisualElements[1] = visual_element_factory->CreateVisualElement("Resources/PokemonSprites/Minun.png",0,0,1,1,1,3,1);
 
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");  // no smoothing pixel art.
 	SDL_RenderSetLogicalSize(gRenderer, INTERNAL_SCREEN_WIDTH, INTERNAL_SCREEN_HEIGHT);
@@ -307,6 +306,8 @@ void Close()
 	SDL_DestroyRenderer(gRenderer); gRenderer = nullptr;
 	SDL_DestroyWindow(gWindow); gWindow = nullptr;
 	
+	RenderEngine::Quit();
+	GPU_Quit();
 	IMG_Quit();
 	SDL_Quit();
 }

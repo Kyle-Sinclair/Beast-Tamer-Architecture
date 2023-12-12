@@ -28,4 +28,7 @@ public:
     inline static GPU_Image* BackImage;
     inline static GPU_Image* DebugImage;
     inline static GPU_Image* BackgroundImage;
+
+private:
+    static void BlitScreen(GPU_Image* image, GPU_Target* target);
 };

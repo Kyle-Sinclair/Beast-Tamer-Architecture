@@ -18,21 +18,27 @@ bool RenderEngine::Init()
         return false;
     }
     gWindow = SDL_GetWindowFromID(Screen->context->windowID);
+    //SDL_RenderSetLogicalSize(SDL_GetRenderer(gWindow), INTERNAL_SCREEN_WIDTH, INTERNAL_SCREEN_HEIGHT); TODO: Figure out why this doesn't work.
     SDL_SetWindowMinimumSize(gWindow, INTERNAL_SCREEN_WIDTH, INTERNAL_SCREEN_HEIGHT);
     
     // Init back buffer
     GPU_Image* backImage = GPU_CreateImage(INTERNAL_SCREEN_WIDTH, INTERNAL_SCREEN_HEIGHT, GPU_FORMAT_RGBA);
-    GPU_SetImageFilter(backImage, GPU_FILTER_NEAREST);
     BackScreen = GPU_LoadTarget(backImage);
     
     GPU_EnableCamera(Screen, true);
 
     ErrorShader = new Shader("Background", "Resources/Shaders/Error.vert", "Resources/Shaders/Error.frag");
+    if (!ErrorShader->DidCompile())
+    {
+        return false;
+    }
+    
     BackgroundShader = new Shader("Background", "Resources/Shaders/Background.vert", "Resources/Shaders/Background.frag");
     SpriteShader = new Shader("Sprite", "Resources/Shaders/Sprite.vert", "Resources/Shaders/Sprite.frag");
     PostProcessShader = new Shader("PostProcessing", "Resources/Shaders/PostProcessing.vert", "Resources/Shaders/PostProcessing.frag");
 
     BackgroundImage = GPU_LoadImage("Resources/PokemonSprites/BackgroundTest.png");
+    GPU_SetImageFilter(BackgroundImage, GPU_FILTER_NEAREST);
     if (BackgroundImage)
     {
         GPU_GenerateMipmaps(BackgroundImage);
@@ -61,19 +67,23 @@ void RenderEngine::Render()
     // Gets dirtied by input system for now
     if(gWindowDirty)
     {
-        SDL_GetWindowSize(gWindow, &Width, &Height);       
+        SDL_GetWindowSize(gWindow, &Width, &Height);
         GPU_SetWindowResolution(Width, Height);
 
-        //Recalculate aspect ratio locked screen area. TODO: wrong somewhere crops at certain sizes
-        const float size = fmin(Width, Height);
+        const float ratioX = Width / InternalWidth;
+        const float ratioY = Height / InternalHeight;
+        const float ratio = ratioX < ratioY ? ratioX : ratioY;
 
-        const float WidthAdjusted = ceilf(fmax(InternalWidth/InternalHeight, 1.f)*size);
-        const float HeightAdjusted = ceilf(fmax(InternalHeight/InternalWidth, 1.f)*size);
+        const float newWidth = ratio * InternalWidth;
+        const float newHeight = ratio * InternalHeight;
+
+        const float padX = (Width - newWidth) * 0.5f;
+        const float padY = (Height - newHeight) * 0.5f;
         
-        ScreenRect->x = (Width - WidthAdjusted)/2.f;
-        ScreenRect->y = (Height - HeightAdjusted)/2.f;
-        ScreenRect->w = WidthAdjusted;
-        ScreenRect->h = HeightAdjusted;        
+        ScreenRect->x = padX;
+        ScreenRect->y = padY;
+        ScreenRect->w = newWidth;
+        ScreenRect->h = newHeight;
     }
 
     GPU_Clear(BackScreen);
@@ -89,7 +99,7 @@ void RenderEngine::Render()
         shader->SetFloat("Time", time);
         shader->SetVec2("Resolution", InternalWidth, InternalHeight);
         shader->SetVec2("TexResolution", BackgroundImage->w, BackgroundImage->h);
-        GPU_BlitRect(BackgroundImage, nullptr, BackScreen, nullptr);
+        BlitScreen(BackgroundImage, BackScreen);
     }
 
     // Sprites
@@ -100,7 +110,8 @@ void RenderEngine::Render()
         GPU_ActivateShaderProgram(shader->GetProgram(), &spriteBlock);
         shader->SetFloat("Time", time);
         shader->SetVec2("Resolution", InternalWidth, InternalHeight);
-        GPU_BlitRect(DebugImage, nullptr, BackScreen, new GPU_Rect(InternalWidth/2, InternalHeight/2, 64, 64));
+        GPU_Rect* spriteRect = new GPU_Rect(InternalWidth/2, InternalHeight/2, 64, 64);
+        GPU_BlitRect(DebugImage, nullptr, BackScreen, spriteRect);
     }
 
     // UI
@@ -109,10 +120,11 @@ void RenderEngine::Render()
         const auto shader = UserInterfaceShader->DidCompile() ? UserInterfaceShader : ErrorShader;
         auto uiBlock = shader->GetBlock();
         GPU_ActivateShaderProgram(shader->GetProgram(), &uiBlock);
+        //BlitScreen(, BackScreen);
     }
 
     // Post processing: https://github.com/grimfang4/sdl-gpu/issues/240
-    const bool postProcessingEnabled = false;
+    const bool postProcessingEnabled = true;
     if (PostProcessShader)
     {
         const auto shader = PostProcessShader->DidCompile() ? PostProcessShader : ErrorShader;
@@ -126,6 +138,7 @@ void RenderEngine::Render()
             GPU_ActivateShaderProgram(shader->GetProgram(), &postBlock);
             shader->SetFloat("Time", time);
             shader->SetVec2("Resolution", Width, Height);
+            shader->SetVec2("TexResolution", InternalWidth, InternalHeight);
         }
         GPU_BlitRect(BackScreen->image, nullptr, Screen, ScreenRect);
     }
@@ -142,4 +155,9 @@ void RenderEngine::Quit()
     GPU_FreeShader(UserInterfaceShader->GetProgram());
     GPU_FreeShader(PostProcessShader->GetProgram());
     GPU_FreeImage(DebugImage);
+}
+
+void RenderEngine::BlitScreen(GPU_Image* image, GPU_Target* target)
+{
+    GPU_BlitRect(image, nullptr, target, nullptr);
 }

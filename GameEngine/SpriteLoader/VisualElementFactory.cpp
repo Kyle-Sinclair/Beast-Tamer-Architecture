@@ -1,26 +1,24 @@
 #include "VisualElementFactory.h"
 
-VisualElementFactory::VisualElementFactory(SDL_Renderer* renderer)
+
+VisualElementFactory::VisualElementFactory()
 {
-    textureLoader = new TextureLoader(renderer);
-    this->renderer = renderer;
+    textureLoader = new TextureLoader();
 }
 
-VisualElement* VisualElementFactory::CreateVisualElement(const char* path, int x,int y,int w,int h,int spriteIndex,int columns, int rows)
+VisualElement* VisualElementFactory::CreateVisualElement(const char* path,RectTransform rectTransform,int spriteIndex,int columns, int rows)
 {
-
-    
     bool isNotClipped = (columns == 0 || rows == 0);
     Texture* texture = textureLoader->LoadTexture(path);
     VisualElement* visualElement;
     if(isNotClipped)
     {
-        visualElement = new VisualElement(renderer,texture,w,h,x,y);
+        visualElement = new VisualElement(texture,rectTransform);
     }
     else
     {
-        visualElement = new VisualElement(texture,renderer,spriteIndex,columns,rows,w,h,x,y);
+        visualElement = new VisualElement(texture,spriteIndex,columns,rows,rectTransform);
     }
     VisualElementSet.insert(visualElement);
     return visualElement;
-}
+ }

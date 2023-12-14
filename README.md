@@ -20,10 +20,11 @@ State Machine - Turns and transitions are handled by a state machine. Currently 
 The state machine triggers UI changes in it's entry and exit methods by providing "UI Groups" to the visual element subsystem. In future, things like an overworld would probably be handled using a heirarchical state machine,
 where the battle state is only one distinct state of the state machine.
 
+Factory - All requests for graphics information is passed to a factory that constructs "Visual Element" objects. 
+
 Service Locator - System services are registered with a subsystem collection at either game start up or at point of need by a subsystem helper class. The service locator class is initialized in the main method before all others and uses 
 in built c++ class queries to build a dictionary of any class extending the service class Subsystem.
 
-Command - UI Commands are created as distinct objects that have a self contained execute method. This execute method can interact with needed classes in a way separate from UI methods. They are dynamically bound in start up currently but can be made configurable.
 
 # Why were they chosen?
 
@@ -41,3 +42,4 @@ the Unreal Engine subsystem catalogue is a natural fit for our needs.
 # How were they implemented?
 
 # 2 Screenshots
+![Design Pattern Sample video](https://github.com/FG22-GP/214-design-patterns-assignment-np-team/assets/25796597/3176c3c1-0786-431e-baa8-e30ec8eb88dd)

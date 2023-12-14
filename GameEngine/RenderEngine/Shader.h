@@ -2,6 +2,7 @@
 
 #include <SDL.h>
 #include <SDL_gpu.h>
+#include <unordered_map>
 
 struct FColor;
 
@@ -20,7 +21,7 @@ public:
 
     const GPU_ShaderBlock& GetBlock();
     
-    int GetVariable(const char* id);
+    int GetVariable(const char* id) const;
 
     void SetFloat(const char* id, float value);
     
@@ -34,6 +35,8 @@ private:
     const char* name;
 
     bool success;
+
+    mutable std::pmr::unordered_map<const char*, int> uniformMap;
     
     // Vertex shader, fragment shader and linked program
     Uint32 v, f, p;

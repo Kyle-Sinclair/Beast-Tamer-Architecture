@@ -112,6 +112,7 @@
     <ClCompile Include="RenderEngine\FColor.cpp" />
     <ClCompile Include="RenderEngine\RenderEngine.cpp" />
     <ClCompile Include="RenderEngine\Shader.cpp" />
+    <ClCompile Include="RenderEngine\ImageQuad.cpp" />
     <ClCompile Include="SpriteLoader\RectTransform.cpp" />
     <ClCompile Include="SpriteLoader\TextureLoader.cpp" />
     <ClCompile Include="SpriteLoader\Vector.cpp" />
@@ -140,6 +141,7 @@
     <ClInclude Include="RenderEngine\FColor.h" />
     <ClInclude Include="RenderEngine\RenderEngine.h" />
     <ClInclude Include="RenderEngine\Shader.h" />
+	<ClCompile Include="RenderEngine\ImageQuad.h" />
     <ClInclude Include="SpriteLoader\RectTransform.h" />
     <ClInclude Include="SpriteLoader\TextureLoader.h" />
     <ClInclude Include="SpriteLoader\Vector.h" />

@@ -25,7 +25,10 @@ void enemy_turn_state::DoState()
 
 void enemy_turn_state::Begin()
 {
+   
+    visual_element_sub_system->SetBackground(1);
 
+    
 }
 
 game_state* enemy_turn_state::Finish(game_state* currentState)

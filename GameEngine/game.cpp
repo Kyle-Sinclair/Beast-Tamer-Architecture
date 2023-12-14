@@ -75,8 +75,10 @@ int main(int argc, char* args[])
 			CurrentGameState = NewGameState;
 		}
 		//Late. Might move order
-		gSubsystemCollection->IterateLateUpdate();
 		ProcessInput();
+		RenderEngine::PreRenderCheck();
+
+		gSubsystemCollection->IterateLateUpdate();
 		
 /*MVC
  *
@@ -90,6 +92,7 @@ Model -> pushes to View shit to show
 		msLast = msCurrent;
 
 		// Draw and present
+
 		RenderEngine::Render();
 
 		//todo lazy fps cap fix later plz

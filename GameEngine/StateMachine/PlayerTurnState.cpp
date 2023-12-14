@@ -24,6 +24,7 @@ void player_turn_state::DoState()
 
 void player_turn_state::Begin()
 {
+    visual_element_sub_system->SetBackground(0);
 
 }
 

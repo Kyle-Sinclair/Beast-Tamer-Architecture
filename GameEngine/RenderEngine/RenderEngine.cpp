@@ -6,6 +6,8 @@
 
 #include "Shader.h"
 #include "../Global.h"
+#include "../SubSystems/SubsystemCollection.h"
+#include "../SubSystems/VisualElementSubSystem.h"
 
 bool RenderEngine::Init()
 {
@@ -36,7 +38,7 @@ bool RenderEngine::Init()
     BackgroundShader = new Shader("Background", "Resources/Shaders/Background.vert", "Resources/Shaders/Background.frag");
     SpriteShader = new Shader("Sprite", "Resources/Shaders/Sprite.vert", "Resources/Shaders/Sprite.frag");
     PostProcessShader = new Shader("PostProcessing", "Resources/Shaders/PostProcessing.vert", "Resources/Shaders/PostProcessing.frag");
-
+    gSubsystemCollection->GetSubSystem<VisualElementSubSystem>();
     BackgroundImage = GPU_LoadImage("Resources/PokemonSprites/BackgroundTest.png");
     GPU_SetImageFilter(BackgroundImage, GPU_FILTER_NEAREST);
     if (BackgroundImage)
@@ -55,6 +57,19 @@ bool RenderEngine::Init()
 
     return true;
 }
+
+void RenderEngine::PreRenderCheck()
+{
+    if(gSubsystemCollection->GetSubSystem<VisualElementSubSystem>()->HasBeenDirtied())
+    {
+        //printf(__FUNCTION__);
+        VisualElement* visual_element =  gSubsystemCollection->GetSubSystem<VisualElementSubSystem>()->BackgoundVisualElement;
+        BackgroundImage  = visual_element->GetTexture()->GetImage();
+        sourceRect = visual_element->GetSrcRect();
+        destRect = visual_element->GetRenderRect();
+    }
+}
+
 
 void RenderEngine::Render()
 {
@@ -99,7 +114,8 @@ void RenderEngine::Render()
         shader->SetFloat("Time", time);
         shader->SetVec2("Resolution", InternalWidth, InternalHeight);
         shader->SetVec2("TexResolution", BackgroundImage->w, BackgroundImage->h);
-        BlitScreen(BackgroundImage, BackScreen);
+        GPU_BlitRect(BackgroundImage,sourceRect,BackScreen,destRect);
+        //BlitScreen(BackgroundImage, BackScreen);
     }
 
     // Sprites
@@ -161,3 +177,5 @@ void RenderEngine::BlitScreen(GPU_Image* image, GPU_Target* target)
 {
     GPU_BlitRect(image, nullptr, target, nullptr);
 }
+
+

@@ -1,6 +1,7 @@
 #pragma once
 #include <SDL_render.h>
 #include <set>
+#include <unordered_map>
 
 #include "TextureLoader.h"
 #include "VisualElement.h"

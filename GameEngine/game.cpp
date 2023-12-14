@@ -39,13 +39,14 @@ int pikachuMoveX = 0;
 int pikachuMoveY = 0;
 SDL_Color textColor = { 0xff, 0xff, 0xff };
 
+InputSystem* inputSystem;
 game_state *CurrentGameState;
-VisualElementFactory* visual_element_factory;
 VisualElement* VisualElements[2];
 
 Uint32 msLast;
 
 bool Init();
+bool InitGlobals();
 void ProcessInput();
 void Update(float deltaTime);
 SDL_Texture* LoadText(const char* textToLoad);
@@ -58,24 +59,11 @@ void Close();
 int main(int argc, char* args[])
 {
 	//Flag setting
-	Init();	
-	InitGlobals();
-
-	//Example class use and creation
-
-	//Resource loading
-	const char* textToRender = "text_to_render";
-	SDL_Texture* TextTexture = LoadText(textToRender);
-	SDL_Texture* Example_Sprite = LoadSprite(pikachuImagePath);
-
-	//Debug mouse
-	SDL_Texture* debugMouse_Sprite = LoadSprite(mouseImagePath);
+	Init();
 
 	//Update Loop
 	while (gQuit == false)
 	{
-		SDL_GetTicks(); // can be used, to see, how much time in ms has passed since app start
-
 		//Early
 		gSubsystemCollection->IterateEarlyUpdate();
 		CurrentGameState->Begin();
@@ -87,39 +75,32 @@ int main(int argc, char* args[])
 			CurrentGameState = NewGameState;
 		}
 		//Late. Might move order
-		gSubsystemCollection->IterateLateUpdate();
 		ProcessInput();
+		RenderEngine::PreRenderCheck();
 
-		// Tick
+		gSubsystemCollection->IterateLateUpdate();
+		
+/*MVC
+ *
+View has no idea about hte data it's showing.
+Model -> Business Logic
+Model -> pushes to View shit to show
+
+*/		// Tick
 		const Uint32 msCurrent = SDL_GetTicks();
 		const Uint32 msDelta = msCurrent - msLast;
 		msLast = msCurrent;
-		Update(static_cast<float>(msDelta) * 0.001f);
 
 		// Draw and present
+
 		RenderEngine::Render();
-		//SDL_GL_SwapWindow(gWindow);
-
-		//DOT, tween animations, or whatever
-		//These should belong to 'master' methods, that render all stored renderables on screen. These methods
-		//should probably be located in object classes who are responsible for them
-		//RenderSprite(Example_Sprite, pikachuRect);
-		//VisualElements[1]->Render();
-
-		RenderSprite(debugMouse_Sprite, mouseRect);
-		RenderText(TextTexture);
-		// present screen (switch buffers)
-		//SDL_RenderPresent(gRenderer);
-		//VisualElements[1]->Render();
 
 		//todo lazy fps cap fix later plz
 		SDL_Delay(1000/SCREEN_FPS); // can be used to wait for a certain amount of ms
 	}
 
 	// Destroying textures should be moved into texture management function.
-	SDL_DestroyTexture(Example_Sprite); Example_Sprite = nullptr;
-	SDL_DestroyTexture(debugMouse_Sprite); debugMouse_Sprite = nullptr;
-	SDL_DestroyTexture(TextTexture); TextTexture = nullptr;
+
 	Close();
 	
 	return 0;
@@ -208,17 +189,17 @@ void RenderText(SDL_Rect* targetRectangle, SDL_Texture* textTexture)
 
 void ProcessInput()
 {
-	pikachuMoveX = gSubsystemCollection->gInputSystem->input_data.move_x;
-	pikachuMoveY = gSubsystemCollection->gInputSystem->input_data.move_y;
+	pikachuMoveX = inputSystem->input_data->move_x;
+	pikachuMoveY = inputSystem->input_data->move_y;
 
-	mouseRect.x = gSubsystemCollection->gInputSystem->input_data.mouse_x;
-	mouseRect.y = gSubsystemCollection->gInputSystem->input_data.mouse_y;
+	mouseRect.x = inputSystem->input_data->mouse_x;
+	mouseRect.y = inputSystem->input_data->mouse_y;
 }
 
 void Update(float deltaTime)
 {
-	pikachuRect.x += pikachuMoveX;
-	pikachuRect.y -= pikachuMoveY;
+
+	
 }
 
 void ClearScreen()
@@ -230,20 +211,7 @@ void ClearScreen()
 bool Init()
 {
 
-	CurrentGameState = new game_state();
-	CurrentGameState->set_enemy_state(new enemy_turn_state());
-	CurrentGameState->set_player_state(new player_turn_state());
-	game_state* NewGameState = 	CurrentGameState->Finish(CurrentGameState);
-	if(NewGameState != nullptr)
-	{
-		//printf("updating state");
-		CurrentGameState = NewGameState;
-	}
-	else
-	{
-		printf("null state");
-
-	}
+	InitGlobals();
 
 	int imgFlags = IMG_INIT_PNG;
 	if (!(IMG_Init(imgFlags) & imgFlags))
@@ -267,7 +235,6 @@ bool Init()
 
 	RenderEngine::Init();
 	
-	visual_element_factory = new VisualElementFactory();
 	
 	//VisualElements[0] = visual_element_factory->CreateVisualElement(pikachuImagePath);
 	//VisualElements[1] = visual_element_factory->CreateVisualElement("Resources/PokemonSprites/Minun.png",0,0,1,1,1,3,1);
@@ -279,12 +246,47 @@ bool Init()
 	return true;
 }
 
+bool InitGlobals()
+{
+	gSubsystemCollection = new SubsystemCollection();
+
+	if (!gSubsystemCollection)
+	{
+		printf("No SubsystemCollection");
+		return false;
+	}
+	
+	inputSystem = gSubsystemCollection->GetSubSystem<InputSystem>();
+
+	if (!inputSystem)
+	{
+		printf("No InputSystem");
+		return false;
+	}	
+	CurrentGameState = new game_state();
+	CurrentGameState->set_enemy_state(new enemy_turn_state());
+	CurrentGameState->set_player_state(new player_turn_state());
+	game_state* NewGameState = 	CurrentGameState->Finish(CurrentGameState);
+	if(NewGameState != nullptr)
+	{
+		//printf("updating state");
+		CurrentGameState = NewGameState;
+	}
+	else
+	{
+		printf("null state");
+
+	}
+
+	return true;
+	
+}
+
 void Close()
 {
 	SDL_DestroyRenderer(gRenderer); gRenderer = nullptr;
 	SDL_DestroyWindow(gWindow); gWindow = nullptr;
-
-	gSubsystemCollection->IterateFree();
+	
 	RenderEngine::Quit();
 	GPU_Quit();
 	IMG_Quit();

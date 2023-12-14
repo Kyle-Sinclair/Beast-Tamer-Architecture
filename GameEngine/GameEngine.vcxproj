@@ -120,6 +120,7 @@
     <ClCompile Include="StateMachine\enemy_turn_state.cpp" />
     <ClCompile Include="StateMachine\PlayerTurnState.cpp" />
     <ClCompile Include="StateMachine\game_state.cpp" />
+    <ClCompile Include="SubSystems\EventSystem.cpp" />
     <ClCompile Include="SubSystems\InputSystem.cpp" />
     <ClCompile Include="SubSystems\SubSystem.cpp" />
     <ClCompile Include="SubSystems\SubsystemCollection.cpp" />
@@ -201,6 +202,7 @@
     <ClCompile Include="SubSystems\UISystem\UIGroup.cpp" />
     <ClCompile Include="SubSystems\UISystem\UIInteractable.cpp" />
     <ClCompile Include="SubSystems\UISystem\UISystem.cpp" />
+    <ClCompile Include="SubSystems\VisualElementSubSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CombatHelpers.h" />
@@ -219,6 +221,7 @@
     <ClInclude Include="StateMachine\enemy_turn_state.h" />
     <ClInclude Include="StateMachine\PlayerTurnState.h" />
     <ClInclude Include="StateMachine\game_state.h" />
+    <ClInclude Include="SubSystems\EventSystem.h" />
     <ClInclude Include="SubSystems\InputSystem.h" />
     <ClInclude Include="SubSystems\SubSystem.h" />
     <ClInclude Include="SubSystems\SubsystemCollection.h" />
@@ -228,6 +231,7 @@
     <ClInclude Include="SubSystems\UISystem\UIGroup.h" />
     <ClInclude Include="SubSystems\UISystem\UIInteractable.h" />
     <ClInclude Include="SubSystems\UISystem\UISystem.h" />
+    <ClInclude Include="SubSystems\VisualElementSubSystem.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>

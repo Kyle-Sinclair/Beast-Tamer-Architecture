@@ -3,12 +3,14 @@
 #include <SDL_gpu.h>
 
 #include "Shader.h"
+#include "../SpriteLoader/VisualElement.h"
 
 class RenderEngine
 {
 public:
     static bool Init();
-    
+
+    static void PreRenderCheck();
     static void Render();
 
     static void Quit();
@@ -27,8 +29,14 @@ public:
     
     inline static GPU_Image* BackImage;
     inline static GPU_Image* DebugImage;
+    
     inline static GPU_Image* BackgroundImage;
+    inline static GPU_Rect* sourceRect;
+    inline static GPU_Rect* destRect;
+    
 
 private:
     static void BlitScreen(GPU_Image* image, GPU_Target* target);
+
+    
 };

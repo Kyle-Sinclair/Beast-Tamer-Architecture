@@ -1,6 +1,9 @@
 #pragma once
 #include "game_state.h"
 
+#include "../Global.h"
+#include "../SubSystems/SubsystemCollection.h"
+
 class player_turn_state : public game_state
 {
 public:
@@ -12,8 +15,10 @@ public:
     void ProcessInput() override;
 
     void SetMasterState(game_state* master_game_state) override;
+    bool Enter() override;
 private:
     game_state* master_state;
+   
 
   
 };

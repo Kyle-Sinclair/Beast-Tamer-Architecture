@@ -54,6 +54,7 @@ Texture* TextureLoader::LoadTexture(const char* path)
         return TextureMap[path];
     }
     Texture* newTexture;
+    printf(path);
     auto loadedImage = GPU_LoadImage(path);
     if (loadedImage == nullptr)
     {

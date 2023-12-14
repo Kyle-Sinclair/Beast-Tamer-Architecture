@@ -1,5 +1,5 @@
 #pragma once
-#include "VisualElementFactory.h"
+#include "../SpriteLoader/VisualElementFactory.h"
 #include "../SubSystems/SubSystem.h"
 
 class VisualElementSubSystem: public SubSystem

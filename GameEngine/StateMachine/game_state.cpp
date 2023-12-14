@@ -19,7 +19,7 @@ void game_state::DoState()
 
 game_state* game_state::Finish(game_state* currentState)
 {
-    printf("Doing generic turn");
+    //printf("Doing generic turn");
     return get_player_state();
 }
 

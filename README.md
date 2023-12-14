@@ -41,5 +41,13 @@ the Unreal Engine subsystem catalogue is a natural fit for our needs.
 
 # How were they implemented?
 
+![Subsystem Collection - Header](https://github.com/FG22-GP/214-design-patterns-assignment-np-team/assets/25796597/db18f430-c1c3-4433-b01d-6f96d117854a)
+![STate Machine - Loop](https://github.com/FG22-GP/214-design-patterns-assignment-np-team/assets/25796597/f4b0546a-c098-4b10-9600-4e0c6fe54f67)
+![Game State - Header](https://github.com/FG22-GP/214-design-patterns-assignment-np-team/assets/25796597/9ce88595-8ab2-491f-ba0f-1ac759de143a)
+
+![Factory - Header File](https://github.com/FG22-GP/214-design-patterns-assignment-np-team/assets/25796597/0aaa6eb3-eb26-499e-a159-ed97bc736841)
+![MVC - Dirty check](https://github.com/FG22-GP/214-design-patterns-assignment-np-team/assets/25796597/0a30cdc1-a2ce-4671-825d-22edafaec5c0)
+
+
 # 2 Screenshots
 ![Design Pattern Sample video](https://github.com/FG22-GP/214-design-patterns-assignment-np-team/assets/25796597/3176c3c1-0786-431e-baa8-e30ec8eb88dd)

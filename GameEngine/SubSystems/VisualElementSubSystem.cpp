@@ -5,7 +5,7 @@
 VisualElementSubSystem::VisualElementSubSystem()
 {
     factory = new VisualElementFactory();
-    isDirty = false;
+    isDirty =false;
 }
 
 VisualElementSubSystem::~VisualElementSubSystem()

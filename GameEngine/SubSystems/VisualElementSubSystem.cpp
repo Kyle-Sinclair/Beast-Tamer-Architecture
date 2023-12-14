@@ -24,6 +24,13 @@ void VisualElementSubSystem::SetBackground(int spriteIndex)
     isDirty = true;
 }
 
+VisualElement* VisualElementSubSystem::CreateVisualElement(const char* path, RectTransform rectTransform, int spriteIndex, int columns, int rows)
+{
+    VisualElement* visualElement = factory->CreateVisualElement(path,rectTransform,spriteIndex,columns,rows);
+    CurrentNonBackgroundVisualElements.push_back(visualElement);
+    return visualElement;
+}
+
 void VisualElementSubSystem::EarlyUpdate()
 {
     SubSystem::EarlyUpdate();

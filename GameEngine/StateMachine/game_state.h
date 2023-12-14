@@ -27,8 +27,10 @@ public:
     bool PrepareToExit = false;
 
 private:
+
+    VisualElement* PlayerPokemon;
+    VisualElement* EnemyPokemon;
     
-  
      player_turn_state* player_game_state;
      enemy_turn_state* enemy_game_state;
     

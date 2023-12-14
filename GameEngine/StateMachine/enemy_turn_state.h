@@ -12,6 +12,7 @@ public:
     game_state* Finish(class game_state* currentState) override;
     void ProcessInput() override;
     void SetMasterState(game_state* master_game_state) override;
+    bool Enter() override;
 
 private:
 

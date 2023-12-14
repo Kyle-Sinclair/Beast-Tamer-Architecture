@@ -40,6 +40,7 @@ TextureLoader::~TextureLoader()
 {
     for (auto element: TextureMap)
     {
+        GPU_FreeImage(element.second->GetImage());
         delete element.second;
         delete element.first;
     }

@@ -30,13 +30,14 @@ public:
     inline static GPU_Image* BackImage;
     inline static GPU_Image* DebugImage;
     
-    inline static GPU_Image* BackgroundImage;
-    inline static GPU_Rect* sourceRect;
-    inline static GPU_Rect* destRect;
+   // inline static GPU_Image* BackgroundImage;
+    inline static ImageQuad BackgroundQuad;
+    //inline static GPU_Rect* sourceRect;
+    //inline static GPU_Rect* destRect;
     
 
 private:
     static void BlitScreen(GPU_Image* image, GPU_Target* target);
-
-    
+    static void RenderSprites();
+    inline static std::list<ImageQuad> ElementsToRender;
 };

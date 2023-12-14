@@ -4,6 +4,8 @@
 
 #include "RectTransform.h"
 #include "TextureLoader.h"
+#include "../RenderEngine/ImageQuad.h"
+
 enum DrawMode
 {
     Simple,
@@ -19,9 +21,9 @@ struct DrawModeData
 
 class VisualElement
 {
+    RectTransform rectTransform;
     GPU_Rect rect;
     GPU_Rect clippedRect;
-    RectTransform rectTransform;
     
     bool isClipped;
     int spriteIndex;
@@ -47,7 +49,11 @@ public:
 
     GPU_Rect* GetRenderRect();
     GPU_Rect* GetSrcRect();
+
+    ImageQuad GetImageQuad();
     Texture* GetTexture();
     DrawMode drawMode = Simple;
-    DrawModeData drawModeData; 
+    DrawModeData drawModeData;
+
+    RectTransform* GetTransform();
 };

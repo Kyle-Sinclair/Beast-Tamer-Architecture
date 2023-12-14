@@ -39,12 +39,12 @@ bool RenderEngine::Init()
     SpriteShader = new Shader("Sprite", "Resources/Shaders/Sprite.vert", "Resources/Shaders/Sprite.frag");
     PostProcessShader = new Shader("PostProcessing", "Resources/Shaders/PostProcessing.vert", "Resources/Shaders/PostProcessing.frag");
     gSubsystemCollection->GetSubSystem<VisualElementSubSystem>();
-    BackgroundImage = GPU_LoadImage("Resources/PokemonSprites/BackgroundTest.png");
+   /* BackgroundImage = GPU_LoadImage("Resources/PokemonSprites/BackgroundTest.png");
     GPU_SetImageFilter(BackgroundImage, GPU_FILTER_NEAREST);
     if (BackgroundImage)
     {
         GPU_GenerateMipmaps(BackgroundImage);
-    }
+    }*/
     
     DebugImage = GPU_LoadImage("Resources/PokemonSprites/Debug.png");
     if (DebugImage)
@@ -62,11 +62,23 @@ void RenderEngine::PreRenderCheck()
 {
     if(gSubsystemCollection->GetSubSystem<VisualElementSubSystem>()->HasBeenDirtied())
     {
+        VisualElementSubSystem* subsystem = gSubsystemCollection->GetSubSystem<VisualElementSubSystem>();
         //printf(__FUNCTION__);
-        VisualElement* visual_element =  gSubsystemCollection->GetSubSystem<VisualElementSubSystem>()->BackgoundVisualElement;
-        BackgroundImage  = visual_element->GetTexture()->GetImage();
+        
+        VisualElement* visual_element =  subsystem->BackgoundVisualElement;
+        BackgroundQuad = visual_element->GetImageQuad();
+        /*BackgroundImage  = visual_element->GetTexture()->GetImage();
         sourceRect = visual_element->GetSrcRect();
-        destRect = visual_element->GetRenderRect();
+        destRect = visual_element->GetRenderRect();*/
+
+        //Get Quads for other elements
+        ElementsToRender.clear();
+        
+        for(auto element : subsystem->CurrentNonBackgroundVisualElements)
+        {
+            ElementsToRender.push_back(element->GetImageQuad());
+        }
+        printf("%d \n", ElementsToRender.size());
     }
 }
 
@@ -113,8 +125,8 @@ void RenderEngine::Render()
         //GPU_ActivateShaderProgram(0, nullptr);
         shader->SetFloat("Time", time);
         shader->SetVec2("Resolution", InternalWidth, InternalHeight);
-        shader->SetVec2("TexResolution", BackgroundImage->w, BackgroundImage->h);
-        GPU_BlitRect(BackgroundImage,sourceRect,BackScreen,destRect);
+        shader->SetVec2("TexResolution", BackgroundQuad.Image->w, BackgroundQuad.Image->h);
+        GPU_BlitRect(BackgroundQuad.Image,BackgroundQuad.SrcRect,BackScreen,BackgroundQuad.DstRect);
         //BlitScreen(BackgroundImage, BackScreen);
     }
 
@@ -127,7 +139,8 @@ void RenderEngine::Render()
         shader->SetFloat("Time", time);
         shader->SetVec2("Resolution", InternalWidth, InternalHeight);
         GPU_Rect* spriteRect = new GPU_Rect(InternalWidth/2, InternalHeight/2, 64, 64);
-        GPU_BlitRect(DebugImage, nullptr, BackScreen, spriteRect);
+        RenderSprites();
+       // GPU_BlitRect(DebugImage, nullptr, BackScreen, spriteRect);
     }
 
     // UI
@@ -176,6 +189,14 @@ void RenderEngine::Quit()
 void RenderEngine::BlitScreen(GPU_Image* image, GPU_Target* target)
 {
     GPU_BlitRect(image, nullptr, target, nullptr);
+}
+
+void RenderEngine::RenderSprites()
+{
+    for (auto quad : ElementsToRender)
+    {
+        GPU_BlitRect(quad.Image,quad.SrcRect,BackScreen,quad.DstRect);
+    }
 }
 
 

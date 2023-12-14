@@ -207,7 +207,7 @@ void ClearScreen()
 bool Init()
 {
 
-	InitGlobals();
+	
 
 	int imgFlags = IMG_INIT_PNG;
 	if (!(IMG_Init(imgFlags) & imgFlags))
@@ -229,8 +229,8 @@ bool Init()
 		return -1;
 	}
 
-	RenderEngine::Init();
-	
+	//RenderEngine::Init();
+	InitGlobals();
 	
 	//VisualElements[0] = visual_element_factory->CreateVisualElement(pikachuImagePath);
 	//VisualElements[1] = visual_element_factory->CreateVisualElement("Resources/PokemonSprites/Minun.png",0,0,1,1,1,3,1);
@@ -258,10 +258,12 @@ bool InitGlobals()
 	{
 		printf("No InputSystem");
 		return false;
-	}	
+	}
+	RenderEngine::Init();
 	CurrentGameState = new game_state();
 	CurrentGameState->set_enemy_state(new enemy_turn_state());
 	CurrentGameState->set_player_state(new player_turn_state());
+	CurrentGameState->Begin();
 	game_state* NewGameState = 	CurrentGameState->Finish(CurrentGameState);
 	if(NewGameState != nullptr)
 	{

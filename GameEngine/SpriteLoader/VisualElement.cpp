@@ -38,7 +38,6 @@ Vector VisualElement::GetOriginRenderPoint()
     Vector originDisplacement = GetOriginDisplacement();
     const int width = (isClipped)? clippedRect.w: rect.w;
     const int height = (isClipped)? clippedRect.h: rect.h;
-
     
     originDisplacement.x *= static_cast<float>(width) * rectTransform.Size.x;
     originDisplacement.y *= static_cast<float>(height) * rectTransform.Size.y;
@@ -133,7 +132,23 @@ GPU_Rect* VisualElement::GetSrcRect()
     return (isClipped)? &clippedRect:nullptr;
 }
 
+ImageQuad VisualElement::GetImageQuad()
+{
+    ImageQuad imageQuad
+    {
+        texture->GetImage(),
+        GetSrcRect(),
+        GetRenderRect()
+    };
+    return imageQuad;
+}
+
 Texture* VisualElement::GetTexture()
 {
     return texture;
+}
+
+RectTransform* VisualElement::GetTransform()
+{
+    return &rectTransform;
 }

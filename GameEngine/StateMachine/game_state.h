@@ -1,6 +1,8 @@
 #pragma once
 
 
+#include "../SubSystems/InputSystem.h"
+
 class game_state
 {
 public:
@@ -17,6 +19,10 @@ public:
     bool set_player_state(player_turn_state* player_game_state);
     bool set_enemy_state(enemy_turn_state* enemy_game_state);
     virtual void SetMasterState(game_state* master_game_state);
+    virtual bool Enter();
+
+    InputSystem* input_system;
+    bool PrepareToExit = false;
 
 private:
     

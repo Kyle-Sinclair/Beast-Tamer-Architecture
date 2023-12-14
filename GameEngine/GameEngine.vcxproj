@@ -124,6 +124,11 @@
     <ClCompile Include="SubSystems\InputSystem.cpp" />
     <ClCompile Include="SubSystems\SubSystem.cpp" />
     <ClCompile Include="SubSystems\SubsystemCollection.cpp" />
+    <ClCompile Include="SubSystems\UISystem\UICommand.cpp" />
+    <ClCompile Include="SubSystems\UISystem\UICommands\UIChangeMenuCommand.cpp" />
+    <ClCompile Include="SubSystems\UISystem\UIGroup.cpp" />
+    <ClCompile Include="SubSystems\UISystem\UIInteractable.cpp" />
+    <ClCompile Include="SubSystems\UISystem\UISystem.cpp" />
     <ClCompile Include="SubSystems\VisualElementSubSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -148,6 +153,11 @@
     <ClInclude Include="SubSystems\SubSystem.h" />
     <ClInclude Include="SubSystems\SubsystemCollection.h" />
     <ClInclude Include="SubSystems\SubsystemHelpers.h" />
+    <ClInclude Include="SubSystems\UISystem\UICommand.h" />
+    <ClInclude Include="SubSystems\UISystem\UICommands\UIChangeMenuCommand.h" />
+    <ClInclude Include="SubSystems\UISystem\UIGroup.h" />
+    <ClInclude Include="SubSystems\UISystem\UIInteractable.h" />
+    <ClInclude Include="SubSystems\UISystem\UISystem.h" />
     <ClInclude Include="SubSystems\VisualElementSubSystem.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>

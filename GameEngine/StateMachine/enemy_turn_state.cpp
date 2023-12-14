@@ -8,7 +8,6 @@
 enemy_turn_state::enemy_turn_state()
 {
     printf("new enemy turn state");
-    input_system = gSubsystemCollection->GetSubSystem<InputSystem>();
 
 }
 

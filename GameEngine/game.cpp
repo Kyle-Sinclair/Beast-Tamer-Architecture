@@ -41,7 +41,6 @@ SDL_Color textColor = { 0xff, 0xff, 0xff };
 
 InputSystem* inputSystem;
 game_state *CurrentGameState;
-VisualElementFactory* visual_element_factory;
 VisualElement* VisualElements[2];
 
 Uint32 msLast;
@@ -60,8 +59,8 @@ void Close();
 int main(int argc, char* args[])
 {
 	//Flag setting
-	Init();	
-	InitGlobals();
+	Init();
+
 	//Update Loop
 	while (gQuit == false)
 	{
@@ -209,20 +208,7 @@ void ClearScreen()
 bool Init()
 {
 
-	CurrentGameState = new game_state();
-	CurrentGameState->set_enemy_state(new enemy_turn_state());
-	CurrentGameState->set_player_state(new player_turn_state());
-	game_state* NewGameState = 	CurrentGameState->Finish(CurrentGameState);
-	if(NewGameState != nullptr)
-	{
-		//printf("updating state");
-		CurrentGameState = NewGameState;
-	}
-	else
-	{
-		printf("null state");
-
-	}
+	InitGlobals();
 
 	int imgFlags = IMG_INIT_PNG;
 	if (!(IMG_Init(imgFlags) & imgFlags))
@@ -246,7 +232,6 @@ bool Init()
 
 	RenderEngine::Init();
 	
-	visual_element_factory = new VisualElementFactory();
 	
 	//VisualElements[0] = visual_element_factory->CreateVisualElement(pikachuImagePath);
 	//VisualElements[1] = visual_element_factory->CreateVisualElement("Resources/PokemonSprites/Minun.png",0,0,1,1,1,3,1);
@@ -275,8 +260,23 @@ bool InitGlobals()
 		printf("No InputSystem");
 		return false;
 	}	
+	CurrentGameState = new game_state();
+	CurrentGameState->set_enemy_state(new enemy_turn_state());
+	CurrentGameState->set_player_state(new player_turn_state());
+	game_state* NewGameState = 	CurrentGameState->Finish(CurrentGameState);
+	if(NewGameState != nullptr)
+	{
+		//printf("updating state");
+		CurrentGameState = NewGameState;
+	}
+	else
+	{
+		printf("null state");
+
+	}
 
 	return true;
+	
 }
 
 void Close()

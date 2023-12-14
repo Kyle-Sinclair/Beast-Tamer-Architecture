@@ -2,6 +2,7 @@
 
 
 #include "../SubSystems/InputSystem.h"
+#include "../SubSystems/VisualElementSubSystem.h"
 
 class game_state
 {
@@ -22,6 +23,7 @@ public:
     virtual bool Enter();
 
     InputSystem* input_system;
+    VisualElementSubSystem* visual_element_sub_system;
     bool PrepareToExit = false;
 
 private:

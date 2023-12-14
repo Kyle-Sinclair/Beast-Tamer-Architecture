@@ -189,11 +189,7 @@ void RenderText(SDL_Rect* targetRectangle, SDL_Texture* textTexture)
 
 void ProcessInput()
 {
-	pikachuMoveX = inputSystem->input_data->move_x;
-	pikachuMoveY = inputSystem->input_data->move_y;
-
-	mouseRect.x = inputSystem->input_data->mouse_x;
-	mouseRect.y = inputSystem->input_data->mouse_y;
+	
 }
 
 void Update(float deltaTime)

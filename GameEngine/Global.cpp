@@ -1,5 +1,6 @@
 ﻿#include "Global.h"
 
+
 SubsystemCollection* gSubsystemCollection;
 
 SDL_Window* gWindow{};

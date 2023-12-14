@@ -2,10 +2,7 @@
 
 #include "SubSystem.h"
 
-SubsystemCollection::SubsystemCollection()
-{
-    subsystems = std::map<int, SubSystem*>();
-}
+SubsystemCollection::SubsystemCollection() = default;
 
 SubsystemCollection::~SubsystemCollection() = default;
 
@@ -23,4 +20,16 @@ void SubsystemCollection::IterateLateUpdate()
     {
         (it->second)->LateUpdate();
     }
+}
+
+void SubsystemCollection::IterateFree()
+{
+    for (auto it=subsystems.begin(); it!=subsystems.end(); ++it)
+    {
+        const auto system = (it->second);
+        system->Free();
+        delete system;
+    }
+
+    subsystems.clear();
 }

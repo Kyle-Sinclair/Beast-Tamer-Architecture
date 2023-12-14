@@ -19,5 +19,5 @@ public:
 
     void EarlyUpdate() override;
 
-    Input_Data* input_data;
+    Input_Data input_data{};
 };

@@ -41,7 +41,6 @@ SDL_Color textColor = { 0xff, 0xff, 0xff };
 
 InputSystem* inputSystem;
 game_state *CurrentGameState;
-VisualElementFactory* visual_element_factory;
 VisualElement* VisualElements[2];
 
 Uint32 msLast;
@@ -61,7 +60,6 @@ int main(int argc, char* args[])
 {
 	//Flag setting
 	Init();
-	InitGlobals();
 
 	//Update Loop
 	while (gQuit == false)
@@ -210,7 +208,8 @@ void ClearScreen()
 bool Init()
 {
 
-	
+	InitGlobals();
+
 	int imgFlags = IMG_INIT_PNG;
 	if (!(IMG_Init(imgFlags) & imgFlags))
 	{
@@ -233,7 +232,6 @@ bool Init()
 
 	RenderEngine::Init();
 	
-	visual_element_factory = new VisualElementFactory();
 	
 	//VisualElements[0] = visual_element_factory->CreateVisualElement(pikachuImagePath);
 	//VisualElements[1] = visual_element_factory->CreateVisualElement("Resources/PokemonSprites/Minun.png",0,0,1,1,1,3,1);

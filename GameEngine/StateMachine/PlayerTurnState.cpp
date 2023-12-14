@@ -7,7 +7,6 @@
 player_turn_state::player_turn_state()
 {
     printf("new player turn state");
-    input_system = gSubsystemCollection->GetSubSystem<InputSystem>();
 
 }
 

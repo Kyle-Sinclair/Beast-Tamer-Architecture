@@ -7,6 +7,9 @@
 
 game_state::game_state()
 {
+    input_system = gSubsystemCollection->GetSubSystem<InputSystem>();
+    visual_element_sub_system = gSubsystemCollection->GetSubSystem<VisualElementSubSystem>();
+
 }
 
 void game_state::Begin()

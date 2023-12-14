@@ -29,7 +29,7 @@ void game_state::Begin()
      EnemyPokemon = subSystem->CreateVisualElement("Resources/PokemonSprites/Palmortis.png",enemySpriteRect,1,3,1);
      EnemyPokemon->GetTransform()->originAnchorPoint = Center;
      EnemyPokemon->GetTransform()->Position.y = INTERNAL_SCREEN_HEIGHT/4;
-    EnemyPokemon->GetTransform()->Position.x = (INTERNAL_SCREEN_WIDTH/2) + 52;
+     EnemyPokemon->GetTransform()->Position.x = (INTERNAL_SCREEN_WIDTH/2) + 52;
 }
 
 void game_state::DoState()

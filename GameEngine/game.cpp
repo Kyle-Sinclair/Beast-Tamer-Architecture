@@ -60,8 +60,9 @@ void Close();
 int main(int argc, char* args[])
 {
 	//Flag setting
-	Init();	
+	Init();
 	InitGlobals();
+
 	//Update Loop
 	while (gQuit == false)
 	{
@@ -209,21 +210,7 @@ void ClearScreen()
 bool Init()
 {
 
-	CurrentGameState = new game_state();
-	CurrentGameState->set_enemy_state(new enemy_turn_state());
-	CurrentGameState->set_player_state(new player_turn_state());
-	game_state* NewGameState = 	CurrentGameState->Finish(CurrentGameState);
-	if(NewGameState != nullptr)
-	{
-		//printf("updating state");
-		CurrentGameState = NewGameState;
-	}
-	else
-	{
-		printf("null state");
-
-	}
-
+	
 	int imgFlags = IMG_INIT_PNG;
 	if (!(IMG_Init(imgFlags) & imgFlags))
 	{
@@ -275,8 +262,23 @@ bool InitGlobals()
 		printf("No InputSystem");
 		return false;
 	}	
+	CurrentGameState = new game_state();
+	CurrentGameState->set_enemy_state(new enemy_turn_state());
+	CurrentGameState->set_player_state(new player_turn_state());
+	game_state* NewGameState = 	CurrentGameState->Finish(CurrentGameState);
+	if(NewGameState != nullptr)
+	{
+		//printf("updating state");
+		CurrentGameState = NewGameState;
+	}
+	else
+	{
+		printf("null state");
+
+	}
 
 	return true;
+	
 }
 
 void Close()

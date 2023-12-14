@@ -109,6 +109,9 @@
     <ClCompile Include="MoveData.cpp" />
     <ClCompile Include="RawPokemonData.cpp" />
     <ClCompile Include="Global.cpp" />
+    <ClCompile Include="RenderEngine\FColor.cpp" />
+    <ClCompile Include="RenderEngine\RenderEngine.cpp" />
+    <ClCompile Include="RenderEngine\Shader.cpp" />
     <ClCompile Include="SpriteLoader\RectTransform.cpp" />
     <ClCompile Include="SpriteLoader\TextureLoader.cpp" />
     <ClCompile Include="SpriteLoader\Vector.cpp" />
@@ -121,6 +124,80 @@
     <ClCompile Include="SubSystems\InputSystem.cpp" />
     <ClCompile Include="SubSystems\SubSystem.cpp" />
     <ClCompile Include="SubSystems\SubsystemCollection.cpp" />
+    <ClCompile Include="SubSystems\VisualElementSubSystem.cpp">
+      <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <Optimization>Disabled</Optimization>
+      <SupportJustMyCode>true</SupportJustMyCode>
+      <AssemblerOutput>NoListing</AssemblerOutput>
+      <AssemblerListingLocation>x64\Debug\</AssemblerListingLocation>
+      <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
+      <BrowseInformation>false</BrowseInformation>
+      <BrowseInformationFile>x64\Debug\</BrowseInformationFile>
+      <CompileAs>Default</CompileAs>
+      <ConformanceMode>true</ConformanceMode>
+      <DiagnosticsFormat>Column</DiagnosticsFormat>
+      <DisableLanguageExtensions>false</DisableLanguageExtensions>
+      <ErrorReporting>Prompt</ErrorReporting>
+      <ExpandAttributedSource>false</ExpandAttributedSource>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <EnableASAN>false</EnableASAN>
+      <EnableFuzzer>false</EnableFuzzer>
+      <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Precise</FloatingPointModel>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <GenerateModuleDependencies>false</GenerateModuleDependencies>
+      <GenerateSourceDependencies>false</GenerateSourceDependencies>
+      <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>Default</LanguageStandard_C>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ModuleDependenciesFile>x64\Debug\</ModuleDependenciesFile>
+      <ModuleOutputFile>x64\Debug\</ModuleOutputFile>
+      <OmitDefaultLibName>false</OmitDefaultLibName>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <ObjectFileName>x64\Debug\</ObjectFileName>
+      <CallingConvention>Cdecl</CallingConvention>
+      <ProgramDataBaseFileName>x64\Debug\vc143.pdb</ProgramDataBaseFileName>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>x64\Debug\Game.pch</PrecompiledHeaderOutputFile>
+      <PreprocessToFile>false</PreprocessToFile>
+      <PreprocessKeepComments>false</PreprocessKeepComments>
+      <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
+      <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+      <ShowIncludes>false</ShowIncludes>
+      <SourceDependenciesFile>x64\Debug\</SourceDependenciesFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <SmallerTypeCheck>false</SmallerTypeCheck>
+      <SpectreMitigation>false</SpectreMitigation>
+      <StructMemberAlignment>Default</StructMemberAlignment>
+      <TrackerLogDirectory>x64\Debug\Game.tlog\</TrackerLogDirectory>
+      <TranslateIncludes>false</TranslateIncludes>
+      <MinimalRebuildFromTracking>true</MinimalRebuildFromTracking>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <UseFullPaths>true</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <XMLDocumentationFileName>x64\Debug\</XMLDocumentationFileName>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <IntelJCCErratum>false</IntelJCCErratum>
+      <TreatAngleIncludeAsExternal>false</TreatAngleIncludeAsExternal>
+      <ExternalWarningLevel>InheritWarningLevel</ExternalWarningLevel>
+      <TreatExternalTemplatesAsInternal>true</TreatExternalTemplatesAsInternal>
+      <DisableAnalyzeExternal>false</DisableAnalyzeExternal>
+      <BuildStlModules>true</BuildStlModules>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;_UNICODE;UNICODE;</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <LinkCompiled>true</LinkCompiled>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CombatHelpers.h" />
@@ -128,6 +205,9 @@
     <ClInclude Include="Global.h" />
     <ClInclude Include="MoveData.h" />
     <ClInclude Include="RawPokemonData.h" />
+    <ClInclude Include="RenderEngine\FColor.h" />
+    <ClInclude Include="RenderEngine\RenderEngine.h" />
+    <ClInclude Include="RenderEngine\Shader.h" />
     <ClInclude Include="SpriteLoader\RectTransform.h" />
     <ClInclude Include="SpriteLoader\TextureLoader.h" />
     <ClInclude Include="SpriteLoader\Vector.h" />
@@ -141,6 +221,7 @@
     <ClInclude Include="SubSystems\SubSystem.h" />
     <ClInclude Include="SubSystems\SubsystemCollection.h" />
     <ClInclude Include="SubSystems\SubsystemHelpers.h" />
+    <ClInclude Include="SubSystems\VisualElementSubSystem.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
@@ -154,6 +235,39 @@
     </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\Shaders\Background.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Shaders\Background.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Shaders\error.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Shaders\error.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Shaders\postProcessing.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Shaders\PostProcessing.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Shaders\sprite.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Shaders\sprite.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Shaders\Sprite9Slice.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Shaders\Sprite9Slice.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\UISprites\MenuBack.png" />
+    <CopyFileToFolders Include="..\ext\glew-2.1.0\bin\Release\x64\glew32.dll" />
+    <CopyFileToFolders Include="..\ext\SDL2_gpu-0.12.0-msvc\SDL2_gpu\release\x64\SDL2_gpu.dll" />
     <Content Include="Resources\PokemonSprites\Maps.png" />
     <Content Include="Resources\PokemonSprites\Minun.png" />
     <Content Include="Resources\PokemonSprites\Palmortis.png" />
@@ -249,12 +363,12 @@
     <LibraryPath>$(SolutionDir)ext\SDL2-2.26.4\lib\x86\;$(SolutionDir)ext\SDL2_image-2.6.3\lib\x86;$(SolutionDir)ext\SDL2_ttf-2.20.2\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)ext\SDL2-2.26.4\include;$(SolutionDir)ext\SDL2_image-2.6.3\include;$(SolutionDir)\ext\SDL2_ttf-2.20.2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)ext\SDL2-2.26.4\lib\x64\;$(SolutionDir)ext\SDL2_image-2.6.3\lib\x64;$(SolutionDir)ext\SDL2_ttf-2.20.2\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)ext\SDL2-2.26.4\include;$(SolutionDir)ext\SDL2_image-2.6.3\include;$(SolutionDir)\ext\SDL2_ttf-2.20.2\include;$(SolutionDir)ext\glew-2.1.0\include;$(SolutionDir)ext\SDL2_gpu-0.12.0-msvc\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)ext\SDL2-2.26.4\lib\x64\;$(SolutionDir)ext\SDL2_image-2.6.3\lib\x64;$(SolutionDir)ext\SDL2_ttf-2.20.2\lib\x64;$(SolutionDir)ext\glew-2.1.0\lib\Release\x64\;$(SolutionDir)ext\SDL2_gpu-0.12.0-msvc\SDL2_gpu\release\x64\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)ext\SDL2-2.26.4\include;$(SolutionDir)ext\SDL2_image-2.6.3\include;$(SolutionDir)\ext\SDL2_ttf-2.20.2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)ext\SDL2-2.26.4\lib\x64\;$(SolutionDir)ext\SDL2_image-2.6.3\lib\x64;$(SolutionDir)ext\SDL2_ttf-2.20.2\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)ext\SDL2-2.26.4\include;$(SolutionDir)ext\SDL2_image-2.6.3\include;$(SolutionDir)\ext\SDL2_ttf-2.20.2\include;$(SolutionDir)ext\glew-2.1.0\include;$(SolutionDir)ext\SDL2_gpu-0.12.0-msvc\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)ext\SDL2-2.26.4\lib\x64\;$(SolutionDir)ext\SDL2_image-2.6.3\lib\x64;$(SolutionDir)ext\SDL2_ttf-2.20.2\lib\x64;$(SolutionDir)ext\glew-2.1.0\lib\Release\x64\;$(SolutionDir)ext\SDL2_gpu-0.12.0-msvc\SDL2_gpu\release\x64\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -307,7 +421,7 @@ copy /Y "$(SolutionDir)ext\SDL2_image-2.6.3\lib\x86\SDL2_image.dll" "$(TargetDir
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;opengl32.lib;glu32.lib;glew32.lib;SDL2_gpu.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy /Y "$(SolutionDir)ext\SDL2_image-2.6.3\lib\x64\SDL2_image.dll" "$(TargetDir)SDL2_image.dll"</Command>
@@ -328,7 +442,7 @@ copy /Y "$(SolutionDir)ext\SDL2_image-2.6.3\lib\x86\SDL2_image.dll" "$(TargetDir
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;opengl32.lib;glu32.lib;glew32.lib;SDL2_gpu.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy /Y "$(SolutionDir)ext\SDL2_image-2.6.3\lib\x64\SDL2_image.dll" "$(TargetDir)SDL2_image.dll"</Command>

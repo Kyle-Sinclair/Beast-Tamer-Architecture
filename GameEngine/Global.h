@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include <SDL_video.h>
 //Contains global data about the game, some could be moved later but should be here for testing
 
 //initial window res
@@ -17,5 +18,7 @@ extern class SubsystemCollection* gSubsystemCollection;
 extern struct SDL_Window* gWindow;
 
 extern struct SDL_Renderer* gRenderer;
+inline SDL_GLContext gContext;
 
 extern bool gQuit;
+extern bool gWindowDirty;

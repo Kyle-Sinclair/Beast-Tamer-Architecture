@@ -27,13 +27,17 @@ void InputSystem::EarlyUpdate()
     // loop through all pending events from Windows (OS)
     while (SDL_PollEvent(&e))
     {
-        int sdl_keycode = e.key.keysym.sym;
+        const int sdl_keycode = e.key.keysym.sym;
         switch (e.type)
         {
-        case SDL_QUIT:
-            {
+        case SDL_QUIT: {
                 gQuit = true;
             } break;
+        case SDL_WINDOWEVENT: {
+               if(e.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
+                   gWindowDirty = true;
+            } break;
+        
         case SDL_KEYDOWN: {
                 if (sdl_keycode == SDLK_LEFT) {
                     input_data->move_x = -1;
@@ -48,13 +52,8 @@ void InputSystem::EarlyUpdate()
                 else if(sdl_keycode == SDLK_DOWN) {
                     input_data->move_y = -1;
                 }
-                else if(sdl_keycode == SDLK_t)
-                {
-                    input_data->action = true;
-                }
 				
-        } break;
-     
+            } break;
         case SDL_KEYUP: {
                 if ((sdl_keycode == SDLK_LEFT && input_data->move_x < 0) || (sdl_keycode == SDLK_RIGHT && input_data->move_x > 0)) {
                     input_data->move_x = 0;
@@ -64,14 +63,13 @@ void InputSystem::EarlyUpdate()
                     input_data->move_y = 0;
                 }
 							
-        } break;
+            } break;
         case SDL_MOUSEMOTION: {
                 input_data->mouse_x = e.motion.x;
                 input_data->mouse_y = e.motion.y;
-        } break;
-        case SDL_MOUSEBUTTONDOWN:
-            {
-               //input_data->action = e.button.button & SDL_BUTTON_LMASK;
+            } break;
+        case SDL_MOUSEBUTTONDOWN: {
+                input_data->action = e.button.button & SDL_BUTTON_LMASK;
             } break;
         }
     }

@@ -11,9 +11,9 @@
 #include "SpriteLoader/VisualElementFactory.h"
 #include "StateMachine/PlayerTurnState.h"
 #include "StateMachine/game_state.h"
-#include "SubSystems/EventSystem.h"
 #include "SubSystems/InputSystem.h"
 #include "SubSystems/SubsystemCollection.h"
+#include "RenderEngine/RenderEngine.h"
 
 const char* pikachuImagePath{ "img/pikachu.png" };
 const char* mouseImagePath{ "img/mouse_icon.png" };
@@ -40,7 +40,6 @@ int pikachuMoveY = 0;
 SDL_Color textColor = { 0xff, 0xff, 0xff };
 
 InputSystem* inputSystem;
-EventSystem* eventSystem;
 game_state *CurrentGameState;
 VisualElementFactory* visual_element_factory;
 VisualElement* VisualElements[2];
@@ -58,73 +57,48 @@ void RenderText(SDL_Texture* textToRender);
 void ClearScreen();
 void Close();
 
-bool IsPlayerTurn;
-
 int main(int argc, char* args[])
 {
 	//Flag setting
-
 	Init();	
-
-	//Example class use and creation
-
-	//Resource loading
-	const char* textToRender = "text_to_render";
-	SDL_Texture* TextTexture = LoadText(textToRender);
-	SDL_Texture* Example_Sprite = LoadSprite(pikachuImagePath);
-
-	//Debug mouse
-	SDL_Texture* debugMouse_Sprite = LoadSprite(mouseImagePath);
-
+	InitGlobals();
 	//Update Loop
 	while (gQuit == false)
 	{
-		SDL_GetTicks(); // can be used, to see, how much time in ms has passed since app start
-
 		//Early
 		gSubsystemCollection->IterateEarlyUpdate();
-		
-		//CurrentGameState->Begin();
+		CurrentGameState->Begin();
 		CurrentGameState->ProcessInput();
 		CurrentGameState->DoState();
 		game_state* NewGameState = CurrentGameState->Finish(CurrentGameState);
 		if(NewGameState != nullptr)
 		{
 			CurrentGameState = NewGameState;
-			IsPlayerTurn = CurrentGameState->Enter();
 		}
-		
 		//Late. Might move order
 		gSubsystemCollection->IterateLateUpdate();
-		//ProcessInput();
+		ProcessInput();
+		
+/*MVC
+ *
+View has no idea about hte data it's showing.
+Model -> Business Logic
+Model -> pushes to View shit to show
 
-		// Tick
+*/		// Tick
 		const Uint32 msCurrent = SDL_GetTicks();
 		const Uint32 msDelta = msCurrent - msLast;
 		msLast = msCurrent;
-		Update(static_cast<float>(msDelta) * 0.001f);
 
-		//DOT, tween animations, or whatever
-		ClearScreen();
-		//These should belong to 'master' methods, that render all stored renderables on screen. These methods
-		//should probably be located in object classes who are responsible for them
-		//RenderSprite(Example_Sprite, pikachuRect);
-		VisualElements[1]->Render();
-
-		RenderSprite(debugMouse_Sprite, mouseRect);
-		RenderText(TextTexture);
-		// present screen (switch buffers)
-		SDL_RenderPresent(gRenderer);
-		VisualElements[1]->Render();
+		// Draw and present
+		RenderEngine::Render();
 
 		//todo lazy fps cap fix later plz
 		SDL_Delay(1000/SCREEN_FPS); // can be used to wait for a certain amount of ms
 	}
 
 	// Destroying textures should be moved into texture management function.
-	SDL_DestroyTexture(Example_Sprite); Example_Sprite = nullptr;
-	SDL_DestroyTexture(debugMouse_Sprite); debugMouse_Sprite = nullptr;
-	SDL_DestroyTexture(TextTexture); TextTexture = nullptr;
+
 	Close();
 	
 	return 0;
@@ -222,28 +196,18 @@ void ProcessInput()
 
 void Update(float deltaTime)
 {
-	pikachuRect.x += pikachuMoveX;
-	pikachuRect.y -= pikachuMoveY;
+
+	
 }
 
 void ClearScreen()
 {
-	if(IsPlayerTurn)
-	{
-		SDL_SetRenderDrawColor(gRenderer, 255, 20, 20, 255);
-
-	}
-	else
-	{
-		SDL_SetRenderDrawColor(gRenderer, 20, 0, 255, 255);
-
-	}
+	SDL_SetRenderDrawColor(gRenderer, 120, 60, 255, 255);
 	SDL_RenderClear(gRenderer);
 }
 
 bool Init()
 {
-	InitGlobals();
 
 	CurrentGameState = new game_state();
 	CurrentGameState->set_enemy_state(new enemy_turn_state());
@@ -251,7 +215,7 @@ bool Init()
 	game_state* NewGameState = 	CurrentGameState->Finish(CurrentGameState);
 	if(NewGameState != nullptr)
 	{
-		printf("updating state");
+		//printf("updating state");
 		CurrentGameState = NewGameState;
 	}
 	else
@@ -280,16 +244,12 @@ bool Init()
 		return -1;
 	}
 
-	// Create Window and Renderer
-	SDL_CreateWindowAndRenderer(SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_MAXIMIZED, &gWindow, &gRenderer);
-	if (!gWindow)
-	{
-		printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
-		return -1;
-	}
-	visual_element_factory = new VisualElementFactory(gRenderer);
-	VisualElements[0] = visual_element_factory->CreateVisualElement(pikachuImagePath);
-	VisualElements[1] = visual_element_factory->CreateVisualElement("Resources/PokemonSprites/Minun.png",0,0,1,1,1,3,1);
+	RenderEngine::Init();
+	
+	visual_element_factory = new VisualElementFactory();
+	
+	//VisualElements[0] = visual_element_factory->CreateVisualElement(pikachuImagePath);
+	//VisualElements[1] = visual_element_factory->CreateVisualElement("Resources/PokemonSprites/Minun.png",0,0,1,1,1,3,1);
 
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");  // no smoothing pixel art.
 	SDL_RenderSetLogicalSize(gRenderer, INTERNAL_SCREEN_WIDTH, INTERNAL_SCREEN_HEIGHT);
@@ -309,17 +269,12 @@ bool InitGlobals()
 	}
 	
 	inputSystem = gSubsystemCollection->GetSubSystem<InputSystem>();
+
 	if (!inputSystem)
 	{
 		printf("No InputSystem");
 		return false;
-	}
-	eventSystem = gSubsystemCollection->GetSubSystem<EventSystem>();
-	if (!eventSystem)
-	{
-		printf("No EventSystem");
-		return false;
-	}
+	}	
 
 	return true;
 }
@@ -329,6 +284,8 @@ void Close()
 	SDL_DestroyRenderer(gRenderer); gRenderer = nullptr;
 	SDL_DestroyWindow(gWindow); gWindow = nullptr;
 	
+	RenderEngine::Quit();
+	GPU_Quit();
 	IMG_Quit();
 	SDL_Quit();
 }

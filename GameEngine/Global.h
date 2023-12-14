@@ -24,4 +24,3 @@ inline SDL_GLContext gContext;
 extern bool gQuit;
 extern bool gWindowDirty;
 
-bool InitGlobals();

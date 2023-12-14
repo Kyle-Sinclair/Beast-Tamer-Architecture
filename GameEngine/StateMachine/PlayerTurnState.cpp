@@ -15,7 +15,7 @@ void player_turn_state::DoState()
 
 
     
-    if(input_system->input_data->action)
+    if(input_system->input_data.action)
     {
         printf("Action was true");
         PrepareToExit = true;

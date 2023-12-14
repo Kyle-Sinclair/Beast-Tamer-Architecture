@@ -62,22 +62,9 @@ int main(int argc, char* args[])
 	//Flag setting
 	Init();	
 	InitGlobals();
-
-	//Example class use and creation
-
-	//Resource loading
-	const char* textToRender = "text_to_render";
-	SDL_Texture* TextTexture = LoadText(textToRender);
-	SDL_Texture* Example_Sprite = LoadSprite(pikachuImagePath);
-
-	//Debug mouse
-	SDL_Texture* debugMouse_Sprite = LoadSprite(mouseImagePath);
-
 	//Update Loop
 	while (gQuit == false)
 	{
-		SDL_GetTicks(); // can be used, to see, how much time in ms has passed since app start
-
 		//Early
 		gSubsystemCollection->IterateEarlyUpdate();
 		CurrentGameState->Begin();
@@ -91,37 +78,27 @@ int main(int argc, char* args[])
 		//Late. Might move order
 		gSubsystemCollection->IterateLateUpdate();
 		ProcessInput();
+		
+/*MVC
+ *
+View has no idea about hte data it's showing.
+Model -> Business Logic
+Model -> pushes to View shit to show
 
-		// Tick
+*/		// Tick
 		const Uint32 msCurrent = SDL_GetTicks();
 		const Uint32 msDelta = msCurrent - msLast;
 		msLast = msCurrent;
-		Update(static_cast<float>(msDelta) * 0.001f);
 
 		// Draw and present
 		RenderEngine::Render();
-		//SDL_GL_SwapWindow(gWindow);
-
-		//DOT, tween animations, or whatever
-		//These should belong to 'master' methods, that render all stored renderables on screen. These methods
-		//should probably be located in object classes who are responsible for them
-		//RenderSprite(Example_Sprite, pikachuRect);
-		//VisualElements[1]->Render();
-
-		RenderSprite(debugMouse_Sprite, mouseRect);
-		RenderText(TextTexture);
-		// present screen (switch buffers)
-		//SDL_RenderPresent(gRenderer);
-		//VisualElements[1]->Render();
 
 		//todo lazy fps cap fix later plz
 		SDL_Delay(1000/SCREEN_FPS); // can be used to wait for a certain amount of ms
 	}
 
 	// Destroying textures should be moved into texture management function.
-	SDL_DestroyTexture(Example_Sprite); Example_Sprite = nullptr;
-	SDL_DestroyTexture(debugMouse_Sprite); debugMouse_Sprite = nullptr;
-	SDL_DestroyTexture(TextTexture); TextTexture = nullptr;
+
 	Close();
 	
 	return 0;
@@ -219,8 +196,8 @@ void ProcessInput()
 
 void Update(float deltaTime)
 {
-	pikachuRect.x += pikachuMoveX;
-	pikachuRect.y -= pikachuMoveY;
+
+	
 }
 
 void ClearScreen()

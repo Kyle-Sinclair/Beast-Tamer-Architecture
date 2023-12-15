@@ -66,8 +66,8 @@ int main(int argc, char* args[])
 	{
 		//Early
 		gSubsystemCollection->IterateEarlyUpdate();
+		
 		CurrentGameState->Begin();
-		CurrentGameState->ProcessInput();
 		CurrentGameState->DoState();
 		game_state* NewGameState = CurrentGameState->Finish(CurrentGameState);
 		if(NewGameState != nullptr)

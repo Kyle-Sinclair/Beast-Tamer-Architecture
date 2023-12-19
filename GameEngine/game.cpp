@@ -15,37 +15,14 @@
 #include "SubSystems/SubsystemCollection.h"
 #include "RenderEngine/RenderEngine.h"
 
-
-
-//DEBUG MOUSE
-SDL_Rect mouseRect {0, 0, 8, 8};
-
-//These parameters describe the SDL_Rect properties for the pikachu image.
-//They should be moved into a struct as part of a visual element bundle
-//Currently they are being set in the load image method
-SDL_Rect pikachuRect {0, 0, 16, 16};
-
-SDL_Surface* textSurface;
-
-int pikachuMoveX = 0;
-int pikachuMoveY = 0;
-SDL_Color textColor = { 0xff, 0xff, 0xff };
-
 InputSystem* inputSystem;
 GameState *CurrentGameState;
 VisualElement* VisualElements[2];
-
 Uint32 msLast;
 
 bool Init();
 bool InitGlobals();
-void ProcessInput();
 void Update(float deltaTime);
-SDL_Texture* LoadText(const char* textToLoad);
-SDL_Texture* LoadSprite(const char* imagePath);
-void RenderSprite(SDL_Texture* sprite, SDL_Rect targetRectangle);
-void RenderText(SDL_Texture* textToRender);
-void ClearScreen();
 void Close();
 
 int main(int argc, char* args[])
@@ -67,18 +44,9 @@ int main(int argc, char* args[])
 			CurrentGameState = NewGameState;
 		}
 		//Late. Might move order
-		ProcessInput();
 		RenderEngine::PreRenderCheck();
-
 		SUBSYSTEM_COLLECTION->IterateLateUpdate();
-		
-/*MVC
- *
-View has no idea about hte data it's showing.
-Model -> Business Logic
-Model -> pushes to View shit to show
-
-*/		// Tick
+	// Tick
 		const Uint32 msCurrent = SDL_GetTicks();
 		const Uint32 msDelta = msCurrent - msLast;
 		msLast = msCurrent;
@@ -128,12 +96,9 @@ bool Init()
 
 	//RenderEngine::Init();
 	InitGlobals();
-	
-	//VisualElements[0] = visual_element_factory->CreateVisualElement(pikachuImagePath);
-	//VisualElements[1] = visual_element_factory->CreateVisualElement("Resources/PokemonSprites/Minun.png",0,0,1,1,1,3,1);
 
-	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");  // no smoothing pixel art.
-	SDL_RenderSetLogicalSize(RENDERER, INTERNAL_SCREEN_WIDTH, INTERNAL_SCREEN_HEIGHT);
+	//SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");  // no smoothing pixel art.
+	//SDL_RenderSetLogicalSize(RENDERER, INTERNAL_SCREEN_WIDTH, INTERNAL_SCREEN_HEIGHT);
 	
 	printf("Initialising called\n");
 	return true;
@@ -172,15 +137,14 @@ bool InitGlobals()
 		printf("null state");
 
 	}
-
 	return true;
 	
 }
 
 void Close()
 {
-	SDL_DestroyRenderer(RENDERER); RENDERER = nullptr;
-	SDL_DestroyWindow(WINDOW); WINDOW = nullptr;
+	//SDL_DestroyRenderer(RENDERER); RENDERER = nullptr;
+	//SDL_DestroyWindow(WINDOW); WINDOW = nullptr;
 	
 	RenderEngine::Quit();
 	GPU_Quit();

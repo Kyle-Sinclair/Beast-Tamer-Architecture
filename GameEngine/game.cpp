@@ -8,7 +8,6 @@
 
 #include "StateMachine/EnemyTurnState.h"
 #include "Global.h"
-#include "SpriteLoader/VisualElementFactory.h"
 #include "StateMachine/PlayerTurnState.h"
 #include "StateMachine/GameState.h"
 #include "SubSystems/InputSystem.h"
@@ -38,10 +37,10 @@ int main(int argc, char* args[])
 		
 		mCurrentGameState->Begin();
 		mCurrentGameState->DoState();
-		GameState* NewGameState = mCurrentGameState->Finish(mCurrentGameState);
-		if(NewGameState != nullptr)
+		GameState* new_game_state = mCurrentGameState->Finish(mCurrentGameState);
+		if(new_game_state != nullptr)
 		{
-			mCurrentGameState = NewGameState;
+			mCurrentGameState = new_game_state;
 		}
 		//Late. Might move order
 		RenderEngine::PreRenderCheck();
@@ -65,16 +64,16 @@ int main(int argc, char* args[])
 
 void Update(float deltaTime)
 {
-/*TODO:Perhaps we can compress the updating while loop into it's own method as well. Could be used to pass global parameters/objects in for reverse
-  dependency injection for example
+/*TODO:Perhaps we can compress the updating while loop into it's own method as well. Could be used to pass global parameters/objects in for reverse dependency injection for example
 */
 }
 
 bool Init()
 {
-	
-	int imgFlags = IMG_INIT_PNG;
-	if (!(IMG_Init(imgFlags) & imgFlags))
+	/*TODO: These came with the base project from Mark. They'd probably be more appropriate moved to global and written as global consts.
+	*/
+	int img_flags = IMG_INIT_PNG;
+	if (!(IMG_Init(img_flags) & img_flags))
 	{
 		printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
 	}
@@ -118,11 +117,11 @@ bool InitGlobals()
 	mCurrentGameState->SetEnemyState(new EnemyTurnState());
 	mCurrentGameState->SetPlayerState(new PlayerTurnState());
 	mCurrentGameState->Begin();
-	GameState* NewGameState = 	mCurrentGameState->Finish(mCurrentGameState);
-	if(NewGameState != nullptr)
+	GameState* new_game_state = mCurrentGameState->Finish(mCurrentGameState);
+	if(new_game_state != nullptr)
 	{
 		//printf("updating state");
-		mCurrentGameState = NewGameState;
+		mCurrentGameState = new_game_state;
 	}
 	else
 	{

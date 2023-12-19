@@ -3,7 +3,7 @@
 
 struct ImageQuad
 {
-    GPU_Image* Image;
-    GPU_Rect* SrcRect;
-    GPU_Rect* DstRect;
+    GPU_Image* image;
+    GPU_Rect* srcRect;
+    GPU_Rect* dstRect;
 };

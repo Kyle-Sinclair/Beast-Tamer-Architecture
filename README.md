@@ -40,10 +40,14 @@ Service Locator - We wanted a good separation of concerns for domain specific lo
 the Unreal Engine subsystem catalogue is a natural fit for our needs.  
 
 # How were they implemented?
-
+The subssystem is drawn at base from the Unreal Engine method of using a subsystem collection which has a templated GetOrInsert method that uses the hash
+of the class as a key entry. This is ultimately a halfway merger of the service locator and dependency injection, allowing relatively loose coupling between important systems in our codebase. 
 ![Subsystem Collection - Header](https://github.com/FG22-GP/214-design-patterns-assignment-np-team/assets/25796597/db18f430-c1c3-4433-b01d-6f96d117854a)
+
+The state machine uses the standard "if pointer is returned, state is ready to be changed" method described on game design patterns. All possible states are instantiated at run time and referenced from a single "Master State". Changes to the game's state will shift the game instance's pointer to one of these created states, as determined by the state's Finish method. All code for state management is encapsulated in the state's themselves. 
 ![STate Machine - Loop](https://github.com/FG22-GP/214-design-patterns-assignment-np-team/assets/25796597/f4b0546a-c098-4b10-9600-4e0c6fe54f67)
 ![Game State - Header](https://github.com/FG22-GP/214-design-patterns-assignment-np-team/assets/25796597/9ce88595-8ab2-491f-ba0f-1ac759de143a)
+
 
 ![Factory - Header File](https://github.com/FG22-GP/214-design-patterns-assignment-np-team/assets/25796597/0aaa6eb3-eb26-499e-a159-ed97bc736841)
 ![MVC - Dirty check](https://github.com/FG22-GP/214-design-patterns-assignment-np-team/assets/25796597/0a30cdc1-a2ce-4671-825d-22edafaec5c0)

@@ -46,7 +46,7 @@ TextureLoader::~TextureLoader()
     }
     mTextureMap.clear();
 }
-
+//TODO: Most of our path sharing currently use const char pointers. Given what we want to do with data driven stuff, moving to a more flexible string class is probably better
 Texture* TextureLoader::LoadTexture(const char* path)
 {
 

@@ -26,6 +26,7 @@ class TextureLoader
     public:
     TextureLoader();
     ~TextureLoader();
+    //TODO: Most of our path sharing currently use const char pointers. Given what we want to do with data driven stuff, moving to a more flexible string class is probably better
     Texture* LoadTexture(const char* path); 
     //SDL_Surface* LoadSurface(const char* path);
     //Texture* LoadTexture(const char* path);

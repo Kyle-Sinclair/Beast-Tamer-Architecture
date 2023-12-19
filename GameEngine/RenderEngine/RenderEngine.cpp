@@ -67,18 +67,12 @@ void RenderEngine::PreRenderCheck()
         
         VisualElement* visual_element =  subsystem->BackgoundVisualElement;
         BackgroundQuad = visual_element->GetImageQuad();
-        /*BackgroundImage  = visual_element->GetTexture()->GetImage();
-        sourceRect = visual_element->GetSrcRect();
-        destRect = visual_element->GetRenderRect();*/
-
-        //Get Quads for other elements
         ElementsToRender.clear();
         
         for(auto element : subsystem->CurrentNonBackgroundVisualElements)
         {
             ElementsToRender.push_back(element->GetImageQuad());
         }
-        //printf("%d \n", ElementsToRender.size());
     }
 }
 

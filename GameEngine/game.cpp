@@ -62,10 +62,10 @@ int main(int argc, char* args[])
 	Init();
 
 	//Update Loop
-	while (gQuit == false)
+	while (SHOULD_QUIT == false)
 	{
 		//Early
-		gSubsystemCollection->IterateEarlyUpdate();
+		SUBSYSTEM_COLLECTION->IterateEarlyUpdate();
 		
 		CurrentGameState->Begin();
 		CurrentGameState->DoState();
@@ -78,7 +78,7 @@ int main(int argc, char* args[])
 		ProcessInput();
 		RenderEngine::PreRenderCheck();
 
-		gSubsystemCollection->IterateLateUpdate();
+		SUBSYSTEM_COLLECTION->IterateLateUpdate();
 		
 /*MVC
  *
@@ -117,7 +117,7 @@ SDL_Texture* LoadSprite(const char* imagePath)
 	else
 	{
 		//Convert surface to screen format
-		SDL_Texture* sprite_to_load = SDL_CreateTextureFromSurface(gRenderer, loadedSurface);
+		SDL_Texture* sprite_to_load = SDL_CreateTextureFromSurface(RENDERER, loadedSurface);
 		if (sprite_to_load == NULL)
 		{
 			printf("Unable to create texture from %s! SDL Error: %s\n", pikachuImagePath, SDL_GetError());
@@ -148,7 +148,7 @@ SDL_Texture* LoadText(const char* text_to_render)
 	else
 	{
 		// Create texture GPU-stored texture from surface pixels
-		SDL_Texture* textTexture = SDL_CreateTextureFromSurface(gRenderer, textSurface);
+		SDL_Texture* textTexture = SDL_CreateTextureFromSurface(RENDERER, textSurface);
 		if (textTexture == NULL)
 		{
 			printf("Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError());
@@ -168,7 +168,7 @@ SDL_Texture* LoadText(const char* text_to_render)
 
 void RenderSprite(SDL_Texture* spriteToRender, SDL_Rect targetRectangle)
 {
-	SDL_RenderCopy(gRenderer, spriteToRender, NULL, &targetRectangle);
+	SDL_RenderCopy(RENDERER, spriteToRender, NULL, &targetRectangle);
 }
 
 void RenderText(SDL_Texture* textTexture)
@@ -179,12 +179,12 @@ void RenderText(SDL_Texture* textTexture)
 		textWidth,
 		textHeight
 	};
-	SDL_RenderCopy(gRenderer, textTexture, NULL, &targetRectangle);
+	SDL_RenderCopy(RENDERER, textTexture, NULL, &targetRectangle);
 }
 
 void RenderText(SDL_Rect* targetRectangle, SDL_Texture* textTexture)
 {
-	SDL_RenderCopy(gRenderer, textTexture, NULL, targetRectangle);
+	SDL_RenderCopy(RENDERER, textTexture, NULL, targetRectangle);
 }
 
 void ProcessInput()
@@ -200,8 +200,8 @@ void Update(float deltaTime)
 
 void ClearScreen()
 {
-	SDL_SetRenderDrawColor(gRenderer, 120, 60, 255, 255);
-	SDL_RenderClear(gRenderer);
+	SDL_SetRenderDrawColor(RENDERER, 120, 60, 255, 255);
+	SDL_RenderClear(RENDERER);
 }
 
 bool Init()
@@ -236,7 +236,7 @@ bool Init()
 	//VisualElements[1] = visual_element_factory->CreateVisualElement("Resources/PokemonSprites/Minun.png",0,0,1,1,1,3,1);
 
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");  // no smoothing pixel art.
-	SDL_RenderSetLogicalSize(gRenderer, INTERNAL_SCREEN_WIDTH, INTERNAL_SCREEN_HEIGHT);
+	SDL_RenderSetLogicalSize(RENDERER, INTERNAL_SCREEN_WIDTH, INTERNAL_SCREEN_HEIGHT);
 	
 	printf("Initialising called\n");
 	return true;
@@ -244,15 +244,15 @@ bool Init()
 
 bool InitGlobals()
 {
-	gSubsystemCollection = new SubsystemCollection();
+	SUBSYSTEM_COLLECTION = new SubsystemCollection();
 
-	if (!gSubsystemCollection)
+	if (!SUBSYSTEM_COLLECTION)
 	{
 		printf("No SubsystemCollection");
 		return false;
 	}
 	
-	inputSystem = gSubsystemCollection->GetSubSystem<InputSystem>();
+	inputSystem = SUBSYSTEM_COLLECTION->GetSubSystem<InputSystem>();
 
 	if (!inputSystem)
 	{
@@ -282,8 +282,8 @@ bool InitGlobals()
 
 void Close()
 {
-	SDL_DestroyRenderer(gRenderer); gRenderer = nullptr;
-	SDL_DestroyWindow(gWindow); gWindow = nullptr;
+	SDL_DestroyRenderer(RENDERER); RENDERER = nullptr;
+	SDL_DestroyWindow(WINDOW); WINDOW = nullptr;
 	
 	RenderEngine::Quit();
 	GPU_Quit();

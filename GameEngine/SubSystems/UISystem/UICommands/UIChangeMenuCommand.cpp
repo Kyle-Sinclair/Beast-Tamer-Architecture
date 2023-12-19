@@ -10,7 +10,7 @@ UIChangeMenuCommand::~UIChangeMenuCommand()
 
 void UIChangeMenuCommand::Execute(char* argument)
 {
-    UISystem* uiSystem = gSubsystemCollection->GetSubSystem<UISystem>();
+    UISystem* uiSystem = SUBSYSTEM_COLLECTION->GetSubSystem<UISystem>();
 
     uiSystem->SwitchMenu(argument);
 }

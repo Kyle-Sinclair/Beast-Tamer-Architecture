@@ -7,14 +7,14 @@
 
 GameState::GameState()
 {
-    inputSystem = gSubsystemCollection->GetSubSystem<InputSystem>();
-    visualElementSubSystem = gSubsystemCollection->GetSubSystem<VisualElementSubSystem>();
+    inputSystem = SUBSYSTEM_COLLECTION->GetSubSystem<InputSystem>();
+    visualElementSubSystem = SUBSYSTEM_COLLECTION->GetSubSystem<VisualElementSubSystem>();
 
 }
 
 void GameState::Begin()
 {
-    VisualElementSubSystem* sub_system = gSubsystemCollection->GetSubSystem<VisualElementSubSystem>();
+    VisualElementSubSystem* sub_system = SUBSYSTEM_COLLECTION->GetSubSystem<VisualElementSubSystem>();
     //Move this later,
 
     RectTransform player_sprite_rect{};

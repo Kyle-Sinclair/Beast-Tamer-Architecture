@@ -20,12 +20,12 @@ int Texture::GetHeight()
     return image->h;
 }
 
-float Texture::GetWidth_f()
+float Texture::GetWidthF()
 {
     return static_cast<float>(GetWidth());
 }
 
-float Texture::GetHeight_f()
+float Texture::GetHeightF()
 {
     return static_cast<float>(GetHeight());
 }
@@ -38,21 +38,21 @@ TextureLoader::TextureLoader()
 
 TextureLoader::~TextureLoader()
 {
-    for (auto element: TextureMap)
+    for (auto element: mTextureMap)
     {
         GPU_FreeImage(element.second->GetImage());
         delete element.second;
         delete element.first;
     }
-    TextureMap.clear();
+    mTextureMap.clear();
 }
 
 Texture* TextureLoader::LoadTexture(const char* path)
 {
 
-    if(TextureMap.contains(path))
+    if(mTextureMap.contains(path))
     {
-        return TextureMap[path];
+        return mTextureMap[path];
     }
     Texture* newTexture;
     printf(path);
@@ -64,7 +64,7 @@ Texture* TextureLoader::LoadTexture(const char* path)
     }
 
     newTexture = new Texture(loadedImage);
-    TextureMap.insert({path,newTexture});
+    mTextureMap.insert({path,newTexture});
     return newTexture;
 }
 /*

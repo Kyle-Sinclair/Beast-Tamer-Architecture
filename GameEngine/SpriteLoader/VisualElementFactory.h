@@ -14,5 +14,5 @@ class VisualElementFactory
     VisualElement* CreateVisualElement(const char* path,
         RectTransform rectTransform = RectTransform(),
         int spriteIndex = 0,int columns = 0, int rows = 0);
-    std::set<VisualElement*> VisualElementSet;
+    std::set<VisualElement*> visualElementSet;
 };

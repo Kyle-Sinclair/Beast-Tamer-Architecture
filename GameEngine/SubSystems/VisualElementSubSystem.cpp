@@ -16,8 +16,8 @@ VisualElementSubSystem::~VisualElementSubSystem()
 void VisualElementSubSystem::SetBackground(int spriteIndex)
 {
     RectTransform rect_transform;
-    rect_transform.Position.x = INTERNAL_SCREEN_WIDTH/2;
-    rect_transform.originAnchorPoint = Top;
+    rect_transform.position.x = INTERNAL_SCREEN_WIDTH/2;
+    rect_transform.originAnchorPoint = top;
     BackgoundVisualElement = factory->CreateVisualElement("Resources/PokemonSprites/Maps.png",rect_transform,spriteIndex,3,3);
 
     //Make factory create visual element set the dirty bool, it's better

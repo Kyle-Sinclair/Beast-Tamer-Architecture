@@ -8,14 +8,14 @@ VisualElement::VisualElement(Texture* texture,RectTransform rectTransform)
 
     this->mTexture = texture;
     mIsClipped = false;
-    mRect = {rectTransform.Position.x,rectTransform.Position.y,texture->GetWidth_f(),texture->GetHeight_f()};
+    mRect = {rectTransform.position.x,rectTransform.position.y,texture->GetWidthF(),texture->GetHeightF()};
     this->mRectTransform = rectTransform;
 }
 
 VisualElement::VisualElement(Texture* texture,int spriteIndex,int columns, int rows,RectTransform rectTransform)
 {
     this->mTexture = texture;
-    mRect = {rectTransform.Position.x,rectTransform.Position.y,0,0};
+    mRect = {rectTransform.position.x,rectTransform.position.y,0,0};
     
     mIsClipped = true;
     mSpriteSheetLength = (columns * rows);
@@ -39,9 +39,9 @@ Vector VisualElement::GetOriginRenderPoint()
     const int width = (mIsClipped)? mClippedRect.w: mRect.w;
     const int height = (mIsClipped)? mClippedRect.h: mRect.h;
     
-    originDisplacement.x *= static_cast<float>(width) * mRectTransform.Size.x;
-    originDisplacement.y *= static_cast<float>(height) * mRectTransform.Size.y;
-    const Vector renderPoint = mRectTransform.Position + originDisplacement;
+    originDisplacement.x *= static_cast<float>(width) * mRectTransform.size.x;
+    originDisplacement.y *= static_cast<float>(height) * mRectTransform.size.y;
+    const Vector renderPoint = mRectTransform.position + originDisplacement;
     return renderPoint;
 }
 
@@ -62,15 +62,15 @@ Vector VisualElement::GetOriginDisplacement()
 {
     switch (mRectTransform.originAnchorPoint)
     {
-        case Center: return {-0.5,-0.5};
-        case TopLeft: return {0,0};
-        case TopRight: return{-1,0};
-        case BottomLeft: return{0,-1};
-        case BottomRight: return{-1,-1};
-        case Top: return{-0.5,0};
-        case Bottom: return{-0.5,-1};
-        case Left: return{0,-0.5};
-        case Right: return{-1,-0.5};
+        case center: return {-0.5,-0.5};
+        case top_left: return {0,0};
+        case top_right: return{-1,0};
+        case bottom_left: return{0,-1};
+        case bottom_right: return{-1,-1};
+        case top: return{-0.5,0};
+        case bottom: return{-0.5,-1};
+        case left: return{0,-0.5};
+        case right: return{-1,-0.5};
         default: return {0,0};
     }
 }
@@ -121,8 +121,8 @@ GPU_Rect* VisualElement::GetRenderRect()
     {
         originRenderPoint.x,
         originRenderPoint.y,
-        mRectTransform.Size.x * mRect.w,
-        mRectTransform.Size.y * mRect.h
+        mRectTransform.size.x * mRect.w,
+        mRectTransform.size.y * mRect.h
     };
     return transformedRect;
 }

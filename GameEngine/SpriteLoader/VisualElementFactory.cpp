@@ -19,6 +19,6 @@ VisualElement* VisualElementFactory::CreateVisualElement(const char* path,RectTr
     {
         visualElement = new VisualElement(texture,spriteIndex,columns,rows,rectTransform);
     }
-    VisualElementSet.insert(visualElement);
+    visualElementSet.insert(visualElement);
     return visualElement;
  }

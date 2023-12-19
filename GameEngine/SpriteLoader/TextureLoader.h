@@ -14,14 +14,14 @@ public:
     GPU_Image* GetImage();
     int GetWidth();
     int GetHeight();
-    float GetWidth_f();
-    float GetHeight_f();
+    float GetWidthF();
+    float GetHeightF();
 };
 
 class TextureLoader
 {
     private:
-    std::map<const char*, Texture*> TextureMap;
+    std::map<const char*, Texture*> mTextureMap;
     
     public:
     TextureLoader();

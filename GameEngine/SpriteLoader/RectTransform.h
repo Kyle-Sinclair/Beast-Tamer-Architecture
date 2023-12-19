@@ -3,22 +3,22 @@
 
 enum AnchorPoint
 {
-    Center,
-    TopLeft,
-    TopRight,
-    BottomLeft,
-    BottomRight,
-    Top,
-    Bottom,
-    Left,
-    Right
+    center,
+    top_left,
+    top_right,
+    bottom_left,
+    bottom_right,
+    top,
+    bottom,
+    left,
+    right
 };
 struct RectTransform
 {
     RectTransform();
-    Vector Position;
+    Vector position;
     //Vector EulerRotation;
-    Vector Size;
+    Vector size;
     AnchorPoint originAnchorPoint;
     RectTransform* parent;
 };

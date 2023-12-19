@@ -4,70 +4,70 @@
 
 #include "FColor.h"
 
-Shader::Shader(const char* id, const char* vert, const char* frag) : name(id), success(true)
+Shader::Shader(const char* id, const char* vert, const char* frag) : mName(id), mSuccess(true)
 {
-    v = GPU_LoadShader(GPU_VERTEX_SHADER, vert);
-    if (!v)
+    mV = GPU_LoadShader(GPU_VERTEX_SHADER, vert);
+    if (!mV)
     {
-        success = false;
+        mSuccess = false;
         printf("\033[0;31mSDL_GPU: Failed to load vertex shader (%s):\n%s\033[0m\n", vert, GPU_GetShaderMessage());
     }
 
-    f = GPU_LoadShader(GPU_FRAGMENT_SHADER, frag);
-    if (!f)
+    mF = GPU_LoadShader(GPU_FRAGMENT_SHADER, frag);
+    if (!mF)
     {
-        success = false;
+        mSuccess = false;
         printf("\033[0;31mSDL_GPU: Failed to load fragment shader (%s):\n%s\033[0m\n", frag, GPU_GetShaderMessage());
     }
 
-    p = GPU_LinkShaders(v, f);
-    if (!p)
+    mP = GPU_LinkShaders(mV, mF);
+    if (!mP)
     {
-        success = false;
+        mSuccess = false;
         printf("\033[0;31mSDL_GPU: Failed to link shader programs (%s):\n%s\033[0m\n", id, GPU_GetShaderMessage());
     }
 
-    block = GPU_LoadShaderBlock(p, "gpu_Vertex", "gpu_TexCoord", nullptr, "gpu_ModelViewProjectionMatrix");
-    GPU_ActivateShaderProgram(p, &block);
+    mBlock = GPU_LoadShaderBlock(mP, "gpu_Vertex", "gpu_TexCoord", nullptr, "gpu_ModelViewProjectionMatrix");
+    GPU_ActivateShaderProgram(mP, &mBlock);
 }
 
 void Shader::Unload()
 {
-    GPU_FreeShaderProgram(p);
+    GPU_FreeShaderProgram(mP);
 }
 
 const char* Shader::GetName()
 {
-    return name;
+    return mName;
 }
 
 Uint32 Shader::GetProgram()
 {
-    return p;
+    return mP;
 }
 
 bool Shader::DidCompile()
 {
-    return success;
+    return mSuccess;
 }
 
 const GPU_ShaderBlock& Shader::GetBlock()
 {
-    return block;
+    return mBlock;
 }
 
 int Shader::GetVariable(const char* id) const
 {
-    if (uniformMap.contains(id))
+    if (mUniformMap.contains(id))
     {
-        return uniformMap[id];
+        return mUniformMap[id];
     }
     
     // Location returns -1 if it is not part of the final shader, so it can be optimized out.
-    const int location = GPU_GetUniformLocation(p, id);
+    const int location = GPU_GetUniformLocation(mP, id);
     if (location >= 0)
     {
-        uniformMap[id] = location;
+        mUniformMap[id] = location;
     }
     return location;
 }

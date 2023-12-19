@@ -32,14 +32,14 @@ public:
     void SetVec2(const char* id, float x, float y);
     
 private:
-    const char* name;
+    const char* mName;
 
-    bool success;
+    bool mSuccess;
 
-    mutable std::pmr::unordered_map<const char*, int> uniformMap;
+    mutable std::pmr::unordered_map<const char*, int> mUniformMap;
     
     // Vertex shader, fragment shader and linked program
-    Uint32 v, f, p;
+    Uint32 mV, mF, mP;
 
-    GPU_ShaderBlock block;
+    GPU_ShaderBlock mBlock;
 };

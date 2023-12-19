@@ -6,6 +6,4 @@ public:
     void ExamplePublicVoidMethod();
 
     int ExamplePublicIntMethod();
-
-
 };

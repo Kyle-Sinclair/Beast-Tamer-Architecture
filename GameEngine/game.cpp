@@ -19,7 +19,7 @@ GameState *mCurrentGameState;
 VisualElement* mVisualElements[2];
 Uint32 mMsLast;
 
-bool Init();
+int Init();
 bool InitGlobals();
 void Update(float deltaTime);
 void Close();
@@ -28,6 +28,7 @@ int main(int argc, char* args[])
 {
 	//Flag setting
 	Init();
+
 
 	//Update Loop
 	while (SHOULD_QUIT == false)
@@ -68,7 +69,7 @@ void Update(float deltaTime)
 */
 }
 
-bool Init()
+int Init()
 {
 	/*TODO: These came with the base project from Mark. They'd probably be more appropriate moved to global and written as global consts.
 	*/
@@ -128,7 +129,6 @@ bool InitGlobals()
 		printf("null state");
 	}
 	return true;
-	
 }
 
 void Close()

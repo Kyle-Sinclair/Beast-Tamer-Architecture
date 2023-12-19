@@ -11,6 +11,6 @@ public:
     UIGroup();
     ~UIGroup();
 
-    std::list<VisualElement*> VisualElements{};
-    std::list<UIInteractable*> InteractableElements{};
+    std::list<VisualElement*> visualElements{};
+    std::list<UIInteractable*> interactableElements{};
 };

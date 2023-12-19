@@ -2,12 +2,12 @@
 
 #include "SubSystem.h"
 
-typedef struct Input_Data
+struct InputData
 {
-    int mouse_x, mouse_y;
-    int move_x, move_y;
+    int mouseX, mouseY;
+    int moveX, moveY;
     bool action, back;
-} Input_Data;
+};
 
 class InputSystem : public SubSystem
 {
@@ -19,5 +19,5 @@ public:
 
     void EarlyUpdate() override;
 
-    Input_Data input_data{};
+    InputData inputData{};
 };

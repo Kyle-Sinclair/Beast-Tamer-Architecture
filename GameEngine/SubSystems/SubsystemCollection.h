@@ -16,13 +16,13 @@ public:
     {
         const int hashCode = SubsystemHelpers::GetType<T>();
     
-        if(!subsystems.contains(hashCode))
+        if(!mSubsystems.contains(hashCode))
         {
-            SubSystem* newSubSystem = dynamic_cast<SubSystem*>(new T());
-            subsystems.insert_or_assign(hashCode, newSubSystem);
+            SubSystem* new_sub_system = dynamic_cast<SubSystem*>(new T());
+            mSubsystems.insert_or_assign(hashCode, new_sub_system);
         }
     
-        return dynamic_cast<T*>(subsystems[SubsystemHelpers::GetType<T>()]);
+        return dynamic_cast<T*>(mSubsystems[SubsystemHelpers::GetType<T>()]);
     }
 
     void IterateEarlyUpdate();
@@ -33,5 +33,5 @@ public:
     class InputSystem* gInputSystem{};
 
 private:
-    std::map<int, SubSystem*> subsystems{};
+    std::map<int, SubSystem*> mSubsystems{};
 };

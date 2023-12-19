@@ -12,32 +12,32 @@ UISystem::~UISystem() = default;
 
 void UISystem::LateUpdate()
 {
-    const auto inputData = gSubsystemCollection->gInputSystem->input_data;
+    const InputData input_data = gSubsystemCollection->gInputSystem->inputData;
 
-    auto mousePointer = SDL_Point(inputData.mouse_x, inputData.mouse_y);
+    const SDL_Point mouse_pointer = SDL_Point{input_data.mouseX, input_data.mouseY};
 
-    if(CurrentActiveGroup != nullptr)
+    if (currentActiveGroup != nullptr)
     {
-        for (auto interactable : CurrentActiveGroup->InteractableElements)
+        for (UIInteractable* const interactable : currentActiveGroup->interactableElements)
         {
-            interactable->CheckInteracted(mousePointer, inputData.action);
-        }        
+            interactable->CheckInteracted(mouse_pointer, input_data.action);
+        }
     }
 }
 
 void UISystem::SwitchMenu(const char* menuName)
 {
-    for (auto it=UIGroups.begin(); it!=UIGroups.end(); ++it)
+    for (auto group_iterator = uiGroups.begin(); group_iterator != uiGroups.end(); ++group_iterator)
     {
-        if(strcmp(it->first, menuName) == 0)
+        if (strcmp(group_iterator->first, menuName) == 0)
         {
-            CurrentActiveGroup = it->second;
+            currentActiveGroup = group_iterator->second;
         }
     }
 }
 
 void UISystem::Free()
 {
-    CurrentActiveGroup = nullptr;
-    UIGroups.clear();
+    currentActiveGroup = nullptr;
+    uiGroups.clear();
 }

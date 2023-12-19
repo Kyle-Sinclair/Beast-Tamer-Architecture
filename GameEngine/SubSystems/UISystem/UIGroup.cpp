@@ -4,6 +4,6 @@ UIGroup::UIGroup() = default;
 
 UIGroup::~UIGroup()
 {
-    VisualElements.clear();
-    InteractableElements.clear();
+    visualElements.clear();
+    interactableElements.clear();
 }

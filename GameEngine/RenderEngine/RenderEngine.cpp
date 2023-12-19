@@ -65,11 +65,11 @@ void RenderEngine::PreRenderCheck()
         VisualElementSubSystem* subsystem = gSubsystemCollection->GetSubSystem<VisualElementSubSystem>();
         //printf(__FUNCTION__);
         
-        VisualElement* visual_element =  subsystem->BackgoundVisualElement;
+        VisualElement* visual_element =  subsystem->backgroundVisualElement;
         BackgroundQuad = visual_element->GetImageQuad();
         ElementsToRender.clear();
         
-        for(auto element : subsystem->CurrentNonBackgroundVisualElements)
+        for(auto element : subsystem->currentNonBackgroundVisualElements)
         {
             ElementsToRender.push_back(element->GetImageQuad());
         }

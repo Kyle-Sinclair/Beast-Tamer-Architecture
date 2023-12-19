@@ -16,7 +16,7 @@ enemy_turn_state::~enemy_turn_state()
 
 void enemy_turn_state::DoState()
 {
-    if(input_system->input_data.action)
+    if(input_system->inputData.action)
     {
         PrepareToExit = true;
     }

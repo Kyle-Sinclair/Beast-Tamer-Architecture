@@ -119,8 +119,8 @@ void RenderEngine::Render()
         //GPU_ActivateShaderProgram(0, nullptr);
         shader->SetFloat("Time", time);
         shader->SetVec2("Resolution", internal_width, internal_height);
-        shader->SetVec2("TexResolution", backgroundQuad.Image->w, backgroundQuad.Image->h);
-        GPU_BlitRect(backgroundQuad.Image,backgroundQuad.SrcRect,backScreen,backgroundQuad.DstRect);
+        shader->SetVec2("TexResolution", backgroundQuad.image->w, backgroundQuad.image->h);
+        GPU_BlitRect(backgroundQuad.image,backgroundQuad.srcRect,backScreen,backgroundQuad.dstRect);
         //BlitScreen(BackgroundImage, BackScreen);
     }
 
@@ -188,7 +188,7 @@ void RenderEngine::RenderSprites()
 {
     for (auto quad : mElementsToRender)
     {
-        GPU_BlitRect(quad.Image,quad.SrcRect,backScreen,quad.DstRect);
+        GPU_BlitRect(quad.image,quad.srcRect,backScreen,quad.dstRect);
     }
 }
 

@@ -12,32 +12,32 @@
 bool RenderEngine::Init()
 {
     // Init main buffer
-    Screen = GPU_Init(SCREEN_WIDTH, SCREEN_HEIGHT, GPU_DEFAULT_INIT_FLAGS | SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
-    ScreenRect = new GPU_Rect();
-    if (!Screen)
+    screen = GPU_Init(SCREEN_WIDTH, SCREEN_HEIGHT, GPU_DEFAULT_INIT_FLAGS | SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+    screenRect = new GPU_Rect();
+    if (!screen)
     {
         printf("SDL_GPU: Window could not be created!\n");
         return false;
     }
-    gWindow = SDL_GetWindowFromID(Screen->context->windowID);
+    gWindow = SDL_GetWindowFromID(screen->context->windowID);
     //SDL_RenderSetLogicalSize(SDL_GetRenderer(gWindow), INTERNAL_SCREEN_WIDTH, INTERNAL_SCREEN_HEIGHT); TODO: Figure out why this doesn't work.
     SDL_SetWindowMinimumSize(gWindow, INTERNAL_SCREEN_WIDTH, INTERNAL_SCREEN_HEIGHT);
     
     // Init back buffer
-    GPU_Image* backImage = GPU_CreateImage(INTERNAL_SCREEN_WIDTH, INTERNAL_SCREEN_HEIGHT, GPU_FORMAT_RGBA);
-    BackScreen = GPU_LoadTarget(backImage);
+    GPU_Image* back_image = GPU_CreateImage(INTERNAL_SCREEN_WIDTH, INTERNAL_SCREEN_HEIGHT, GPU_FORMAT_RGBA);
+    backScreen = GPU_LoadTarget(back_image);
     
-    GPU_EnableCamera(Screen, true);
+    GPU_EnableCamera(screen, true);
 
-    ErrorShader = new Shader("Background", "Resources/Shaders/Error.vert", "Resources/Shaders/Error.frag");
-    if (!ErrorShader->DidCompile())
+    errorShader = new Shader("Background", "Resources/Shaders/Error.vert", "Resources/Shaders/Error.frag");
+    if (!errorShader->DidCompile())
     {
         return false;
     }
     
-    BackgroundShader = new Shader("Background", "Resources/Shaders/Background.vert", "Resources/Shaders/Background.frag");
-    SpriteShader = new Shader("Sprite", "Resources/Shaders/Sprite.vert", "Resources/Shaders/Sprite.frag");
-    PostProcessShader = new Shader("PostProcessing", "Resources/Shaders/PostProcessing.vert", "Resources/Shaders/PostProcessing.frag");
+    backgroundShader = new Shader("Background", "Resources/Shaders/Background.vert", "Resources/Shaders/Background.frag");
+    spriteShader = new Shader("Sprite", "Resources/Shaders/Sprite.vert", "Resources/Shaders/Sprite.frag");
+    postProcessShader = new Shader("PostProcessing", "Resources/Shaders/PostProcessing.vert", "Resources/Shaders/PostProcessing.frag");
     gSubsystemCollection->GetSubSystem<VisualElementSubSystem>();
    /* BackgroundImage = GPU_LoadImage("Resources/PokemonSprites/BackgroundTest.png");
     GPU_SetImageFilter(BackgroundImage, GPU_FILTER_NEAREST);
@@ -46,11 +46,11 @@ bool RenderEngine::Init()
         GPU_GenerateMipmaps(BackgroundImage);
     }*/
     
-    DebugImage = GPU_LoadImage("Resources/PokemonSprites/Debug.png");
-    if (DebugImage)
+    debugImage = GPU_LoadImage("Resources/PokemonSprites/Debug.png");
+    if (debugImage)
     {
-        GPU_SetWrapMode(DebugImage, GPU_WRAP_MIRRORED, GPU_WRAP_MIRRORED);
-        GPU_GenerateMipmaps(DebugImage);
+        GPU_SetWrapMode(debugImage, GPU_WRAP_MIRRORED, GPU_WRAP_MIRRORED);
+        GPU_GenerateMipmaps(debugImage);
     }
 
     gWindowDirty = true;
@@ -66,12 +66,12 @@ void RenderEngine::PreRenderCheck()
         //printf(__FUNCTION__);
         
         VisualElement* visual_element =  subsystem->backgroundVisualElement;
-        BackgroundQuad = visual_element->GetImageQuad();
-        ElementsToRender.clear();
+        backgroundQuad = visual_element->GetImageQuad();
+        mElementsToRender.clear();
         
         for(auto element : subsystem->currentNonBackgroundVisualElements)
         {
-            ElementsToRender.push_back(element->GetImageQuad());
+            mElementsToRender.push_back(element->GetImageQuad());
         }
     }
 }
@@ -79,8 +79,8 @@ void RenderEngine::PreRenderCheck()
 
 void RenderEngine::Render()
 {
-    const float InternalWidth = INTERNAL_SCREEN_WIDTH;
-    const float InternalHeight = INTERNAL_SCREEN_HEIGHT;
+    constexpr float internal_width = INTERNAL_SCREEN_WIDTH;
+    constexpr float internal_height = INTERNAL_SCREEN_HEIGHT;
     
     // Reference: https://github.com/grimfang4/sdl-gpu/blob/master/demos/simple-shader/main.c
     const float time = static_cast<float>(SDL_GetTicks()) * 0.001f;
@@ -88,96 +88,95 @@ void RenderEngine::Render()
     // Gets dirtied by input system for now
     if(gWindowDirty)
     {
-        SDL_GetWindowSize(gWindow, &Width, &Height);
-        GPU_SetWindowResolution(Width, Height);
+        SDL_GetWindowSize(gWindow, &width, &height);
+        GPU_SetWindowResolution(width, height);
 
-        const float ratioX = Width / InternalWidth;
-        const float ratioY = Height / InternalHeight;
-        const float ratio = ratioX < ratioY ? ratioX : ratioY;
+        const float ratio_x = width / internal_width;
+        const float ratio_y = height / internal_height;
+        const float ratio = ratio_x < ratio_y ? ratio_x : ratio_y;
 
-        const float newWidth = ratio * InternalWidth;
-        const float newHeight = ratio * InternalHeight;
+        const float new_width = ratio * internal_width;
+        const float new_height = ratio * internal_height;
 
-        const float padX = (Width - newWidth) * 0.5f;
-        const float padY = (Height - newHeight) * 0.5f;
+        const float pad_x = (width - new_width) * 0.5f;
+        const float pad_y = (height - new_height) * 0.5f;
         
-        ScreenRect->x = padX;
-        ScreenRect->y = padY;
-        ScreenRect->w = newWidth;
-        ScreenRect->h = newHeight;
+        screenRect->x = pad_x;
+        screenRect->y = pad_y;
+        screenRect->w = new_width;
+        screenRect->h = new_height;
     }
 
-    GPU_Clear(BackScreen);
-    GPU_Clear(Screen);
+    GPU_Clear(backScreen);
+    GPU_Clear(screen);
 
     // Background
-    if (BackgroundShader)
+    if (backgroundShader)
     {
-        const auto shader = BackgroundShader->DidCompile() ? BackgroundShader : ErrorShader;
-        auto backBlock = shader->GetBlock();
-        GPU_ActivateShaderProgram(shader->GetProgram(), &backBlock);
+        const auto shader = backgroundShader->DidCompile() ? backgroundShader : errorShader;
+        auto back_block = shader->GetBlock();
+        GPU_ActivateShaderProgram(shader->GetProgram(), &back_block);
         //GPU_ActivateShaderProgram(0, nullptr);
         shader->SetFloat("Time", time);
-        shader->SetVec2("Resolution", InternalWidth, InternalHeight);
-        shader->SetVec2("TexResolution", BackgroundQuad.Image->w, BackgroundQuad.Image->h);
-        GPU_BlitRect(BackgroundQuad.Image,BackgroundQuad.SrcRect,BackScreen,BackgroundQuad.DstRect);
+        shader->SetVec2("Resolution", internal_width, internal_height);
+        shader->SetVec2("TexResolution", backgroundQuad.Image->w, backgroundQuad.Image->h);
+        GPU_BlitRect(backgroundQuad.Image,backgroundQuad.SrcRect,backScreen,backgroundQuad.DstRect);
         //BlitScreen(BackgroundImage, BackScreen);
     }
 
     // Sprites
-    if (SpriteShader)
+    if (spriteShader)
     {
-        const auto shader = SpriteShader->DidCompile() ? SpriteShader : ErrorShader;
-        auto spriteBlock = shader->GetBlock();
-        GPU_ActivateShaderProgram(shader->GetProgram(), &spriteBlock);
+        const auto shader = spriteShader->DidCompile() ? spriteShader : errorShader;
+        auto sprite_block = shader->GetBlock();
+        GPU_ActivateShaderProgram(shader->GetProgram(), &sprite_block);
         shader->SetFloat("Time", time);
-        shader->SetVec2("Resolution", InternalWidth, InternalHeight);
-        GPU_Rect* spriteRect = new GPU_Rect(InternalWidth/2, InternalHeight/2, 64, 64);
+        shader->SetVec2("Resolution", internal_width, internal_height);
         RenderSprites();
        // GPU_BlitRect(DebugImage, nullptr, BackScreen, spriteRect);
     }
 
     // UI
-    if (UserInterfaceShader)
+    if (userInterfaceShader)
     {
-        const auto shader = UserInterfaceShader->DidCompile() ? UserInterfaceShader : ErrorShader;
-        auto uiBlock = shader->GetBlock();
-        GPU_ActivateShaderProgram(shader->GetProgram(), &uiBlock);
+        const auto shader = userInterfaceShader->DidCompile() ? userInterfaceShader : errorShader;
+        auto ui_block = shader->GetBlock();
+        GPU_ActivateShaderProgram(shader->GetProgram(), &ui_block);
         //BlitScreen(, BackScreen);
     }
 
     // Post processing: https://github.com/grimfang4/sdl-gpu/issues/240
-    const bool postProcessingEnabled = true;
-    if (PostProcessShader)
+    constexpr bool post_processing_enabled = true;
+    if (postProcessShader)
     {
-        const auto shader = PostProcessShader->DidCompile() ? PostProcessShader : ErrorShader;
-        auto postBlock = PostProcessShader->GetBlock();
-        if (!postProcessingEnabled)
+        const auto shader = postProcessShader->DidCompile() ? postProcessShader : errorShader;
+        auto post_block = postProcessShader->GetBlock();
+        if (!post_processing_enabled)
         {
             GPU_ActivateShaderProgram(0, nullptr);
         }
         else
         {
-            GPU_ActivateShaderProgram(shader->GetProgram(), &postBlock);
+            GPU_ActivateShaderProgram(shader->GetProgram(), &post_block);
             shader->SetFloat("Time", time);
-            shader->SetVec2("Resolution", Width, Height);
-            shader->SetVec2("TexResolution", InternalWidth, InternalHeight);
+            shader->SetVec2("Resolution", width, height);
+            shader->SetVec2("TexResolution", internal_width, internal_height);
         }
-        GPU_BlitRect(BackScreen->image, nullptr, Screen, ScreenRect);
+        GPU_BlitRect(backScreen->image, nullptr, screen, screenRect);
     }
     
-    GPU_Flip(Screen);
+    GPU_Flip(screen);
 }
 
 void RenderEngine::Quit()
 {
-    GPU_FreeTarget(Screen);
-    GPU_FreeTarget(BackScreen);
-    GPU_FreeShader(BackgroundShader->GetProgram());
-    GPU_FreeShader(SpriteShader->GetProgram());
-    GPU_FreeShader(UserInterfaceShader->GetProgram());
-    GPU_FreeShader(PostProcessShader->GetProgram());
-    GPU_FreeImage(DebugImage);
+    GPU_FreeTarget(screen);
+    GPU_FreeTarget(backScreen);
+    GPU_FreeShader(backgroundShader->GetProgram());
+    GPU_FreeShader(spriteShader->GetProgram());
+    GPU_FreeShader(userInterfaceShader->GetProgram());
+    GPU_FreeShader(postProcessShader->GetProgram());
+    GPU_FreeImage(debugImage);
 }
 
 void RenderEngine::BlitScreen(GPU_Image* image, GPU_Target* target)
@@ -187,9 +186,9 @@ void RenderEngine::BlitScreen(GPU_Image* image, GPU_Target* target)
 
 void RenderEngine::RenderSprites()
 {
-    for (auto quad : ElementsToRender)
+    for (auto quad : mElementsToRender)
     {
-        GPU_BlitRect(quad.Image,quad.SrcRect,BackScreen,quad.DstRect);
+        GPU_BlitRect(quad.Image,quad.SrcRect,backScreen,quad.DstRect);
     }
 }
 

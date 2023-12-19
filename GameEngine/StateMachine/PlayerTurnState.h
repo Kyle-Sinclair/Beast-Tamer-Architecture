@@ -4,22 +4,20 @@
 #include "../Global.h"
 #include "../SubSystems/SubsystemCollection.h"
 
-class player_turn_state : public game_state
+class PlayerTurnState : public GameState
 {
 public:
-    void SetMasterState(game_state* master_game_state) override;
-
-    player_turn_state();
+    PlayerTurnState();
     void DoState() override;
     void Begin() override;
-    game_state* Finish(class game_state* currentState) override;
+    GameState* Finish(class GameState* currentState) override;
     void ProcessInput() override;
 
-
+    void SetMasterState(GameState* masterGameState) override;
     bool Enter() override;
 
 private:
-    game_state* master_state;
+    GameState* mMasterState;
    
 
   

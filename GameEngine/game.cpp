@@ -40,7 +40,7 @@ int pikachuMoveY = 0;
 SDL_Color textColor = { 0xff, 0xff, 0xff };
 
 InputSystem* inputSystem;
-game_state *CurrentGameState;
+GameState *CurrentGameState;
 VisualElement* VisualElements[2];
 
 Uint32 msLast;
@@ -69,7 +69,7 @@ int main(int argc, char* args[])
 		
 		CurrentGameState->Begin();
 		CurrentGameState->DoState();
-		game_state* NewGameState = CurrentGameState->Finish(CurrentGameState);
+		GameState* NewGameState = CurrentGameState->Finish(CurrentGameState);
 		if(NewGameState != nullptr)
 		{
 			CurrentGameState = NewGameState;
@@ -260,11 +260,11 @@ bool InitGlobals()
 		return false;
 	}
 	RenderEngine::Init();
-	CurrentGameState = new game_state();
-	CurrentGameState->set_enemy_state(new enemy_turn_state());
-	CurrentGameState->set_player_state(new player_turn_state());
+	CurrentGameState = new GameState();
+	CurrentGameState->SetEnemyState(new EnemyTurnState());
+	CurrentGameState->SetPlayerState(new PlayerTurnState());
 	CurrentGameState->Begin();
-	game_state* NewGameState = 	CurrentGameState->Finish(CurrentGameState);
+	GameState* NewGameState = 	CurrentGameState->Finish(CurrentGameState);
 	if(NewGameState != nullptr)
 	{
 		//printf("updating state");

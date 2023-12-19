@@ -4,37 +4,37 @@
 
 #include "enemy_turn_state.h"
 
-player_turn_state::player_turn_state()
+PlayerTurnState::PlayerTurnState()
 {
     printf("new player turn state");
 
 }
 
-void player_turn_state::DoState()
+void PlayerTurnState::DoState()
 {
 
 
     
-    if(input_system->input_data.action)
+    if(inputSystem->input_data.action)
     {
         printf("Action was true");
-        PrepareToExit = true;
+        shouldPrepareToExit = true;
     }
 }
 
-void player_turn_state::Begin()
+void PlayerTurnState::Begin()
 {
-    visual_element_sub_system->SetBackground(0);
+    visualElementSubSystem->SetBackground(0);
 
 }
 
-game_state* player_turn_state::Finish(game_state* currentState)
+GameState* PlayerTurnState::Finish(GameState* currentState)
 {
     printf("Doing player turn");
-   if(PrepareToExit)
+   if(shouldPrepareToExit)
    {
-       PrepareToExit = false;
-       return master_state->get_enemy_state();
+       shouldPrepareToExit = false;
+       return mMasterState->GetEnemyState();
    }
    else
    {
@@ -42,19 +42,19 @@ game_state* player_turn_state::Finish(game_state* currentState)
    }
 }
 
-void player_turn_state::ProcessInput()
+void PlayerTurnState::ProcessInput()
 {
 
 }
 
-void player_turn_state::SetMasterState(game_state* master_game_state)
+void PlayerTurnState::SetMasterState(GameState* masterGameState)
 {
     printf("setting master state for player  state");
 
-   master_state = master_game_state;
+   mMasterState = masterGameState;
 }
 
-bool player_turn_state::Enter()
+bool PlayerTurnState::Enter()
 {
     return true;
 }

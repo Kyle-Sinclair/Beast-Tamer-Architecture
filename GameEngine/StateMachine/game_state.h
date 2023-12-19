@@ -4,38 +4,34 @@
 #include "../SubSystems/InputSystem.h"
 #include "../SubSystems/VisualElementSubSystem.h"
 
-class game_state
+class GameState
 {
 public:
-    game_state();
-
-    
+    GameState();
+    virtual ~GameState() = default;
     virtual void Begin();
     virtual void DoState();
-    virtual game_state* Finish(class game_state* currentState);
-    
+    virtual GameState* Finish(class GameState* currentState);
     virtual void ProcessInput();
 
-    class player_turn_state* get_player_state();
-    class enemy_turn_state* get_enemy_state();
-   
-
-    InputSystem* input_system;
-    VisualElementSubSystem* visual_element_sub_system;
-    bool PrepareToExit = false;
-    virtual ~game_state() = default;
-
-    bool set_player_state(player_turn_state* player_game_state);
-    bool set_enemy_state(enemy_turn_state* enemy_game_state);
-    virtual void SetMasterState(game_state* master_game_state);
+    class PlayerTurnState* GetPlayerState();
+    class EnemyTurnState* GetEnemyState();
+    
+    bool SetPlayerState(PlayerTurnState* playerGameState);
+    bool SetEnemyState(EnemyTurnState* enemyGameState);
+    virtual void SetMasterState(GameState* masterGameState);
     virtual bool Enter();
+
+    InputSystem* inputSystem;
+    VisualElementSubSystem* visualElementSubSystem;
+    bool shouldPrepareToExit = false;
 private:
 
-    VisualElement* PlayerPokemon;
-    VisualElement* EnemyPokemon;
+    VisualElement* mPlayerPokemon;
+    VisualElement* mEnemyPokemon;
     
-    player_turn_state* player_game_state;
-    enemy_turn_state* enemy_game_state;
+     PlayerTurnState* mPlayerGameState;
+     EnemyTurnState* mEnemyGameState;
     
 };
 

@@ -5,79 +5,80 @@
 #include "enemy_turn_state.h"
 #include "PlayerTurnState.h"
 
-game_state::game_state()
+GameState::GameState()
 {
-    input_system = gSubsystemCollection->GetSubSystem<InputSystem>();
-    visual_element_sub_system = gSubsystemCollection->GetSubSystem<VisualElementSubSystem>();
+    inputSystem = gSubsystemCollection->GetSubSystem<InputSystem>();
+    visualElementSubSystem = gSubsystemCollection->GetSubSystem<VisualElementSubSystem>();
 
 }
 
-void game_state::Begin()
+void GameState::Begin()
 {
-    VisualElementSubSystem* subSystem = gSubsystemCollection->GetSubSystem<VisualElementSubSystem>();
+    VisualElementSubSystem* sub_system = gSubsystemCollection->GetSubSystem<VisualElementSubSystem>();
     //Move this later,
 
-    RectTransform playerSpriteRect{};
+    RectTransform player_sprite_rect{};
     
-    PlayerPokemon = subSystem->CreateVisualElement("Resources/PokemonSprites/BackSprites.png",playerSpriteRect,0,25,16);
-    PlayerPokemon->GetTransform()->originAnchorPoint = center;
-    PlayerPokemon->GetTransform()->position.y = (INTERNAL_SCREEN_HEIGHT/2) + 16;
-    PlayerPokemon->GetTransform()->position.x = 60;
+    mPlayerPokemon = sub_system->CreateVisualElement("Resources/PokemonSprites/BackSprites.png",player_sprite_rect,0,25,16);
+    mPlayerPokemon->GetTransform()->originAnchorPoint = center;
+    mPlayerPokemon->GetTransform()->position.y = (INTERNAL_SCREEN_HEIGHT/2) + 16;
+    mPlayerPokemon->GetTransform()->position.x = 60;
 
     //printf("Position of pokemon sprite y: %d",PlayerPokemon->rectTransform.Position.y);
-     RectTransform enemySpriteRect{};
-     EnemyPokemon = subSystem->CreateVisualElement("Resources/PokemonSprites/Palmortis.png",enemySpriteRect,1,3,1);
-     EnemyPokemon->GetTransform()->originAnchorPoint = center;
-     EnemyPokemon->GetTransform()->position.y = INTERNAL_SCREEN_HEIGHT/4;
-     EnemyPokemon->GetTransform()->position.x = (INTERNAL_SCREEN_WIDTH/2) + 52;
+     RectTransform enemy_sprite_rect{};
+     mEnemyPokemon = sub_system->CreateVisualElement("Resources/PokemonSprites/Palmortis.png",enemy_sprite_rect,1,3,1);
+     mEnemyPokemon->GetTransform()->originAnchorPoint = center;
+     mEnemyPokemon->GetTransform()->position.y = INTERNAL_SCREEN_HEIGHT/4;
+     mEnemyPokemon->GetTransform()->position.x = (INTERNAL_SCREEN_WIDTH/2) + 52;
+  
 }
 
-void game_state::DoState()
+void GameState::DoState()
 {
 }
 
-game_state* game_state::Finish(game_state* currentState)
+GameState* GameState::Finish(GameState* currentState)
 {
     //printf("Doing generic turn");
-    return get_player_state();
+    return GetPlayerState();
 }
 
-void game_state::ProcessInput()
+void GameState::ProcessInput()
 {
 }
 
 
-player_turn_state* game_state::get_player_state()
+PlayerTurnState* GameState::GetPlayerState()
 {
-    return player_game_state;
+    return mPlayerGameState;
 }
 
-enemy_turn_state* game_state::get_enemy_state()
+EnemyTurnState* GameState::GetEnemyState()
 {
 
-    return enemy_game_state;
+    return mEnemyGameState;
 }
 
-bool game_state::set_player_state(player_turn_state* newplayer_state)
+bool GameState::SetPlayerState(PlayerTurnState* newPlayerState)
 {
-    player_game_state = newplayer_state;
-    player_game_state->SetMasterState(this);
+    mPlayerGameState = newPlayerState;
+    mPlayerGameState->SetMasterState(this);
     return true;
 }
 
-bool game_state::set_enemy_state(enemy_turn_state* newenemy_state)
+bool GameState::SetEnemyState(EnemyTurnState* newEnemyState)
 {
-    enemy_game_state = newenemy_state;
-    enemy_game_state->SetMasterState(this);
+    mEnemyGameState = newEnemyState;
+    mEnemyGameState->SetMasterState(this);
     return true;
 
 }
 
-void game_state::SetMasterState(game_state* master_game_state)
+void GameState::SetMasterState(GameState* masterGameState)
 {
 }
 
-bool game_state::Enter()
+bool GameState::Enter()
 {
     return true;
 }

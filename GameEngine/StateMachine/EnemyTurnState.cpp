@@ -7,7 +7,7 @@
 
 EnemyTurnState::EnemyTurnState()
 {
-    printf("new enemy turn state");
+    printf("new enemy turn state\n");
 
 }
 
@@ -34,7 +34,7 @@ void EnemyTurnState::Begin()
 GameState* EnemyTurnState::Finish(GameState* currentState)
 {
 
-    printf("Doing enemy turn");
+    printf("Doing enemy turn\n");
     if(shouldPrepareToExit)
     {
         shouldPrepareToExit = false;
@@ -53,7 +53,7 @@ void EnemyTurnState::ProcessInput()
 
 void EnemyTurnState::SetMasterState(GameState* masterGameState)
 {
-    printf("setting master state for enemy state");
+    printf("setting master state for enemy state \n");
 
     mMasterState = masterGameState;
 }

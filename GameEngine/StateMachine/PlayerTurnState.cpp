@@ -6,7 +6,7 @@
 
 PlayerTurnState::PlayerTurnState()
 {
-    printf("new player turn state");
+    printf("new player turn state\n");
 
 }
 
@@ -26,7 +26,7 @@ void PlayerTurnState::Begin()
 
 GameState* PlayerTurnState::Finish(GameState* currentState)
 {
-    printf("Doing player turn");
+    printf("Doing player turn\n");
    if(shouldPrepareToExit)
    {
        shouldPrepareToExit = false;
@@ -45,7 +45,7 @@ void PlayerTurnState::ProcessInput()
 
 void PlayerTurnState::SetMasterState(GameState* masterGameState)
 {
-    printf("setting master state for player  state");
+    printf("setting master state for player  state\n");
 
    mMasterState = masterGameState;
 }

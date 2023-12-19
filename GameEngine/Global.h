@@ -13,14 +13,14 @@ const int SCREEN_FPS = 60;
 const int INTERNAL_SCREEN_WIDTH = 240;
 const int INTERNAL_SCREEN_HEIGHT = 160;
 
-extern class SubsystemCollection* gSubsystemCollection;
-extern class InputSystem* gInputSystem;
+extern class SubsystemCollection* SUBSYSTEM_COLLECTION;
+extern class InputSystem* INPUT_SYSTEM;
 
-extern struct SDL_Window* gWindow;
+extern struct SDL_Window* WINDOW;
 
-extern struct SDL_Renderer* gRenderer;
-inline SDL_GLContext gContext;
+extern struct SDL_Renderer* RENDERER;
+inline SDL_GLContext CONTEXT;
 
-extern bool gQuit;
-extern bool gWindowDirty;
+extern bool SHOULD_QUIT;
+extern bool IS_WINDOW_DIRTY;
 

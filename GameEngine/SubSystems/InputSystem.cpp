@@ -29,11 +29,11 @@ void InputSystem::EarlyUpdate()
         switch (e.type)
         {
         case SDL_QUIT: {
-                gQuit = true;
+                SHOULD_QUIT = true;
             } break;
         case SDL_WINDOWEVENT: {
                if(e.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
-                   gWindowDirty = true;
+                   IS_WINDOW_DIRTY = true;
             } break;
         
         case SDL_KEYDOWN: {

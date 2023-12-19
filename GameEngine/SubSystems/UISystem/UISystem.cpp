@@ -12,7 +12,7 @@ UISystem::~UISystem() = default;
 
 void UISystem::LateUpdate()
 {
-    const InputData input_data = gSubsystemCollection->gInputSystem->inputData;
+    const InputData input_data = SUBSYSTEM_COLLECTION->gInputSystem->inputData;
 
     const SDL_Point mouse_pointer = SDL_Point{input_data.mouseX, input_data.mouseY};
 

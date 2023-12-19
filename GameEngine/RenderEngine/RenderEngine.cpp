@@ -18,10 +18,10 @@ bool RenderEngine::Init()
     {
         printf("SDL_GPU: Window could not be created!\n");
         return false;
-    }
-    gWindow = SDL_GetWindowFromID(screen->context->windowID);
+    }    
+    WINDOW = SDL_GetWindowFromID(screen->context->windowID);
     //SDL_RenderSetLogicalSize(SDL_GetRenderer(gWindow), INTERNAL_SCREEN_WIDTH, INTERNAL_SCREEN_HEIGHT); TODO: Figure out why this doesn't work.
-    SDL_SetWindowMinimumSize(gWindow, INTERNAL_SCREEN_WIDTH, INTERNAL_SCREEN_HEIGHT);
+    SDL_SetWindowMinimumSize(WINDOW, INTERNAL_SCREEN_WIDTH, INTERNAL_SCREEN_HEIGHT);
     
     // Init back buffer
     GPU_Image* back_image = GPU_CreateImage(INTERNAL_SCREEN_WIDTH, INTERNAL_SCREEN_HEIGHT, GPU_FORMAT_RGBA);
@@ -38,7 +38,8 @@ bool RenderEngine::Init()
     backgroundShader = new Shader("Background", "Resources/Shaders/Background.vert", "Resources/Shaders/Background.frag");
     spriteShader = new Shader("Sprite", "Resources/Shaders/Sprite.vert", "Resources/Shaders/Sprite.frag");
     postProcessShader = new Shader("PostProcessing", "Resources/Shaders/PostProcessing.vert", "Resources/Shaders/PostProcessing.frag");
-    gSubsystemCollection->GetSubSystem<VisualElementSubSystem>();
+    SUBSYSTEM_COLLECTION->GetSubSystem<VisualElementSubSystem>();
+    
    /* BackgroundImage = GPU_LoadImage("Resources/PokemonSprites/BackgroundTest.png");
     GPU_SetImageFilter(BackgroundImage, GPU_FILTER_NEAREST);
     if (BackgroundImage)
@@ -53,16 +54,16 @@ bool RenderEngine::Init()
         GPU_GenerateMipmaps(debugImage);
     }
 
-    gWindowDirty = true;
+    IS_WINDOW_DIRTY = true;
 
     return true;
 }
 
 void RenderEngine::PreRenderCheck()
 {
-    if(gSubsystemCollection->GetSubSystem<VisualElementSubSystem>()->HasBeenDirtied())
+    if(SUBSYSTEM_COLLECTION->GetSubSystem<VisualElementSubSystem>()->HasBeenDirtied())
     {
-        VisualElementSubSystem* subsystem = gSubsystemCollection->GetSubSystem<VisualElementSubSystem>();
+        VisualElementSubSystem* subsystem = SUBSYSTEM_COLLECTION->GetSubSystem<VisualElementSubSystem>();
         //printf(__FUNCTION__);
         
         VisualElement* visual_element =  subsystem->backgroundVisualElement;
@@ -86,9 +87,9 @@ void RenderEngine::Render()
     const float time = static_cast<float>(SDL_GetTicks()) * 0.001f;
 
     // Gets dirtied by input system for now
-    if(gWindowDirty)
+    if(IS_WINDOW_DIRTY)
     {
-        SDL_GetWindowSize(gWindow, &width, &height);
+        SDL_GetWindowSize(WINDOW, &width, &height);
         GPU_SetWindowResolution(width, height);
 
         const float ratio_x = width / internal_width;

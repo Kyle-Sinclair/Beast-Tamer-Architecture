@@ -1,11 +1,11 @@
 ﻿#include "Global.h"
 
 
-SubsystemCollection* gSubsystemCollection;
+SubsystemCollection* SUBSYSTEM_COLLECTION;
 
-SDL_Window* gWindow{};
+SDL_Window* WINDOW{};
 
-SDL_Renderer* gRenderer;
+SDL_Renderer* RENDERER;
 
-bool gQuit = false;
-bool gWindowDirty = false;
+bool SHOULD_QUIT = false;
+bool IS_WINDOW_DIRTY = false;

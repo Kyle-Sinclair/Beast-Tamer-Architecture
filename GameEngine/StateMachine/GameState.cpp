@@ -16,7 +16,6 @@ void GameState::Begin()
 {
     VisualElementSubSystem* sub_system = SUBSYSTEM_COLLECTION->GetSubSystem<VisualElementSubSystem>();
     //Move this later,
-
     RectTransform player_sprite_rect{};
     
     mPlayerPokemon = sub_system->CreateVisualElement("Resources/PokemonSprites/BackSprites.png",player_sprite_rect,0,25,16);

@@ -15,15 +15,7 @@
 #include "SubSystems/SubsystemCollection.h"
 #include "RenderEngine/RenderEngine.h"
 
-const char* pikachuImagePath{ "img/pikachu.png" };
-const char* mouseImagePath{ "img/mouse_icon.png" };
 
-//These variables store details about where the text object will be rendered.
-//They should be moved to a struct that can be represented in an visual element object rather than stored as floating values in this class
-//Currently they are being set in the LoadText method
-int width;
-int height;
-int textWidth, textHeight;
 
 //DEBUG MOUSE
 SDL_Rect mouseRect {0, 0, 8, 8};
@@ -98,117 +90,22 @@ Model -> pushes to View shit to show
 		//todo lazy fps cap fix later plz
 		SDL_Delay(1000/SCREEN_FPS); // can be used to wait for a certain amount of ms
 	}
-
-	// Destroying textures should be moved into texture management function.
-
+	
 	Close();
-	
 	return 0;
-}
-
-SDL_Texture* LoadSprite(const char* imagePath)
-{
-	SDL_Surface* loadedSurface = IMG_Load(imagePath);
-	if (loadedSurface == NULL)
-	{
-		printf("Unable to load image %s! SDL_image Error: %s\n", pikachuImagePath, IMG_GetError());
-		return nullptr;
-	}
-	else
-	{
-		//Convert surface to screen format
-		SDL_Texture* sprite_to_load = SDL_CreateTextureFromSurface(RENDERER, loadedSurface);
-		if (sprite_to_load == NULL)
-		{
-			printf("Unable to create texture from %s! SDL Error: %s\n", pikachuImagePath, SDL_GetError());
-			return nullptr;
-		}
-		//Get rid of old loaded surface
-		SDL_FreeSurface(loadedSurface);
-		return sprite_to_load;
-	}
-}
-
-SDL_Texture* LoadText(const char* text_to_render)
-{
-	// load font
-	auto font = TTF_OpenFont("font/lazy.ttf", 16);
-	if (font == NULL)
-	{
-		printf("Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError());
-		return nullptr;
-	}
-	// render the text into an unoptimized CPU surface
-	textSurface = TTF_RenderText_Solid(font, text_to_render, textColor);
-	if (textSurface == NULL)
-	{
-		printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
-		return nullptr;
-	}
-	else
-	{
-		// Create texture GPU-stored texture from surface pixels
-		SDL_Texture* textTexture = SDL_CreateTextureFromSurface(RENDERER, textSurface);
-		if (textTexture == NULL)
-		{
-			printf("Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError());
-			return nullptr;
-		}
-		// Get image dimensions
-		width = textSurface->w;
-		height = textSurface->h;
-		textWidth = textSurface->w;
-		textHeight = textSurface->h;
-		//Get rid of old loaded surface
-		SDL_FreeSurface(textSurface);
-		
-		return textTexture;
-	}	
-}
-
-void RenderSprite(SDL_Texture* spriteToRender, SDL_Rect targetRectangle)
-{
-	SDL_RenderCopy(RENDERER, spriteToRender, NULL, &targetRectangle);
-}
-
-void RenderText(SDL_Texture* textTexture)
-{
-	SDL_Rect targetRectangle = SDL_Rect{
-		INTERNAL_SCREEN_WIDTH/2 - textWidth/2,
-		INTERNAL_SCREEN_HEIGHT/2 - textHeight/2,
-		textWidth,
-		textHeight
-	};
-	SDL_RenderCopy(RENDERER, textTexture, NULL, &targetRectangle);
-}
-
-void RenderText(SDL_Rect* targetRectangle, SDL_Texture* textTexture)
-{
-	SDL_RenderCopy(RENDERER, textTexture, NULL, targetRectangle);
-}
-
-void ProcessInput()
-{
-	
 }
 
 void Update(float deltaTime)
 {
-
+/*TODO:Perhaps we can compress the updating while loop into it's own method as well. Could be used to pass global parameters/objects in for reverse
+  dependency injection for example
+*/
 	
-}
-
-void ClearScreen()
-{
-	SDL_SetRenderDrawColor(RENDERER, 120, 60, 255, 255);
-	SDL_RenderClear(RENDERER);
 }
 
 bool Init()
 {
-
 	
-
 	int imgFlags = IMG_INIT_PNG;
 	if (!(IMG_Init(imgFlags) & imgFlags))
 	{

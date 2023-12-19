@@ -15,10 +15,10 @@
 #include "SubSystems/SubsystemCollection.h"
 #include "RenderEngine/RenderEngine.h"
 
-InputSystem* inputSystem;
-GameState *CurrentGameState;
-VisualElement* VisualElements[2];
-Uint32 msLast;
+InputSystem* mInputSystem;
+GameState *mCurrentGameState;
+VisualElement* mVisualElements[2];
+Uint32 mMsLast;
 
 bool Init();
 bool InitGlobals();
@@ -36,20 +36,20 @@ int main(int argc, char* args[])
 		//Early
 		SUBSYSTEM_COLLECTION->IterateEarlyUpdate();
 		
-		CurrentGameState->Begin();
-		CurrentGameState->DoState();
-		GameState* NewGameState = CurrentGameState->Finish(CurrentGameState);
+		mCurrentGameState->Begin();
+		mCurrentGameState->DoState();
+		GameState* NewGameState = mCurrentGameState->Finish(mCurrentGameState);
 		if(NewGameState != nullptr)
 		{
-			CurrentGameState = NewGameState;
+			mCurrentGameState = NewGameState;
 		}
 		//Late. Might move order
 		RenderEngine::PreRenderCheck();
 		SUBSYSTEM_COLLECTION->IterateLateUpdate();
 	// Tick
-		const Uint32 msCurrent = SDL_GetTicks();
-		const Uint32 msDelta = msCurrent - msLast;
-		msLast = msCurrent;
+		const Uint32 ms_current = SDL_GetTicks();
+		const Uint32 ms_delta = ms_current - mMsLast;
+		mMsLast = ms_current;
 
 		// Draw and present
 
@@ -68,7 +68,6 @@ void Update(float deltaTime)
 /*TODO:Perhaps we can compress the updating while loop into it's own method as well. Could be used to pass global parameters/objects in for reverse
   dependency injection for example
 */
-	
 }
 
 bool Init()
@@ -93,14 +92,7 @@ bool Init()
 		printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
 		return -1;
 	}
-
-	//RenderEngine::Init();
 	InitGlobals();
-
-	//SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");  // no smoothing pixel art.
-	//SDL_RenderSetLogicalSize(RENDERER, INTERNAL_SCREEN_WIDTH, INTERNAL_SCREEN_HEIGHT);
-	
-	printf("Initialising called\n");
 	return true;
 }
 
@@ -114,28 +106,27 @@ bool InitGlobals()
 		return false;
 	}
 	
-	inputSystem = SUBSYSTEM_COLLECTION->GetSubSystem<InputSystem>();
+	mInputSystem = SUBSYSTEM_COLLECTION->GetSubSystem<InputSystem>();
 
-	if (!inputSystem)
+	if (!mInputSystem)
 	{
 		printf("No InputSystem");
 		return false;
 	}
 	RenderEngine::Init();
-	CurrentGameState = new GameState();
-	CurrentGameState->SetEnemyState(new EnemyTurnState());
-	CurrentGameState->SetPlayerState(new PlayerTurnState());
-	CurrentGameState->Begin();
-	GameState* NewGameState = 	CurrentGameState->Finish(CurrentGameState);
+	mCurrentGameState = new GameState();
+	mCurrentGameState->SetEnemyState(new EnemyTurnState());
+	mCurrentGameState->SetPlayerState(new PlayerTurnState());
+	mCurrentGameState->Begin();
+	GameState* NewGameState = 	mCurrentGameState->Finish(mCurrentGameState);
 	if(NewGameState != nullptr)
 	{
 		//printf("updating state");
-		CurrentGameState = NewGameState;
+		mCurrentGameState = NewGameState;
 	}
 	else
 	{
 		printf("null state");
-
 	}
 	return true;
 	
@@ -143,9 +134,6 @@ bool InitGlobals()
 
 void Close()
 {
-	//SDL_DestroyRenderer(RENDERER); RENDERER = nullptr;
-	//SDL_DestroyWindow(WINDOW); WINDOW = nullptr;
-	
 	RenderEngine::Quit();
 	GPU_Quit();
 	IMG_Quit();

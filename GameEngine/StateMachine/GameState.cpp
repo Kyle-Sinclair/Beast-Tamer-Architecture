@@ -1,8 +1,8 @@
-#include "game_state.h"
+#include "GameState.h"
 
 #include <cstdio>
 
-#include "enemy_turn_state.h"
+#include "EnemyTurnState.h"
 #include "PlayerTurnState.h"
 
 GameState::GameState()

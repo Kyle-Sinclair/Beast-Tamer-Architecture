@@ -1,5 +1,5 @@
 #pragma once
-#include "game_state.h"
+#include "GameState.h"
 
 #include "../Global.h"
 #include "../SubSystems/SubsystemCollection.h"

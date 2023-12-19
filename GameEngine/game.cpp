@@ -6,11 +6,11 @@
 #include <SDL_ttf.h>
 #include <xstring>
 
-#include "StateMachine/enemy_turn_state.h"
+#include "StateMachine/EnemyTurnState.h"
 #include "Global.h"
 #include "SpriteLoader/VisualElementFactory.h"
 #include "StateMachine/PlayerTurnState.h"
-#include "StateMachine/game_state.h"
+#include "StateMachine/GameState.h"
 #include "SubSystems/InputSystem.h"
 #include "SubSystems/SubsystemCollection.h"
 #include "RenderEngine/RenderEngine.h"

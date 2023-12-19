@@ -2,7 +2,7 @@
 
 #include <cstdio>
 
-#include "enemy_turn_state.h"
+#include "EnemyTurnState.h"
 
 PlayerTurnState::PlayerTurnState()
 {

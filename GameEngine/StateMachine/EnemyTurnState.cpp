@@ -1,4 +1,4 @@
-#include "enemy_turn_state.h"
+#include "EnemyTurnState.h"
 
 #include <cstdio>
 #include <cstdlib>

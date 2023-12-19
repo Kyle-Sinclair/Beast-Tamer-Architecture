@@ -89,7 +89,7 @@ void Shader::SetInteger(const char* id, const int value)
 void Shader::SetColor(const char* id, const FColor value)
 {
     ID_GUARD(id, location) 
-    float fColor[4] = {value.R, value.G, value.B, value.A};
+    float fColor[4] = {value.r, value.g, value.b, value.a};
     GPU_SetUniformfv(location, 4, 1, fColor);
 }
 

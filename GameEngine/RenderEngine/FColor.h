@@ -2,5 +2,5 @@
 
 struct FColor
 {
-    float R, G, B, A;
+    float r, g, b, a;
 };

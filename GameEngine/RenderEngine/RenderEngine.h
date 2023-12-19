@@ -15,23 +15,23 @@ public:
 
     static void Quit();
 
-    inline static int Width, Height;
-    inline static GPU_Rect* ScreenRect;
+    inline static int width, height;
+    inline static GPU_Rect* screenRect;
 
-    inline static GPU_Target* Screen;
-    inline static GPU_Target* BackScreen;
+    inline static GPU_Target* screen;
+    inline static GPU_Target* backScreen;
 
-    inline static Shader* ErrorShader;
-    inline static Shader* BackgroundShader;
-    inline static Shader* SpriteShader;
-    inline static Shader* UserInterfaceShader;
-    inline static Shader* PostProcessShader;
+    inline static Shader* errorShader;
+    inline static Shader* backgroundShader;
+    inline static Shader* spriteShader;
+    inline static Shader* userInterfaceShader;
+    inline static Shader* postProcessShader;
     
-    inline static GPU_Image* BackImage;
-    inline static GPU_Image* DebugImage;
+    inline static GPU_Image* backImage;
+    inline static GPU_Image* debugImage;
     
    // inline static GPU_Image* BackgroundImage;
-    inline static ImageQuad BackgroundQuad;
+    inline static ImageQuad backgroundQuad;
     //inline static GPU_Rect* sourceRect;
     //inline static GPU_Rect* destRect;
     
@@ -39,5 +39,5 @@ public:
 private:
     static void BlitScreen(GPU_Image* image, GPU_Target* target);
     static void RenderSprites();
-    inline static std::list<ImageQuad> ElementsToRender;
+    inline static std::list<ImageQuad> mElementsToRender;
 };

@@ -5,19 +5,19 @@
 
 UIInteractable::UIInteractable(SDL_Rect* initBounds, VisualElement* initLinkedVisualElement, UICommand* initCommand, char* initCommandArgument)
 {
-    InteractBounds = initBounds;
-    LinkedVisualElement = initLinkedVisualElement;
-    InteractCommand = initCommand;
-    InteractArgument = initCommandArgument;
+    interactBounds = initBounds;
+    linkedVisualElement = initLinkedVisualElement;
+    interactCommand = initCommand;
+    interactArgument = initCommandArgument;
 }
 
 bool UIInteractable::CheckInteracted(const SDL_Point pointer, const bool pressed)
 {
-    const bool inside = SDL_PointInRect(&pointer, InteractBounds);
+    const bool inside = SDL_PointInRect(&pointer, interactBounds);
 
-    if(pressed && InteractCommand != nullptr)
+    if(pressed && interactCommand != nullptr)
     {
-        InteractCommand->Execute(InteractArgument);
+        interactCommand->Execute(interactArgument);
     }
 
     return inside;

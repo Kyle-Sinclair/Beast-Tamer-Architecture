@@ -12,12 +12,8 @@ PlayerTurnState::PlayerTurnState()
 
 void PlayerTurnState::DoState()
 {
-
-
-    
-    if(inputSystem->input_data.action)
+    if(inputSystem->inputData.action)
     {
-        printf("Action was true");
         shouldPrepareToExit = true;
     }
 }

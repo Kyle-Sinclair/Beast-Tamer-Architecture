@@ -8,8 +8,6 @@ EventSystem::~EventSystem()
 
 void EventSystem::EarlyUpdate()
 {
-    SubSystem::EarlyUpdate();
-
 }
 
 void EventSystem::LateUpdate()

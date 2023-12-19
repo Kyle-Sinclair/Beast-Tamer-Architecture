@@ -161,7 +161,6 @@
     <ClInclude Include="SubSystems\UISystem\UIInteractable.h" />
     <ClInclude Include="SubSystems\UISystem\UISystem.h" />
     <ClInclude Include="SubSystems\VisualElementSubSystem.h" />
-    <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="..\ext\SDL2-2.26.4\lib\x64\SDL2.dll">

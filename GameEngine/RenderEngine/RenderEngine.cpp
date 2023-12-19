@@ -78,7 +78,7 @@ void RenderEngine::PreRenderCheck()
         {
             ElementsToRender.push_back(element->GetImageQuad());
         }
-        printf("%d \n", ElementsToRender.size());
+        //printf("%d \n", ElementsToRender.size());
     }
 }
 

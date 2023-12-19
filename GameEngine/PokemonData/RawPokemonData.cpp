@@ -4,5 +4,5 @@
 
 void RawPokemonData::SetName(const char* string)
 {
-     NickName = string;
+     nickName = string;
 }

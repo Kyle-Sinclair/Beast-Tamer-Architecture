@@ -27,9 +27,9 @@ struct MoveData
 {
 public:
     MoveData();
-    MoveData(unsigned int MoveType,unsigned int SpecialType_1,unsigned int SpecialType_2,unsigned int Power);
-    unsigned int MoveType : 2;
-    unsigned int SpecialType_1:5;
-    unsigned int SpecialType_2:5;
-    unsigned int Power: 7;
+    MoveData(unsigned int moveType,unsigned int specialType1,unsigned int specialType2,unsigned int power);
+    unsigned int moveType : 2;
+    unsigned int specialType1:5;
+    unsigned int specialType2:5;
+    unsigned int power: 7;
 };

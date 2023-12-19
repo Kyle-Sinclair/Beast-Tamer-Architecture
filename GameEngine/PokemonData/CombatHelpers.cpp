@@ -1,6 +1,6 @@
 #include "CombatHelpers.h"
 
-unsigned CombatHelpers::CalculateAbilityDamage(RawPokemonData Attacker, RawPokemonData Defender, MoveData Data)
+unsigned CombatHelpers::CalculateAbilityDamage(RawPokemonData attacker, RawPokemonData defender, MoveData data)
 {
     /*if(Data.MoveType MOVETYPE_STATUS)
     {

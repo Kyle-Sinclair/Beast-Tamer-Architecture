@@ -2,7 +2,7 @@
 
 struct RawPokemonData
 {
-    unsigned int Species : 8;
+    unsigned int species : 8;
 
    /* unsigned char NickName_0 : 8;
     unsigned char NickName_1 : 8;
@@ -16,15 +16,15 @@ struct RawPokemonData
     unsigned char NickName_9 : 8; 
     */
 
-    const char* NickName;
+    const char* nickName;
     
-    unsigned int Health : 8;
-    unsigned int BaseHealth : 8;
-    unsigned int BaseSpeed : 8;
-    unsigned int BaseDefence : 8;
-    unsigned int BaseSpecialDefence : 8;
-    unsigned int BaseAttack : 8;
-    unsigned int BaseSpecialAttack : 8;
+    unsigned int health : 8;
+    unsigned int baseHealth : 8;
+    unsigned int baseSpeed : 8;
+    unsigned int baseDefence : 8;
+    unsigned int baseSpecialDefence : 8;
+    unsigned int baseAttack : 8;
+    unsigned int baseSpecialAttack : 8;
 
     /*unsigned int HealthEv : 16;
     unsigned int SpeedEv : 16;
@@ -34,8 +34,8 @@ struct RawPokemonData
     unsigned int SpecialAttackEv : 16;
     */
     
-    unsigned int Status : 3;
-    unsigned int Level : 7;
+    unsigned int status : 3;
+    unsigned int level : 7;
 
 
     void SetName(const char* string);

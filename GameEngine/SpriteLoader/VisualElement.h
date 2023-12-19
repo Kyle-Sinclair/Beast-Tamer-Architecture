@@ -8,30 +8,31 @@
 
 enum DrawMode
 {
-    Simple,
-    Sliced
+    simple,
+    sliced
 };
 struct DrawModeData
 {
-    int TopLeft = 0;
-    int TopRight = 0;
-    int BottomLeft = 0;
-    int BottomRight = 0;
+    int topLeft = 0;
+    int topRight = 0;
+    int bottomLeft = 0;
+    int bottomRight = 0;
 };
 
 class VisualElement
 {
-    RectTransform rectTransform;
-    GPU_Rect rect;
-    GPU_Rect clippedRect;
     
-    bool isClipped;
-    int spriteIndex;
-    int columns;
-    int rows;
-    int spriteSheetLength = 0;
+    RectTransform mRectTransform;
+    GPU_Rect mRect;
+    GPU_Rect mClippedRect;
+    
+    bool mIsClipped;
+    int mSpriteIndex;
+    int mColumns;
+    int mRows;
+    int mSpriteSheetLength = 0;
 
-    Texture* texture;
+    Texture* mTexture;
     Vector GetOriginDisplacement();
 public:
     //Renderer and texture are switched to avoid ambigous function calls;
@@ -52,7 +53,7 @@ public:
 
     ImageQuad GetImageQuad();
     Texture* GetTexture();
-    DrawMode drawMode = Simple;
+    DrawMode drawMode = simple;
     DrawModeData drawModeData;
 
     RectTransform* GetTransform();

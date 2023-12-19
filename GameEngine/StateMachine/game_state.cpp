@@ -20,16 +20,16 @@ void game_state::Begin()
     RectTransform playerSpriteRect{};
     
     PlayerPokemon = subSystem->CreateVisualElement("Resources/PokemonSprites/BackSprites.png",playerSpriteRect,0,25,16);
-    PlayerPokemon->GetTransform()->originAnchorPoint = Center;
-    PlayerPokemon->GetTransform()->Position.y = (INTERNAL_SCREEN_HEIGHT/2) + 16;
-    PlayerPokemon->GetTransform()->Position.x = 60;
+    PlayerPokemon->GetTransform()->originAnchorPoint = center;
+    PlayerPokemon->GetTransform()->position.y = (INTERNAL_SCREEN_HEIGHT/2) + 16;
+    PlayerPokemon->GetTransform()->position.x = 60;
 
     //printf("Position of pokemon sprite y: %d",PlayerPokemon->rectTransform.Position.y);
      RectTransform enemySpriteRect{};
      EnemyPokemon = subSystem->CreateVisualElement("Resources/PokemonSprites/Palmortis.png",enemySpriteRect,1,3,1);
-     EnemyPokemon->GetTransform()->originAnchorPoint = Center;
-     EnemyPokemon->GetTransform()->Position.y = INTERNAL_SCREEN_HEIGHT/4;
-     EnemyPokemon->GetTransform()->Position.x = (INTERNAL_SCREEN_WIDTH/2) + 52;
+     EnemyPokemon->GetTransform()->originAnchorPoint = center;
+     EnemyPokemon->GetTransform()->position.y = INTERNAL_SCREEN_HEIGHT/4;
+     EnemyPokemon->GetTransform()->position.x = (INTERNAL_SCREEN_WIDTH/2) + 52;
 }
 
 void game_state::DoState()

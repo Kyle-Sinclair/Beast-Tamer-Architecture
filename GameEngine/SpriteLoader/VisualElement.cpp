@@ -6,71 +6,71 @@
 VisualElement::VisualElement(Texture* texture,RectTransform rectTransform)
 {
 
-    this->texture = texture;
-    isClipped = false;
-    rect = {rectTransform.Position.x,rectTransform.Position.y,texture->GetWidth_f(),texture->GetHeight_f()};
-    this->rectTransform = rectTransform;
+    this->mTexture = texture;
+    mIsClipped = false;
+    mRect = {rectTransform.position.x,rectTransform.position.y,texture->GetWidthF(),texture->GetHeightF()};
+    this->mRectTransform = rectTransform;
 }
 
 VisualElement::VisualElement(Texture* texture,int spriteIndex,int columns, int rows,RectTransform rectTransform)
 {
-    this->texture = texture;
-    rect = {rectTransform.Position.x,rectTransform.Position.y,0,0};
+    this->mTexture = texture;
+    mRect = {rectTransform.position.x,rectTransform.position.y,0,0};
     
-    isClipped = true;
-    spriteSheetLength = (columns * rows);
-    spriteIndex = std::clamp(spriteIndex,0,spriteSheetLength);
-    this->spriteIndex = spriteIndex;
-    this->columns = columns;
-    this->rows = rows;
+    mIsClipped = true;
+    mSpriteSheetLength = (columns * rows);
+    spriteIndex = std::clamp(spriteIndex,0,mSpriteSheetLength);
+    this->mSpriteIndex = spriteIndex;
+    this->mColumns = columns;
+    this->mRows = rows;
     
     SetSpriteIndex(spriteIndex);
     const int clippedWidth = texture->GetImage()->w / columns;
     const int clippedHeight = texture->GetImage()->h / rows;
-    rect.w = clippedRect.w = static_cast<float>(clippedWidth);
-    rect.h = clippedRect.h = static_cast<float>(clippedHeight);
+    mRect.w = mClippedRect.w = static_cast<float>(clippedWidth);
+    mRect.h = mClippedRect.h = static_cast<float>(clippedHeight);
 
-    this->rectTransform = rectTransform;
+    this->mRectTransform = rectTransform;
 }
 
 Vector VisualElement::GetOriginRenderPoint()
 {
     Vector originDisplacement = GetOriginDisplacement();
-    const int width = (isClipped)? clippedRect.w: rect.w;
-    const int height = (isClipped)? clippedRect.h: rect.h;
+    const int width = (mIsClipped)? mClippedRect.w: mRect.w;
+    const int height = (mIsClipped)? mClippedRect.h: mRect.h;
     
-    originDisplacement.x *= static_cast<float>(width) * rectTransform.Size.x;
-    originDisplacement.y *= static_cast<float>(height) * rectTransform.Size.y;
-    const Vector renderPoint = rectTransform.Position + originDisplacement;
+    originDisplacement.x *= static_cast<float>(width) * mRectTransform.size.x;
+    originDisplacement.y *= static_cast<float>(height) * mRectTransform.size.y;
+    const Vector renderPoint = mRectTransform.position + originDisplacement;
     return renderPoint;
 }
 
 void VisualElement::SetSpriteIndex(int index)
 {
-    index = std::clamp(index,0,spriteSheetLength);
-    const int clippedWidth = texture->GetImage()->w / columns;
-    const int clippedHeight = texture->GetImage()->h / rows;
+    index = std::clamp(index,0,mSpriteSheetLength);
+    const int clippedWidth = mTexture->GetImage()->w / mColumns;
+    const int clippedHeight = mTexture->GetImage()->h / mRows;
     
-    const int clippedX = (index % columns) * clippedWidth;
-    const int clippedY = ((index - (index % columns))/columns) * clippedHeight;
+    const int clippedX = (index % mColumns) * clippedWidth;
+    const int clippedY = ((index - (index % mColumns))/mColumns) * clippedHeight;
 
-    clippedRect.x = static_cast<float>(clippedX);
-    clippedRect.y = static_cast<float>(clippedY);
+    mClippedRect.x = static_cast<float>(clippedX);
+    mClippedRect.y = static_cast<float>(clippedY);
 }
 
 Vector VisualElement::GetOriginDisplacement()
 {
-    switch (rectTransform.originAnchorPoint)
+    switch (mRectTransform.originAnchorPoint)
     {
-        case Center: return {-0.5,-0.5};
-        case TopLeft: return {0,0};
-        case TopRight: return{-1,0};
-        case BottomLeft: return{0,-1};
-        case BottomRight: return{-1,-1};
-        case Top: return{-0.5,0};
-        case Bottom: return{-0.5,-1};
-        case Left: return{0,-0.5};
-        case Right: return{-1,-0.5};
+        case center: return {-0.5,-0.5};
+        case top_left: return {0,0};
+        case top_right: return{-1,0};
+        case bottom_left: return{0,-1};
+        case bottom_right: return{-1,-1};
+        case top: return{-0.5,0};
+        case bottom: return{-0.5,-1};
+        case left: return{0,-0.5};
+        case right: return{-1,-0.5};
         default: return {0,0};
     }
 }
@@ -90,27 +90,27 @@ Vector VisualElement::GetOriginDisplacement()
 
 bool VisualElement::IsClipped()
 {
-    return isClipped;
+    return mIsClipped;
 }
 
 int VisualElement::GetSpriteIndex()
 {
-    return spriteIndex;
+    return mSpriteIndex;
 }
 
 int VisualElement::GetColumns()
 {
-    return columns;
+    return mColumns;
 }
 
 int VisualElement::GetRows()
 {
-    return rows;
+    return mRows;
 }
 
 int VisualElement::GetSpriteSheetLength()
 {
-    return spriteSheetLength;
+    return mSpriteSheetLength;
 }
 
 GPU_Rect* VisualElement::GetRenderRect()
@@ -121,22 +121,22 @@ GPU_Rect* VisualElement::GetRenderRect()
     {
         originRenderPoint.x,
         originRenderPoint.y,
-        rectTransform.Size.x * rect.w,
-        rectTransform.Size.y * rect.h
+        mRectTransform.size.x * mRect.w,
+        mRectTransform.size.y * mRect.h
     };
     return transformedRect;
 }
 
 GPU_Rect* VisualElement::GetSrcRect()
 {
-    return (isClipped)? &clippedRect:nullptr;
+    return (mIsClipped)? &mClippedRect:nullptr;
 }
 
 ImageQuad VisualElement::GetImageQuad()
 {
     ImageQuad imageQuad
     {
-        texture->GetImage(),
+        mTexture->GetImage(),
         GetSrcRect(),
         GetRenderRect()
     };
@@ -145,10 +145,10 @@ ImageQuad VisualElement::GetImageQuad()
 
 Texture* VisualElement::GetTexture()
 {
-    return texture;
+    return mTexture;
 }
 
 RectTransform* VisualElement::GetTransform()
 {
-    return &rectTransform;
+    return &mRectTransform;
 }

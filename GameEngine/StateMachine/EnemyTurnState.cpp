@@ -25,9 +25,6 @@ void EnemyTurnState::DoState()
 
 void EnemyTurnState::Begin()
 {
-   
-    visualElementSubSystem->SetBackground(1);
-
     
 }
 
@@ -61,6 +58,11 @@ void EnemyTurnState::SetMasterState(GameState* masterGameState)
 bool EnemyTurnState::Enter()
 {
     return false;
+}
+
+void EnemyTurnState::SwapPokemon()
+{
+    printf("cannot swap on enemy turn");
 }
 
 

@@ -21,6 +21,7 @@ public:
     bool SetEnemyState(EnemyTurnState* enemyGameState);
     virtual void SetMasterState(GameState* masterGameState);
     virtual bool Enter();
+    virtual void SwapPokemon();
 
     InputSystem* inputSystem;
     VisualElementSubSystem* visualElementSubSystem;

@@ -13,6 +13,7 @@ public:
     void ProcessInput() override;
     void SetMasterState(GameState* masterGameState) override;
     bool Enter() override;
+    void SwapPokemon() override;
 
 private:
 

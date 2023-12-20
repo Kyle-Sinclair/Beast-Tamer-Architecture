@@ -15,6 +15,7 @@ public:
 
     void SetMasterState(GameState* masterGameState) override;
     bool Enter() override;
+    void SwapPokemon() override;
 
 private:
     GameState* mMasterState;

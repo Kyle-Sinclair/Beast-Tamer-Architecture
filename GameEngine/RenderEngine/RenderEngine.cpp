@@ -69,7 +69,9 @@ void RenderEngine::PreRenderCheck()
         VisualElement* visual_element =  subsystem->backgroundVisualElement;
         backgroundQuad = visual_element->GetImageQuad();
         mElementsToRender.clear();
-        
+        mElementsToRender.push_back(subsystem->playerPokemonVisualElement->GetImageQuad());
+        mElementsToRender.push_back(subsystem->enemyPokemonVisualElement->GetImageQuad());
+
         for(auto element : subsystem->currentNonBackgroundVisualElements)
         {
             mElementsToRender.push_back(element->GetImageQuad());

@@ -8,7 +8,11 @@ public:
     VisualElementSubSystem();
     ~VisualElementSubSystem() override;
     void SetBackground(int spriteIndex);
+    void CreateBattleSprites();
+    void SwapPokemonSprites();
     VisualElement* backgroundVisualElement{};
+    VisualElement* playerPokemonVisualElement{};
+    VisualElement* enemyPokemonVisualElement{};
     std::list<VisualElement*> currentNonBackgroundVisualElements{};
     VisualElementFactory* factory{};
     VisualElement* CreateVisualElement(const char* path,RectTransform rectTransform = RectTransform(),int spriteIndex = 0,int columns = 0, int rows = 0);

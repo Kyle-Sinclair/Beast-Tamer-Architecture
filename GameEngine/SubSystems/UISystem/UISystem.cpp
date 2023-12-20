@@ -2,6 +2,7 @@
 
 #include <SDL_gpu.h>
 
+#include "UICommand.h"
 #include "UIGroup.h"
 #include "UIInteractable.h"
 #include "../InputSystem.h"
@@ -9,14 +10,18 @@
 #include "../VisualElementSubSystem.h"
 #include "../../Global.h"
 #include "TempUISystem/UInteractible_Temp.h"
+#include "UICommands/UIAttackCommand.h"
+#include "UICommands/UISwapPokemonCommand.h"
 UInteractible_Temp* MenuPanel1;
 UInteractible_Temp* MenuPanel2;
 
 
 UISystem::UISystem()
 {
-  MenuPanel1 = TempMenuCreator(0,120,"Resources/UISprites/Btn_Attack.png");
-    MenuPanel2 = TempMenuCreator(120,120.,"Resources/UISprites/Btn_Swap.png");
+
+    //TODO:Abysmal temporary interactable system. Better to get Petter when he doesn't have the flu to continue with his planned architecture. Everything with temp should be stripped out or folded into that
+    MenuPanel1 = TempMenuCreator(0,120,"Resources/UISprites/Btn_Attack.png", new UIAttackCommand());
+    MenuPanel2 = TempMenuCreator(160,120.,"Resources/UISprites/Btn_Swap.png", new UISwapPokemonCommand());
 };
 
 UISystem::~UISystem() = default;
@@ -24,7 +29,6 @@ UISystem::~UISystem() = default;
 void UISystem::LateUpdate()
 {
     const InputData input_data = SUBSYSTEM_COLLECTION->gInputSystem->inputData;
-
     const SDL_Point mouse_pointer = SDL_Point{input_data.mouseX, input_data.mouseY};
 
 /*
@@ -55,7 +59,7 @@ void UISystem::ProcessEvent(int x, int y)
     MenuPanel2->ProcessEvent(x,y);
 }
 
-UInteractible_Temp* UISystem::TempMenuCreator(float xPosition, float yPosition, const char* path)
+UInteractible_Temp* UISystem::TempMenuCreator(float xPosition, float yPosition, const char* path, UICommand* CommandToBind)
 {
     RectTransform rect{
 		        {xPosition,yPosition},
@@ -63,12 +67,16 @@ UInteractible_Temp* UISystem::TempMenuCreator(float xPosition, float yPosition, 
                 top_left,
                 nullptr};
     VisualElement* menuPanelVisualElement = SUBSYSTEM_COLLECTION->GetSubSystem<VisualElementSubSystem>()->CreateVisualElement(path,rect,0,0,0);
-
-     return new UInteractible_Temp(menuPanelVisualElement,new GPU_Rect() );
+     return new UInteractible_Temp(menuPanelVisualElement,new GPU_Rect(),CommandToBind);
 }
 
 void UISystem::Free()
 {
     currentActiveGroup = nullptr;
     uiGroups.clear();
+}
+
+void UISystem::RegisterGameState(GameState* gameState)
+{
+    CurrentGameState = &gameState;
 }

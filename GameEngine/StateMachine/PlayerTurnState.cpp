@@ -6,8 +6,6 @@
 
 PlayerTurnState::PlayerTurnState()
 {
-    printf("new player turn state\n");
-
 }
 
 void PlayerTurnState::DoState()
@@ -21,7 +19,6 @@ void PlayerTurnState::DoState()
 void PlayerTurnState::Begin()
 {
     visualElementSubSystem->SetBackground(0);
-
 }
 
 GameState* PlayerTurnState::Finish(GameState* currentState)
@@ -53,4 +50,9 @@ void PlayerTurnState::SetMasterState(GameState* masterGameState)
 bool PlayerTurnState::Enter()
 {
     return true;
+}
+
+void PlayerTurnState::SwapPokemon()
+{
+    GameState::SwapPokemon();
 }

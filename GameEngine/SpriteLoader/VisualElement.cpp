@@ -56,6 +56,7 @@ void VisualElement::SetSpriteIndex(int index)
 
     mClippedRect.x = static_cast<float>(clippedX);
     mClippedRect.y = static_cast<float>(clippedY);
+    mSpriteIndex = index;
 }
 
 Vector VisualElement::GetOriginDisplacement()

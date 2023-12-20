@@ -1,12 +1,14 @@
 #include "UInteractible_Temp.h"
 
+#include "../UICommand.h"
 #include "../../../Global.h"
 #include "../../../RenderEngine/RenderEngine.h"
 
-UInteractible_Temp::UInteractible_Temp(VisualElement* visualElement, GPU_Rect* interactibleRect)
+UInteractible_Temp::UInteractible_Temp(VisualElement* visualElement, GPU_Rect* interactibleRect, UICommand* boundCommand)
 {
     this->visualElement = visualElement;
     this->interactibleRect = visualElement->GetRenderRect();
+    interactCommand = boundCommand;
    // this->interactibleRect->x -= visualElement->GetTransform()->position.x;
    // this->interactibleRect->y -= visualElement->GetTransform()->position.y;
    /// this->interactibleRect = interactibleRect;
@@ -29,6 +31,8 @@ void UInteractible_Temp::ProcessEvent(int x, int y)
         if(Contains(mousePosition))
         {
             printf("You clicked!");
+            char* charPointer{};
+            interactCommand->Execute(charPointer);
         }
         /*
         if(e->type == SDL_MOUSEMOTION)
@@ -61,11 +65,9 @@ bool UInteractible_Temp::Contains(Vector point)
 {
     const GPU_Rect* rect = (interactibleRect == nullptr)? visualElement->GetRenderRect(): interactibleRect;
 
-    printf("%f,%f", (point.x - rect->x)/(float)rect->w,(point.y - rect->y)/((float)rect->h));
-    //printf("%f,%f", rect->x + rect->w, rect->y + rect->h);
-
-    //printf("%f,%f", rect->x + rect->w, rect->y + rect->h);
-    //printf("%f,%f\n", rect->x - rect->w, rect->y - rect->h);
+    //TODO: Actually a ripe little test case for logging when we get around to it.
+    //printf("%f,%f", (point.x - rect->x)/(float)rect->w,(point.y - rect->y)/((float)rect->h));
+  
     const bool lessThanX =  point.x < rect->x + rect->w;
     const bool greaterThanX =  point.x >= rect->x;
     const bool lessThanY = point.y < rect->y + rect->h;

@@ -126,8 +126,8 @@ bool InitGlobals()
 	mCurrentGameState->SetPlayerState(new PlayerTurnState());
 	mCurrentGameState->Begin();
 	GameState* new_game_state = mCurrentGameState->Finish(mCurrentGameState);
-	SUBSYSTEM_COLLECTION->GetSubSystem<UISystem>();
-
+	UISystem* ui_system = SUBSYSTEM_COLLECTION->GetSubSystem<UISystem>();
+	ui_system->RegisterGameState(mCurrentGameState);
 	if(new_game_state != nullptr)
 	{
 		//printf("updating state");

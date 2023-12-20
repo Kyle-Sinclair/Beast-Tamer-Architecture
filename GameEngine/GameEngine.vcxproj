@@ -270,7 +270,9 @@
     <ClCompile Include="SubSystems\SubsystemCollection.cpp" />
     <ClCompile Include="SubSystems\UISystem\TempUISystem\UInteractible_Temp.cpp" />
     <ClCompile Include="SubSystems\UISystem\UICommand.cpp" />
+    <ClCompile Include="SubSystems\UISystem\UICommands\UIAttackCommand.cpp" />
     <ClCompile Include="SubSystems\UISystem\UICommands\UIChangeMenuCommand.cpp" />
+    <ClCompile Include="SubSystems\UISystem\UICommands\UISwapPokemonCommand.cpp" />
     <ClCompile Include="SubSystems\UISystem\UIGroup.cpp" />
     <ClCompile Include="SubSystems\UISystem\UIInteractable.cpp" />
     <ClCompile Include="SubSystems\UISystem\UISystem.cpp" />
@@ -301,7 +303,9 @@
     <ClInclude Include="SubSystems\SubsystemHelpers.h" />
     <ClInclude Include="SubSystems\UISystem\TempUISystem\UInteractible_Temp.h" />
     <ClInclude Include="SubSystems\UISystem\UICommand.h" />
+    <ClInclude Include="SubSystems\UISystem\UICommands\UIAttackCommand.h" />
     <ClInclude Include="SubSystems\UISystem\UICommands\UIChangeMenuCommand.h" />
+    <ClInclude Include="SubSystems\UISystem\UICommands\UISwapPokemonCommand.h" />
     <ClInclude Include="SubSystems\UISystem\UIGroup.h" />
     <ClInclude Include="SubSystems\UISystem\UIInteractable.h" />
     <ClInclude Include="SubSystems\UISystem\UISystem.h" />

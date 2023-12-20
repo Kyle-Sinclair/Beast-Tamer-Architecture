@@ -9,12 +9,14 @@
 #include "../VisualElementSubSystem.h"
 #include "../../Global.h"
 #include "TempUISystem/UInteractible_Temp.h"
-UInteractible_Temp* MenuPanel;
+UInteractible_Temp* MenuPanel1;
+UInteractible_Temp* MenuPanel2;
 
 
 UISystem::UISystem()
 {
-  MenuPanel = TempMenuCreator();
+  MenuPanel1 = TempMenuCreator(0,120,"Resources/UISprites/Btn_Attack.png");
+    MenuPanel2 = TempMenuCreator(120,120.,"Resources/UISprites/Btn_Swap.png");
 };
 
 UISystem::~UISystem() = default;
@@ -49,17 +51,18 @@ void UISystem::SwitchMenu(const char* menuName)
 
 void UISystem::ProcessEvent(int x, int y)
 {
-    MenuPanel->ProcessEvent(x,y);
+    MenuPanel1->ProcessEvent(x,y);
+    MenuPanel2->ProcessEvent(x,y);
 }
 
-UInteractible_Temp* UISystem::TempMenuCreator()
+UInteractible_Temp* UISystem::TempMenuCreator(float xPosition, float yPosition, const char* path)
 {
     RectTransform rect{
-		        {100,100},
-                {10,3},
+		        {xPosition,yPosition},
+                {1,1},
                 top_left,
                 nullptr};
-    VisualElement* menuPanelVisualElement = SUBSYSTEM_COLLECTION->GetSubSystem<VisualElementSubSystem>()->CreateVisualElement("Resources/UISprites/MenuBack.png",rect,0,0,0);
+    VisualElement* menuPanelVisualElement = SUBSYSTEM_COLLECTION->GetSubSystem<VisualElementSubSystem>()->CreateVisualElement(path,rect,0,0,0);
 
      return new UInteractible_Temp(menuPanelVisualElement,new GPU_Rect() );
 }

@@ -348,6 +348,8 @@
     <Content Include="Resources\Shaders\Sprite9Slice.vert">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\UISprites\Btn_Attack.png" />
+    <Content Include="Resources\UISprites\Btn_Swap.png" />
     <Content Include="Resources\UISprites\MenuBack.png" />
     <CopyFileToFolders Include="..\ext\glew-2.1.0\bin\Release\x64\glew32.dll" />
     <CopyFileToFolders Include="..\ext\SDL2_gpu-0.12.0-msvc\SDL2_gpu\release\x64\SDL2_gpu.dll" />

@@ -9,7 +9,6 @@ GameState::GameState()
 {
     inputSystem = SUBSYSTEM_COLLECTION->GetSubSystem<InputSystem>();
     visualElementSubSystem = SUBSYSTEM_COLLECTION->GetSubSystem<VisualElementSubSystem>();
-
 }
 
 void GameState::Begin()
@@ -20,7 +19,7 @@ void GameState::Begin()
     
     mPlayerPokemon = sub_system->CreateVisualElement("Resources/PokemonSprites/BackSprites.png",player_sprite_rect,0,25,16);
     mPlayerPokemon->GetTransform()->originAnchorPoint = center;
-    mPlayerPokemon->GetTransform()->position.y = (INTERNAL_SCREEN_HEIGHT/2) + 16;
+    mPlayerPokemon->GetTransform()->position.y = (INTERNAL_SCREEN_HEIGHT/2);
     mPlayerPokemon->GetTransform()->position.x = 60;
 
     //printf("Position of pokemon sprite y: %d",PlayerPokemon->rectTransform.Position.y);

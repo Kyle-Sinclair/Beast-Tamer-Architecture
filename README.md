@@ -59,7 +59,7 @@ without exposing how that data must be processed or referenced. All of the neces
 
 Rendering engine is a class that has lists of Visual element data pushed to it from other subsystems. Each frame, it checks a dirty flag to see if it should update these lists. 
 Aside from this flag, the rendering engine has no connections to the business logic of our codebase. It is fully unaware of how any logic is implemented other than rendering. The UI and Input system 
-reciece input from the player, pass it to the model for processing, which then pushes new visual data to the rendering engine. 
+reciece input from the player, pass it to the model using the Command pattern for processing, which then pushes new visual data to the rendering engine. 
 
 
 ![MVC - Dirty check](https://github.com/FG22-GP/214-design-patterns-assignment-np-team/assets/25796597/0a30cdc1-a2ce-4671-825d-22edafaec5c0)

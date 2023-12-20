@@ -58,6 +58,10 @@ The state machine uses the standard "if pointer is returned, state is ready to b
 # Sample Video of Work in Progress
 
 
+![Design Pattern Sample video](https://github.com/FG22-GP/214-design-patterns-assignment-np-team/assets/25796597/cb813c7f-dd8c-4f19-ad75-96d27be7393b)
+
+
+
 
 https://github.com/FG22-GP/214-design-patterns-assignment-np-team/assets/25796597/03041ae4-4926-496e-8920-f34824cd355f
 

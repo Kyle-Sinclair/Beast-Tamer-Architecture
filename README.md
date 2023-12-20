@@ -55,5 +55,5 @@ The state machine uses the standard "if pointer is returned, state is ready to b
 ![MVC - Dirty check](https://github.com/FG22-GP/214-design-patterns-assignment-np-team/assets/25796597/0a30cdc1-a2ce-4671-825d-22edafaec5c0)
 
 
-# 2 Screenshots
-![Design Pattern Sample video](https://github.com/FG22-GP/214-design-patterns-assignment-np-team/assets/25796597/3176c3c1-0786-431e-baa8-e30ec8eb88dd)
+# Sample Video of Work in Progress
+

@@ -13,9 +13,12 @@
 #include "SubSystems/InputSystem.h"
 #include "SubSystems/SubsystemCollection.h"
 #include "RenderEngine/RenderEngine.h"
+#include "SubSystems/UISystem/UIInteractable.h"
+#include "SubSystems/UISystem/TempUISystem/UInteractible_Temp.h"
 
 InputSystem* mInputSystem;
 GameState *mCurrentGameState;
+UInteractible_Temp* MenuPanel;
 VisualElement* mVisualElements[2];
 Uint32 mMsLast;
 
@@ -29,7 +32,16 @@ int main(int argc, char* args[])
 	//Flag setting
 	Init();
 
+	RectTransform rect{
+		{INTERNAL_SCREEN_WIDTH/2, INTERNAL_SCREEN_HEIGHT},
+		{10,3},
+		bottom,
+		nullptr};
+	VisualElement* menuPanelVisualElement = SUBSYSTEM_COLLECTION->GetSubSystem<VisualElementSubSystem>()->CreateVisualElement("Resources/UISprites/MenuBack.png",rect,0,0,0);
 
+	MenuPanel = new UInteractible_Temp(menuPanelVisualElement,new GPU_Rect() );
+
+	
 	//Update Loop
 	while (SHOULD_QUIT == false)
 	{
@@ -92,6 +104,7 @@ int Init()
 		printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
 		return -1;
 	}
+	
 	InitGlobals();
 	return true;
 }

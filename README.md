@@ -50,7 +50,9 @@ The state machine uses the standard "if pointer is returned, state is ready to b
 ![Game State - Header](https://github.com/FG22-GP/214-design-patterns-assignment-np-team/assets/25796597/9ce88595-8ab2-491f-ba0f-1ac759de143a)
 
 
-The factory is built as an extension of our subsystem class. It handles the creation of the mathematical objects necessary for 
+The factory is built as an extension of our subsystem class. It creates and calculates the necessary rendering data for our engine to draw textures, images, sprites or any other visual data 
+without exposing how that data must be processed or referenced. All of the necessary low level work to process these kind of visual data into usable forms is encapsulated in its own functions.
+
 
 ![Factory - Header File](https://github.com/FG22-GP/214-design-patterns-assignment-np-team/assets/25796597/0aaa6eb3-eb26-499e-a159-ed97bc736841)
 

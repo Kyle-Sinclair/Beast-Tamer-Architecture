@@ -16,6 +16,7 @@ enum AnchorPoint
 struct RectTransform
 {
     RectTransform();
+    RectTransform(Vector position,Vector size, AnchorPoint anchorPoint, RectTransform* parent);
     Vector position;
     //Vector EulerRotation;
     Vector size;

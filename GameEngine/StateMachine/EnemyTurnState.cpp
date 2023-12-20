@@ -7,7 +7,7 @@
 
 EnemyTurnState::EnemyTurnState()
 {
-    printf("new enemy turn state\n");
+    //printf("new enemy turn state\n");
 
 }
 
@@ -34,7 +34,7 @@ void EnemyTurnState::Begin()
 GameState* EnemyTurnState::Finish(GameState* currentState)
 {
 
-    printf("Doing enemy turn\n");
+   // printf("Doing enemy turn\n");
     if(shouldPrepareToExit)
     {
         shouldPrepareToExit = false;

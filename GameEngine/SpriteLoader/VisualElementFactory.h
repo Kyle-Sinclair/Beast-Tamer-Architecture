@@ -8,6 +8,7 @@
 
 class VisualElementFactory
 {
+    
     public:
     VisualElementFactory();
     TextureLoader* textureLoader;

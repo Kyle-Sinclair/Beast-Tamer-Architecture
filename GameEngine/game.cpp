@@ -17,6 +17,7 @@
 #include "SubSystems/UISystem/UISystem.h"
 #include "SubSystems/UISystem/TempUISystem/UInteractible_Temp.h"
 
+InputSystem* mInputSystem;
 GameState *mCurrentGameState;
 VisualElement* mVisualElements[2];
 Uint32 mMsLast;
@@ -30,6 +31,9 @@ int main(int argc, char* args[])
 {
 	//Flag setting
 	Init();
+
+
+
 	
 	//Update Loop
 	while (SHOULD_QUIT == false)
@@ -44,10 +48,10 @@ int main(int argc, char* args[])
 		{
 			mCurrentGameState = new_game_state;
 		}
-		RenderEngine::PreRenderCheck();
 		//Late. Might move order
+		RenderEngine::PreRenderCheck();
 		SUBSYSTEM_COLLECTION->IterateLateUpdate();
-	    // Tick
+	// Tick
 		const Uint32 ms_current = SDL_GetTicks();
 		const Uint32 ms_delta = ms_current - mMsLast;
 		mMsLast = ms_current;
@@ -108,9 +112,9 @@ bool InitGlobals()
 		return false;
 	}
 	
-	SUBSYSTEM_COLLECTION->inputSystem = SUBSYSTEM_COLLECTION->GetSubSystem<InputSystem>();
+	mInputSystem = SUBSYSTEM_COLLECTION->GetSubSystem<InputSystem>();
 
-	if (!SUBSYSTEM_COLLECTION->inputSystem)
+	if (!mInputSystem)
 	{
 		printf("No InputSystem");
 		return false;

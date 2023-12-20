@@ -45,6 +45,7 @@ of the class as a key entry. This is ultimately a halfway merger of the service 
 ![Subsystem Collection - Header](https://github.com/FG22-GP/214-design-patterns-assignment-np-team/assets/25796597/db18f430-c1c3-4433-b01d-6f96d117854a)
 
 The state machine uses the standard "if pointer is returned, state is ready to be changed" method described on game design patterns. All possible states are instantiated at run time and referenced from a single "Master State". Changes to the game's state will shift the game instance's pointer to one of these created states, as determined by the state's Finish method. All code for state management is encapsulated in the state's themselves. 
+
 ![STate Machine - Loop](https://github.com/FG22-GP/214-design-patterns-assignment-np-team/assets/25796597/f4b0546a-c098-4b10-9600-4e0c6fe54f67)
 ![Game State - Header](https://github.com/FG22-GP/214-design-patterns-assignment-np-team/assets/25796597/9ce88595-8ab2-491f-ba0f-1ac759de143a)
 

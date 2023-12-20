@@ -3,7 +3,9 @@
 #include <cstddef>
 #include <SDL_events.h>
 
+#include "SubsystemCollection.h"
 #include "../Global.h"
+#include "UISystem/UISystem.h"
 
 InputSystem::InputSystem()
 {
@@ -68,6 +70,9 @@ void InputSystem::EarlyUpdate()
             } break;
         case SDL_MOUSEBUTTONDOWN: {
                 inputData.action = e.button.button & SDL_BUTTON_LMASK;
+                int x, y;
+                SDL_GetMouseState(&x,&y);
+                SUBSYSTEM_COLLECTION->GetSubSystem<UISystem>()->ProcessEvent(x,y);
             } break;
         }
     }

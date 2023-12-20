@@ -1,12 +1,21 @@
 ﻿#include "UISystem.h"
 
+#include <SDL_gpu.h>
+
 #include "UIGroup.h"
 #include "UIInteractable.h"
 #include "../InputSystem.h"
 #include "../SubsystemCollection.h"
+#include "../VisualElementSubSystem.h"
 #include "../../Global.h"
+#include "TempUISystem/UInteractible_Temp.h"
+UInteractible_Temp* MenuPanel;
 
-UISystem::UISystem() = default;
+
+UISystem::UISystem()
+{
+  MenuPanel = TempMenuCreator();
+};
 
 UISystem::~UISystem() = default;
 
@@ -16,6 +25,7 @@ void UISystem::LateUpdate()
 
     const SDL_Point mouse_pointer = SDL_Point{input_data.mouseX, input_data.mouseY};
 
+/*
     if (currentActiveGroup != nullptr)
     {
         for (UIInteractable* const interactable : currentActiveGroup->interactableElements)
@@ -23,6 +33,7 @@ void UISystem::LateUpdate()
             interactable->CheckInteracted(mouse_pointer, input_data.action);
         }
     }
+    */
 }
 
 void UISystem::SwitchMenu(const char* menuName)
@@ -34,6 +45,23 @@ void UISystem::SwitchMenu(const char* menuName)
             currentActiveGroup = group_iterator->second;
         }
     }
+}
+
+void UISystem::ProcessEvent(int x, int y)
+{
+    MenuPanel->ProcessEvent(x,y);
+}
+
+UInteractible_Temp* UISystem::TempMenuCreator()
+{
+    RectTransform rect{
+		        {100,100},
+                {10,3},
+                top_left,
+                nullptr};
+    VisualElement* menuPanelVisualElement = SUBSYSTEM_COLLECTION->GetSubSystem<VisualElementSubSystem>()->CreateVisualElement("Resources/UISprites/MenuBack.png",rect,0,0,0);
+
+     return new UInteractible_Temp(menuPanelVisualElement,new GPU_Rect() );
 }
 
 void UISystem::Free()

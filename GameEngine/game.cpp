@@ -14,11 +14,11 @@
 #include "SubSystems/SubsystemCollection.h"
 #include "RenderEngine/RenderEngine.h"
 #include "SubSystems/UISystem/UIInteractable.h"
+#include "SubSystems/UISystem/UISystem.h"
 #include "SubSystems/UISystem/TempUISystem/UInteractible_Temp.h"
 
 InputSystem* mInputSystem;
 GameState *mCurrentGameState;
-UInteractible_Temp* MenuPanel;
 VisualElement* mVisualElements[2];
 Uint32 mMsLast;
 
@@ -32,14 +32,7 @@ int main(int argc, char* args[])
 	//Flag setting
 	Init();
 
-	RectTransform rect{
-		{INTERNAL_SCREEN_WIDTH/2, INTERNAL_SCREEN_HEIGHT},
-		{10,3},
-		bottom,
-		nullptr};
-	VisualElement* menuPanelVisualElement = SUBSYSTEM_COLLECTION->GetSubSystem<VisualElementSubSystem>()->CreateVisualElement("Resources/UISprites/MenuBack.png",rect,0,0,0);
 
-	MenuPanel = new UInteractible_Temp(menuPanelVisualElement,new GPU_Rect() );
 
 	
 	//Update Loop
@@ -127,11 +120,14 @@ bool InitGlobals()
 		return false;
 	}
 	RenderEngine::Init();
+
 	mCurrentGameState = new GameState();
 	mCurrentGameState->SetEnemyState(new EnemyTurnState());
 	mCurrentGameState->SetPlayerState(new PlayerTurnState());
 	mCurrentGameState->Begin();
 	GameState* new_game_state = mCurrentGameState->Finish(mCurrentGameState);
+	SUBSYSTEM_COLLECTION->GetSubSystem<UISystem>();
+
 	if(new_game_state != nullptr)
 	{
 		//printf("updating state");

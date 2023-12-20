@@ -65,6 +65,9 @@ reciece input from the player, pass it to the model using the Command pattern fo
 ![MVC - Dirty check](https://github.com/FG22-GP/214-design-patterns-assignment-np-team/assets/25796597/0a30cdc1-a2ce-4671-825d-22edafaec5c0)
 
 # Screenshots
+![Pokebattler- Screenshot one](https://github.com/FG22-GP/214-design-patterns-assignment-np-team/assets/25796597/e9a34652-2472-4245-9ce8-25bf4f2d335d)
+
+![Pokebattler- Screenshot two](https://github.com/FG22-GP/214-design-patterns-assignment-np-team/assets/25796597/6f84f5b7-5ed6-4899-8fab-abda03e393ee)
 
 # Sample Video of Work in Progress
 

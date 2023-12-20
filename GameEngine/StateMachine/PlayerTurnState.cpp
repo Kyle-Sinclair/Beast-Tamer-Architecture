@@ -19,6 +19,7 @@ void PlayerTurnState::DoState()
 void PlayerTurnState::Begin()
 {
     visualElementSubSystem->SetBackground(0);
+
 }
 
 GameState* PlayerTurnState::Finish(GameState* currentState)

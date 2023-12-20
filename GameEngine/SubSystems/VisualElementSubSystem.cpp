@@ -41,7 +41,9 @@ void VisualElementSubSystem::CreateBattleSprites()
     enemyPokemonVisualElement = sub_system->CreateVisualElement("Resources/PokemonSprites/frontsprites.png",enemy_sprite_rect,1,25,16);
     enemyPokemonVisualElement->GetTransform()->originAnchorPoint = center;
     enemyPokemonVisualElement->GetTransform()->position.y = INTERNAL_SCREEN_HEIGHT/4;
-    enemyPokemonVisualElement->GetTransform()->position.x = (INTERNAL_SCREEN_WIDTH/2) + 52;}
+    enemyPokemonVisualElement->GetTransform()->position.x = (INTERNAL_SCREEN_WIDTH/2) + 52;
+}
+
 
 void VisualElementSubSystem::SwapPokemonSprites()
 {

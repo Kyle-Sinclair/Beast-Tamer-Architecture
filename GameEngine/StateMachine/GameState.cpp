@@ -15,6 +15,7 @@ void GameState::Begin()
 {
     VisualElementSubSystem* sub_system = SUBSYSTEM_COLLECTION->GetSubSystem<VisualElementSubSystem>();
     sub_system->CreateBattleSprites();
+
   
 }
 

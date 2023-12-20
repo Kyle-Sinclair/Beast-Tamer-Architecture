@@ -64,8 +64,10 @@ reciece input from the player, pass it to the model using the Command pattern fo
 
 ![MVC - Dirty check](https://github.com/FG22-GP/214-design-patterns-assignment-np-team/assets/25796597/0a30cdc1-a2ce-4671-825d-22edafaec5c0)
 
+# Screenshots
 
 # Sample Video of Work in Progress
+
 
 
 ![Design Pattern Sample video](https://github.com/FG22-GP/214-design-patterns-assignment-np-team/assets/25796597/cb813c7f-dd8c-4f19-ad75-96d27be7393b)

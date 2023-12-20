@@ -30,7 +30,7 @@ public:
     void IterateFree();
 
     //Important and common so have fixed pointer
-    class InputSystem* gInputSystem{};
+    class InputSystem* inputSystem{};
 
 private:
     std::map<int, SubSystem*> mSubsystems{};

@@ -1,15 +1,7 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/XUCedPox)
-# NP Team - Pokemonesque Battler
+# Beast Tamer Esque Architecture
 
-# Which Design Patterns were used?
 
-- MVC
-- Factory
-- State Machine 
-- Service Locator
-
-- Dirty Flag
-- Command
+An architecture being done as part of game engine, rendering and systems programming research by
 # What do they do?
 
 MVC - Render Pipeline has no clue about the existence of the rest of the program. Instead it interfaces with a Visual Element Subsystem, which provides a list of things that need to be rendered.

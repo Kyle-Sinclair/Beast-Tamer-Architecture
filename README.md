@@ -4,8 +4,13 @@
 An architecture being done as part of game engine, rendering and systems programming research by [Nestor Jerfstrom](https://github.com/Nestorboy), [Theo Sanden](https://github.com/TheoSanden), [Petter Mikaelsson](https://github.com/Junder-2) and [Kyle Sinclair](https://github.com/Kyle-Sinclair). 
 
 
-# What do they do?
+# As it stands
 
+## Subsystem Service Locator
+
+The subssystem is drawn at base from the Unreal Engine method of using a subsystem collection which has a templated GetOrInsert method that uses the hash
+of the class as a key entry. This is ultimately a halfway merger of the service locator and dependency injection, allowing relatively loose coupling between important systems in our codebase. 
+![Subsystem Collection - Header](https://github.com/FG22-GP/214-design-patterns-assignment-np-team/assets/25796597/db18f430-c1c3-4433-b01d-6f96d117854a)
 MVC - Render Pipeline has no clue about the existence of the rest of the program. Instead it interfaces with a Visual Element Subsystem, which provides a list of things that need to be rendered.
 When this list is changed, a dirty flag is set to cause the render pipeline to pull in new renderable elements. If there is no change, the render pipeline continues to render the elements it had last frame.
 Currently this system is naive, so any change in any UI element sets the dirty flag. In future it can be moved to a per element group basis, so backgrounds and character sprites can be only reloaded when necessary.
@@ -20,7 +25,7 @@ Service Locator - System services are registered with a subsystem collection at 
 in built c++ class queries to build a dictionary of any class extending the service class Subsystem.
 
 
-# Why were they chosen?
+# Planned adjustments
 
 MVC - Pokemon games usually involve distinct 'families' of graphic entities, whereby things like backgrounds, pokemon sprites and UI elements are layered on top of one another and possess distinct interaction qualities. Given that these elements are so dependent on context, it
 makes sense for the behaviour deciding how they change to be bundled separately to the logic responsible for rendering them, so that behaviour changes can be done indepently to visual changes. 

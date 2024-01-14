@@ -1,7 +1,9 @@
 # Beast Tamer Esque Architecture
 
 
-An architecture being done as part of game engine, rendering and systems programming research by
+An architecture being done as part of game engine, rendering and systems programming research by [Nestor Jerfstrom](https://github.com/Nestorboy), [Theo Sanden](https://github.com/TheoSanden), [Petter Mikaelsson] (https://github.com/Junder-2) and [Kyle Sinclair](https://github.com/Kyle-Sinclair). 
+
+
 # What do they do?
 
 MVC - Render Pipeline has no clue about the existence of the rest of the program. Instead it interfaces with a Visual Element Subsystem, which provides a list of things that need to be rendered.

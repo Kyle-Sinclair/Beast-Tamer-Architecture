@@ -1,7 +1,7 @@
 # Beast Tamer Esque Architecture
 
 
-An architecture being done as part of game engine, rendering and systems programming research by [Nestor Jerfstrom](https://github.com/Nestorboy), [Theo Sanden](https://github.com/TheoSanden), [Petter Mikaelsson] (https://github.com/Junder-2) and [Kyle Sinclair](https://github.com/Kyle-Sinclair). 
+An architecture being done as part of game engine, rendering and systems programming research by [Nestor Jerfstrom](https://github.com/Nestorboy), [Theo Sanden](https://github.com/TheoSanden), [Petter Mikaelsson](https://github.com/Junder-2) and [Kyle Sinclair](https://github.com/Kyle-Sinclair). 
 
 
 # What do they do?

@@ -1,6 +1,6 @@
 #pragma once
 
-struct RawPokemonData
+struct RawTypeEffectData
 {
     unsigned int species : 8;
 

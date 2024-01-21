@@ -27,7 +27,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="PokemonData\CombatHelpers.cpp">
+    <ClCompile Include="CombatData\CombatHelpers.cpp">
       <AssemblerOutput>NoListing</AssemblerOutput>
       <AssemblerListingLocation>x64\Release\</AssemblerListingLocation>
       <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
@@ -101,7 +101,7 @@
       <SDLCheck>true</SDLCheck>
       <LinkCompiled>true</LinkCompiled>
     </ClCompile>
-    <ClCompile Include="PokemonData\MoveData.cpp">
+    <ClCompile Include="CombatData\MoveData.cpp">
       <AssemblerOutput>NoListing</AssemblerOutput>
       <AssemblerListingLocation>x64\Release\</AssemblerListingLocation>
       <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
@@ -280,9 +280,9 @@
   <ItemGroup>
     <ClInclude Include="ExampleClass.h" />
     <ClInclude Include="Global.h" />
-    <ClInclude Include="PokemonData\CombatHelpers.h" />
-    <ClInclude Include="PokemonData\MoveData.h" />
-    <ClInclude Include="PokemonData\RawPokemonData.h" />
+    <ClInclude Include="CombatData\CombatHelpers.h" />
+    <ClInclude Include="CombatData\MoveData.h" />
+    <ClInclude Include="CombatData\RawTypeEffectData.h" />
     <ClInclude Include="RenderEngine\FColor.h" />
     <ClInclude Include="RenderEngine\RenderEngine.h" />
     <ClInclude Include="RenderEngine\Shader.h" />
@@ -351,9 +351,33 @@
     <Content Include="Resources\Shaders\Sprite9Slice.vert">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Sprites\Backgrounds\Backgrounds.png" />
+    <Content Include="Resources\Sprites\Characters\Martial Hero 2\Martial Hero 2\License.txt" />
+    <Content Include="Resources\Sprites\Characters\Martial Hero 2\Martial Hero 2\Sprites\Attack1.png" />
+    <Content Include="Resources\Sprites\Characters\Martial Hero 2\Martial Hero 2\Sprites\Attack2.png" />
+    <Content Include="Resources\Sprites\Characters\Martial Hero 2\Martial Hero 2\Sprites\Death.png" />
+    <Content Include="Resources\Sprites\Characters\Martial Hero 2\Martial Hero 2\Sprites\Fall.png" />
+    <Content Include="Resources\Sprites\Characters\Martial Hero 2\Martial Hero 2\Sprites\Idle.png" />
+    <Content Include="Resources\Sprites\Characters\Martial Hero 2\Martial Hero 2\Sprites\Jump.png" />
+    <Content Include="Resources\Sprites\Characters\Martial Hero 2\Martial Hero 2\Sprites\Run.png" />
+    <Content Include="Resources\Sprites\Characters\Martial Hero 2\Martial Hero 2\Sprites\Take hit.png" />
+    <Content Include="Resources\Sprites\Characters\Martial Hero\Martial Hero\License.txt" />
+    <Content Include="Resources\Sprites\Characters\Martial Hero\Martial Hero\Sprites\Attack1.png" />
+    <Content Include="Resources\Sprites\Characters\Martial Hero\Martial Hero\Sprites\Attack2.png" />
+    <Content Include="Resources\Sprites\Characters\Martial Hero\Martial Hero\Sprites\Death.png" />
+    <Content Include="Resources\Sprites\Characters\Martial Hero\Martial Hero\Sprites\Fall.png" />
+    <Content Include="Resources\Sprites\Characters\Martial Hero\Martial Hero\Sprites\Idle.png" />
+    <Content Include="Resources\Sprites\Characters\Martial Hero\Martial Hero\Sprites\Jump.png" />
+    <Content Include="Resources\Sprites\Characters\Martial Hero\Martial Hero\Sprites\Run.png" />
+    <Content Include="Resources\Sprites\Characters\Martial Hero\Martial Hero\Sprites\Take Hit - white silhouette.png" />
+    <Content Include="Resources\Sprites\Characters\Martial Hero\Martial Hero\Sprites\Take Hit.png" />
     <Content Include="Resources\UISprites\Btn_Attack.png" />
     <Content Include="Resources\UISprites\Btn_Swap.png" />
     <Content Include="Resources\UISprites\MenuBack.png" />
+    <Content Include="Resources\UI\Menu\Menu_Background.png" />
+    <Content Include="Resources\UI\Menu\Menu_FightPanel.png" />
+    <Content Include="Resources\UI\Menu\Menu_MoveBackground.png" />
+    <Content Include="Resources\UI\Misc\Indicator.png" />
     <CopyFileToFolders Include="..\ext\glew-2.1.0\bin\Release\x64\glew32.dll" />
     <CopyFileToFolders Include="..\ext\SDL2_gpu-0.12.0-msvc\SDL2_gpu\release\x64\SDL2_gpu.dll" />
     <Content Include="Resources\PokemonSprites\Maps.png" />

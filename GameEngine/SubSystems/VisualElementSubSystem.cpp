@@ -31,14 +31,14 @@ void VisualElementSubSystem::CreateBattleSprites()
 
     RectTransform player_sprite_rect{};
     
-    playerPokemonVisualElement = sub_system->CreateVisualElement("Resources/PokemonSprites/BackSprites.png",player_sprite_rect,0,25,16);
+    playerPokemonVisualElement = sub_system->CreateVisualElement("Resources/PokemonSprites/BackSprites.png",player_sprite_rect,90,25,16);
     playerPokemonVisualElement->GetTransform()->originAnchorPoint = center;
     playerPokemonVisualElement->GetTransform()->position.y = (INTERNAL_SCREEN_HEIGHT/2);
     playerPokemonVisualElement->GetTransform()->position.x = 60;
 
     //printf("Position of pokemon sprite y: %d",PlayerPokemon->rectTransform.Position.y);
     RectTransform enemy_sprite_rect{};
-    enemyPokemonVisualElement = sub_system->CreateVisualElement("Resources/PokemonSprites/frontsprites.png",enemy_sprite_rect,1,25,16);
+    enemyPokemonVisualElement = sub_system->CreateVisualElement("Resources/PokemonSprites/frontsprites.png",enemy_sprite_rect,7,25,16);
     enemyPokemonVisualElement->GetTransform()->originAnchorPoint = center;
     enemyPokemonVisualElement->GetTransform()->position.y = INTERNAL_SCREEN_HEIGHT/4;
     enemyPokemonVisualElement->GetTransform()->position.x = (INTERNAL_SCREEN_WIDTH/2) + 52;

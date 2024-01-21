@@ -18,7 +18,7 @@ void PlayerTurnState::DoState()
 
 void PlayerTurnState::Begin()
 {
-    visualElementSubSystem->SetBackground(0);
+    visualElementSubSystem->SetBackground(1);
 
 }
 
